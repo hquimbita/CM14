@@ -3,7 +3,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { apiService } from '../services/api';
 
-const API_BASE = 'http://localhost:3001';
+//const API_BASE = 'http://localhost:3001';
+const API_BASE = import.meta.env.VITE_API_BASE || '';
 
 // Iniciales si no hay logo
 function initials(name = '') {
