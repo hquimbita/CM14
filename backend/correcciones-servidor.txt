@@ -1,0 +1,158 @@
+
+// ====================================
+// CORRECCIONES DE SEGURIDAD PARA server-auth.js
+// ====================================
+
+// 1. CORRECCIÓN: Ruta de usuarios más segura
+// REEMPLAZAR la ruta actual GET /api/admin/users con esta versión más segura:
+
+if (path === '/api/admin/users' && method === 'GET') {
+  return requireAdmin(req, res, (user) => {
+    // IMPORTANTE: NO enviar contraseñas ni información sensible
+    const safeUsers = users.map(u => ({
+      id: u.id,
+      username: u.username,
+      email: u.email.replace(/(.{2}).*(@.*)/, '$1***$2'), // Ofuscar email parcialmente
+      role: u.role,
+      nombre: u.nombre,
+      createdAt: u.createdAt,
+      lastLogin: u.lastLogin,
+      activo: u.activo
+      // NO incluir: password, tokens, información sensible
+    }));
+    
+    sendResponse(res, 200, {
+      success: true,
+      data: safeUsers,
+      total: safeUsers.length,
+      note: 'Información de usuarios filtrada por seguridad'
+    });
+  });
+}
+
+// 2. CORRECCIÓN: Endpoint para generar horarios solo para fecha actual
+// AGREGAR esta nueva ruta para asignar horarios semana a semana:
+
+if (path === '/api/admin/asignar-horarios' && method === 'POST') {
+  return requireAdmin(req, res, (user) => {
+    let body = '';
+    req.on('data', chunk => (body += chunk));
+    req.on('end', () => {
+      try {
+        const { fechaId, horarios } = JSON.parse(body);
+        
+        if (!fechaId || !horarios || !Array.isArray(horarios)) {
+          return sendResponse(res, 400, { 
+            success: false, 
+            message: 'fechaId y horarios (array) son requeridos' 
+          });
+        }
+        
+        // Buscar partidos de la fecha específica sin horarios
+        const partidosFecha = partidos.filter(p => 
+          p.fechaId === fechaId && (!p.hora || !p.cancha)
+        );
+        
+        if (partidosFecha.length === 0) {
+          return sendResponse(res, 404, {
+            success: false,
+            message: `No hay partidos sin horarios en la fecha ${fechaId}`
+          });
+        }
+        
+        // Asignar horarios
+        let asignados = 0;
+        horarios.forEach((horario, index) => {
+          if (index < partidosFecha.length && horario.hora && horario.cancha) {
+            partidosFecha[index].hora = horario.hora;
+            partidosFecha[index].cancha = horario.cancha;
+            asignados++;
+          }
+        });
+        
+        // Guardar cambios
+        const saved = saveData({ 
+          partidos, equipos, fechas, 
+          version: '4.3.0',
+          lastUpdate: new Date().toISOString(),
+          updatedBy: user.username,
+          horariosAsignados: {
+            fecha: fechaId,
+            cantidad: asignados,
+            timestamp: new Date().toISOString()
+          }
+        });
+        
+        if (saved) {
+          sendResponse(res, 200, {
+            success: true,
+            message: `Horarios asignados para fecha ${fechaId}`,
+            data: {
+              fechaId,
+              partidosAfectados: asignados,
+              partidos: partidosFecha.slice(0, asignados)
+            }
+          });
+        } else {
+          sendResponse(res, 500, {
+            success: false,
+            message: 'Error al guardar horarios'
+          });
+        }
+        
+      } catch (e) {
+        sendResponse(res, 400, { success: false, message: 'JSON inválido' });
+      }
+    });
+  });
+}
+
+// 3. CORRECCIÓN: Endpoint para obtener solo partidos sin horarios
+// AGREGAR para facilitar la asignación semanal:
+
+if (path === '/api/admin/partidos-sin-horarios' && method === 'GET') {
+  return requireAdmin(req, res, (user) => {
+    const fechaId = parsedUrl.query.fecha;
+    
+    let partidosSinHorarios;
+    if (fechaId) {
+      partidosSinHorarios = partidos.filter(p => 
+        p.fechaId === parseInt(fechaId) && (!p.hora || !p.cancha)
+      );
+    } else {
+      partidosSinHorarios = partidos.filter(p => !p.hora || !p.cancha);
+    }
+    
+    const partidosConEquipos = partidosSinHorarios.map(partido => ({
+      ...partido,
+      equipoLocal: encontrarEquipoPorId(partido.equipoLocalId),
+      equipoVisitante: encontrarEquipoPorId(partido.equipoVisitanteId)
+    }));
+    
+    sendResponse(res, 200, {
+      success: true,
+      data: partidosConEquipos,
+      total: partidosConEquipos.length,
+      fecha: fechaId || 'todas'
+    });
+  });
+}
+
+// ====================================
+// INSTRUCCIONES DE IMPLEMENTACIÓN
+// ====================================
+
+/*
+PASOS PARA IMPLEMENTAR:
+
+1. Hacer backup del server-auth.js actual
+2. Reemplazar la ruta GET /api/admin/users con la versión segura
+3. Agregar las nuevas rutas para horarios
+4. Reiniciar el servidor
+5. Verificar que la información sensible no se exponga
+
+FLUJO SEMANAL RECOMENDADO:
+1. Admin revisa partidos sin horarios: GET /api/admin/partidos-sin-horarios?fecha=2
+2. Admin asigna horarios: POST /api/admin/asignar-horarios
+3. Solo entonces los usuarios ven los horarios de esa fecha
+*/

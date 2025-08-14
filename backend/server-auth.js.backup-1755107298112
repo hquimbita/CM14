@@ -1,0 +1,922 @@
+// server-auth.js - Copa Maracaná 14ED con autenticación completa
+const http = require('http');
+const url = require('url');
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
+
+const PORT = 3001;
+const DATA_FILE = path.join(__dirname, 'partidos-data.json');
+const USERS_FILE = path.join(__dirname, 'users-data.json');
+
+// ====================================
+// CONFIGURACIÓN DEL TORNEO
+// ====================================
+const TOURNAMENT_CONFIG = {
+  nombre: "Copa Maracaná 14ED",
+  organizador: "BEAVER INGENIERÍA SAS",
+  año: 2024,
+  temporada: "14ED",
+  tipo: "futbol-7",
+  complejo: "Complejo Maracaná",
+  ciudad: "Quito",
+  pais: "Ecuador",
+  grupos: ["A", "B", "C"],
+  totalEquipos: 27,
+  colores: {
+    primario: "#00dd4c",
+    secundario: "#0066cc",
+    fondo: "#12121c"
+  }
+};
+
+// ====================================
+// DATOS BASE (mismo que antes)
+// ====================================
+const equipos = [
+  // GRUPO A (9 equipos)
+  { id: 1, nombre: 'COMPA JR.', grupo: 'A', logo: null, activo: true },
+  { id: 2, nombre: 'LOS LAGARTOS', grupo: 'A', logo: null, activo: true },
+  { id: 3, nombre: 'ALMA MARCE FC.', grupo: 'A', logo: null, activo: true },
+  { id: 4, nombre: 'REAL VENEZUELA', grupo: 'A', logo: null, activo: true },
+  { id: 5, nombre: 'THE FAMILY SPORTING CLUB', grupo: 'A', logo: null, activo: true },
+  { id: 6, nombre: 'FC DESIRE', grupo: 'A', logo: null, activo: true },
+  { id: 7, nombre: 'MILLENIUM JR', grupo: 'A', logo: null, activo: true },
+  { id: 8, nombre: 'NEXT FC.', grupo: 'A', logo: null, activo: true },
+  { id: 9, nombre: 'CHELSEA', grupo: 'A', logo: null, activo: true },
+  
+  // GRUPO B (9 equipos)
+  { id: 10, nombre: 'SPORT TU ÑAÑA', grupo: 'B', logo: null, activo: true },
+  { id: 11, nombre: 'CLUB LB', grupo: 'B', logo: null, activo: true },
+  { id: 12, nombre: 'ESPARTANOS FC', grupo: 'B', logo: null, activo: true },
+  { id: 13, nombre: 'REALCOHOLICOS', grupo: 'B', logo: null, activo: true },
+  { id: 14, nombre: 'IRRESPONSABLESFC', grupo: 'B', logo: null, activo: true },
+  { id: 15, nombre: 'ALLIEN BIRDS', grupo: 'B', logo: null, activo: true },
+  { id: 16, nombre: 'MANABA JIRETH FC', grupo: 'B', logo: null, activo: true },
+  { id: 17, nombre: 'LEONES FC', grupo: 'B', logo: null, activo: true },
+  { id: 18, nombre: 'GALACTICOS', grupo: 'B', logo: null, activo: true },
+  
+  // GRUPO C (9 equipos)
+  { id: 19, nombre: 'BAMBINOS FC', grupo: 'C', logo: null, activo: true },
+  { id: 20, nombre: 'SOCXER FC', grupo: 'C', logo: null, activo: true },
+  { id: 21, nombre: 'NEW GENERATION', grupo: 'C', logo: null, activo: true },
+  { id: 22, nombre: 'ALFHA', grupo: 'C', logo: null, activo: true },
+  { id: 23, nombre: 'CEBOLLITAS FOOTBALL CLUB', grupo: 'C', logo: null, activo: true },
+  { id: 24, nombre: '11 DE ORO', grupo: 'C', logo: null, activo: true },
+  { id: 25, nombre: 'AD. GUAGRACEO', grupo: 'C', logo: null, activo: true },
+  { id: 26, nombre: 'AUTONIC', grupo: 'C', logo: null, activo: true },
+  { id: 27, nombre: 'LOS DE SIEMPRE', grupo: 'C', logo: null, activo: true }
+];
+
+const fechas = [
+  { id: 1, numero: 1, fecha: '2024-08-09', descripcion: 'Primera Fecha' },
+  { id: 2, numero: 2, fecha: '2024-08-16', descripcion: 'Segunda Fecha' },
+  { id: 3, numero: 3, fecha: '2024-08-23', descripcion: 'Tercera Fecha' },
+  { id: 4, numero: 4, fecha: '2024-08-30', descripcion: 'Cuarta Fecha' },
+  { id: 5, numero: 5, fecha: '2024-09-06', descripcion: 'Quinta Fecha' },
+  { id: 6, numero: 6, fecha: '2024-09-13', descripcion: 'Sexta Fecha' },
+  { id: 7, numero: 7, fecha: '2024-09-20', descripcion: 'Séptima Fecha' },
+  { id: 8, numero: 8, fecha: '2024-09-27', descripcion: 'Octava Fecha' },
+  { id: 9, numero: 9, fecha: '2024-10-04', descripcion: 'Fecha Final' }
+];
+
+// ====================================
+// SISTEMA DE USUARIOS Y AUTENTICACIÓN
+// ====================================
+
+let users = [];
+let sessions = new Map(); // sessionId -> userId
+
+// Usuarios por defecto
+const defaultUsers = [
+  {
+    id: 1,
+    username: 'admin',
+    email: 'admin@copamaracana.com',
+    password: hashPassword('admin123'),
+    role: 'admin',
+    nombre: 'Administrador',
+    createdAt: new Date().toISOString(),
+    lastLogin: null,
+    activo: true
+  },
+  {
+    id: 2,
+    username: 'organizador',
+    email: 'organizador@beaver.com',
+    password: hashPassword('beaver2024'),
+    role: 'admin',
+    nombre: 'BEAVER INGENIERÍA',
+    createdAt: new Date().toISOString(),
+    lastLogin: null,
+    activo: true
+  },
+  {
+    id: 3,
+    username: 'viewer',
+    email: 'viewer@copamaracana.com',
+    password: hashPassword('viewer123'),
+    role: 'viewer',
+    nombre: 'Usuario Viewer',
+    createdAt: new Date().toISOString(),
+    lastLogin: null,
+    activo: true
+  }
+];
+
+// Funciones de hash y autenticación
+function hashPassword(password) {
+  return crypto.createHash('sha256').update(password + 'copa-maracana-salt').digest('hex');
+}
+
+function generateSessionId() {
+  return crypto.randomBytes(32).toString('hex');
+}
+
+function generateToken() {
+  return crypto.randomBytes(16).toString('hex');
+}
+
+// Cargar/guardar usuarios
+function saveUsers() {
+  try {
+    fs.writeFileSync(USERS_FILE, JSON.stringify({ users, sessions: Array.from(sessions.entries()) }, null, 2));
+    console.log('👤 Usuarios guardados');
+    return true;
+  } catch (error) {
+    console.error('❌ Error guardando usuarios:', error);
+    return false;
+  }
+}
+
+function loadUsers() {
+  try {
+    if (fs.existsSync(USERS_FILE)) {
+      const data = fs.readFileSync(USERS_FILE, 'utf8');
+      const parsed = JSON.parse(data);
+      users = parsed.users || [];
+      sessions = new Map(parsed.sessions || []);
+      console.log('👤 Usuarios cargados:', users.length);
+      return true;
+    }
+  } catch (error) {
+    console.error('❌ Error cargando usuarios:', error);
+  }
+  return false;
+}
+
+// Middleware de autenticación
+function authenticateUser(req) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return null;
+  }
+  
+  const token = authHeader.substring(7);
+  const userId = sessions.get(token);
+  if (!userId) {
+    return null;
+  }
+  
+  const user = users.find(u => u.id === userId);
+  return user || null;
+}
+
+function requireAuth(req, res, callback) {
+  const user = authenticateUser(req);
+  if (!user) {
+    sendResponse(res, 401, { 
+      success: false, 
+      message: 'Token de autenticación requerido o inválido',
+      code: 'UNAUTHORIZED'
+    });
+    return false;
+  }
+  return callback(user);
+}
+
+function requireAdmin(req, res, callback) {
+  const user = authenticateUser(req);
+  if (!user) {
+    sendResponse(res, 401, { 
+      success: false, 
+      message: 'Token de autenticación requerido',
+      code: 'UNAUTHORIZED'
+    });
+    return false;
+  }
+  if (user.role !== 'admin') {
+    sendResponse(res, 403, { 
+      success: false, 
+      message: 'Permisos de administrador requeridos',
+      code: 'FORBIDDEN'
+    });
+    return false;
+  }
+  return callback(user);
+}
+
+// ====================================
+// FUNCIONES DE FIXTURE (mismas que antes)
+// ====================================
+function generateRoundRobin(equiposGrupo) {
+  const teams = [...equiposGrupo];
+  if (teams.length % 2 === 1) teams.push(null);
+  
+  const numTeams = teams.length;
+  const numRounds = numTeams - 1;
+  const matchesPerRound = numTeams / 2;
+  const schedule = [];
+  
+  for (let round = 0; round < numRounds; round++) {
+    const roundMatches = [];
+    for (let match = 0; match < matchesPerRound; match++) {
+      const home = (round + match) % (numTeams - 1);
+      const away = (numTeams - 1 - match + round) % (numTeams - 1);
+      
+      let homeTeam, awayTeam;
+      if (match === 0) {
+        homeTeam = teams[numTeams - 1];
+        awayTeam = teams[away];
+      } else {
+        homeTeam = teams[home];
+        awayTeam = teams[away];
+      }
+      
+      if (homeTeam !== null && awayTeam !== null) {
+        roundMatches.push([homeTeam, awayTeam]);
+      }
+    }
+    schedule.push(roundMatches);
+  }
+  return schedule;
+}
+
+function generateAllMatches() {
+  console.log('🔄 Generando fixture completo...');
+  const allMatches = [];
+  let matchId = 1;
+  
+  const grupoA = equipos.filter(eq => eq.grupo === 'A').map(eq => eq.id);
+  const grupoB = equipos.filter(eq => eq.grupo === 'B').map(eq => eq.id);
+  const grupoC = equipos.filter(eq => eq.grupo === 'C').map(eq => eq.id);
+  
+  const fixtureA = generateRoundRobin(grupoA);
+  const fixtureB = generateRoundRobin(grupoB);
+  const fixtureC = generateRoundRobin(grupoC);
+  
+  const horariosBase = ['17:00', '17:00', '18:00', '18:00', '19:00', '19:00', '20:00', '20:00', '21:00', '21:00', '22:00', '22:00'];
+  const canchas = ['NORTE', 'SUR'];
+  
+  for (let fechaId = 1; fechaId <= 9; fechaId++) {
+    const fechaIndex = fechaId - 1;
+    let horarioIndex = 0;
+    const partidosFecha = [];
+    
+    [['A', fixtureA], ['B', fixtureB], ['C', fixtureC]].forEach(([grupo, fixture]) => {
+      if (fixture[fechaIndex]) {
+        fixture[fechaIndex].forEach(([localId, visitanteId]) => {
+          partidosFecha.push({
+            id: matchId++,
+            fechaId: fechaId,
+            hora: horariosBase[horarioIndex % horariosBase.length],
+            grupo,
+            equipoLocalId: localId,
+            equipoVisitanteId: visitanteId,
+            cancha: canchas[horarioIndex % 2],
+            golesLocal: null,
+            golesVisitante: null,
+            estado: 'programado'
+          });
+          horarioIndex++;
+        });
+      }
+    });
+    
+    partidosFecha.sort((a, b) => a.hora.localeCompare(b.hora));
+    allMatches.push(...partidosFecha);
+  }
+  
+  console.log(`✅ Fixture generado: ${allMatches.length} partidos`);
+  return allMatches;
+}
+
+// ====================================
+// PERSISTENCIA Y DATOS
+// ====================================
+let partidos = [];
+
+function saveData(data) {
+  try {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+    console.log('💾 Datos guardados');
+    return true;
+  } catch (error) {
+    console.error('❌ Error guardando datos:', error);
+    return false;
+  }
+}
+
+function loadData() {
+  try {
+    if (fs.existsSync(DATA_FILE)) {
+      const data = fs.readFileSync(DATA_FILE, 'utf8');
+      const parsed = JSON.parse(data);
+      console.log('📂 Datos cargados');
+      return parsed;
+    }
+  } catch (error) {
+    console.error('❌ Error cargando datos:', error);
+  }
+  return null;
+}
+
+function initializeData() {
+  // Cargar usuarios
+  if (!loadUsers()) {
+    users = [...defaultUsers];
+    saveUsers();
+    console.log('👤 Usuarios iniciales creados');
+  }
+  
+  // Cargar partidos
+  const savedData = loadData();
+  if (savedData && savedData.partidos && savedData.partidos.length > 0) {
+    console.log('📂 Usando datos guardados');
+    partidos = savedData.partidos;
+  } else {
+    console.log('🆕 Generando fixture inicial');
+    partidos = generateAllMatches();
+    saveData({ partidos, equipos, fechas, version: '4.0.0', timestamp: new Date().toISOString() });
+  }
+}
+
+// ====================================
+// FUNCIONES AUXILIARES (mismas que antes)
+// ====================================
+const encontrarEquipoPorId = (id) => equipos.find(equipo => equipo.id === parseInt(id));
+
+const calcularPosiciones = (grupo) => {
+  const equiposGrupo = equipos.filter(eq => eq.grupo === grupo);
+  const partidosGrupo = partidos.filter(p => 
+    p.grupo === grupo && 
+    p.golesLocal !== null && 
+    p.golesVisitante !== null &&
+    !isNaN(p.golesLocal) &&
+    !isNaN(p.golesVisitante)
+  );
+  
+  const stats = {};
+  equiposGrupo.forEach(eq => {
+    stats[eq.id] = {
+      equipo: eq, partidosJugados: 0, ganados: 0, empatados: 0, perdidos: 0,
+      golesFavor: 0, golesContra: 0, diferenciaGoles: 0, puntos: 0
+    };
+  });
+  
+  partidosGrupo.forEach(partido => {
+    const localId = partido.equipoLocalId;
+    const visitanteId = partido.equipoVisitanteId;
+    const golesLocal = parseInt(partido.golesLocal);
+    const golesVisitante = parseInt(partido.golesVisitante);
+    
+    if (stats[localId]) {
+      stats[localId].partidosJugados++;
+      stats[localId].golesFavor += golesLocal;
+      stats[localId].golesContra += golesVisitante;
+      if (golesLocal > golesVisitante) { stats[localId].ganados++; stats[localId].puntos += 3; }
+      else if (golesLocal === golesVisitante) { stats[localId].empatados++; stats[localId].puntos += 1; }
+      else { stats[localId].perdidos++; }
+    }
+    
+    if (stats[visitanteId]) {
+      stats[visitanteId].partidosJugados++;
+      stats[visitanteId].golesFavor += golesVisitante;
+      stats[visitanteId].golesContra += golesLocal;
+      if (golesVisitante > golesLocal) { stats[visitanteId].ganados++; stats[visitanteId].puntos += 3; }
+      else if (golesVisitante === golesLocal) { stats[visitanteId].empatados++; stats[visitanteId].puntos += 1; }
+      else { stats[visitanteId].perdidos++; }
+    }
+  });
+  
+  Object.values(stats).forEach(stat => stat.diferenciaGoles = stat.golesFavor - stat.golesContra);
+  
+  const posiciones = Object.values(stats).sort((a, b) => {
+    if (b.puntos !== a.puntos) return b.puntos - a.puntos;
+    if (b.diferenciaGoles !== a.diferenciaGoles) return b.diferenciaGoles - a.diferenciaGoles;
+    return b.golesFavor - a.golesFavor;
+  });
+  
+  posiciones.forEach((stat, index) => stat.posicion = index + 1);
+  return posiciones;
+};
+
+const sendResponse = (res, statusCode, data) => {
+  res.writeHead(statusCode, {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  });
+  res.end(JSON.stringify(data, null, 2));
+};
+
+// ====================================
+// SERVIDOR HTTP CON AUTENTICACIÓN
+// ====================================
+const server = http.createServer((req, res) => {
+  const parsedUrl = url.parse(req.url, true);
+  const path = parsedUrl.pathname;
+  const method = req.method;
+
+  // CORS preflight
+  if (method === 'OPTIONS') {
+    res.writeHead(200, {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    });
+    res.end();
+    return;
+  }
+
+  // ====================================
+  // RUTAS DE AUTENTICACIÓN
+  // ====================================
+  
+  // POST /api/auth/login
+  if (path === '/api/auth/login' && method === 'POST') {
+    let body = '';
+    req.on('data', chunk => (body += chunk));
+    req.on('end', () => {
+      try {
+        const { username, password } = JSON.parse(body);
+        
+        if (!username || !password) {
+          return sendResponse(res, 400, { 
+            success: false, 
+            message: 'Username y password son requeridos' 
+          });
+        }
+        
+        const user = users.find(u => 
+          (u.username === username || u.email === username) && 
+          u.password === hashPassword(password) &&
+          u.activo
+        );
+        
+        if (!user) {
+          return sendResponse(res, 401, { 
+            success: false, 
+            message: 'Credenciales inválidas' 
+          });
+        }
+        
+        // Generar sesión
+        const sessionId = generateSessionId();
+        sessions.set(sessionId, user.id);
+        
+        // Actualizar último login
+        user.lastLogin = new Date().toISOString();
+        saveUsers();
+        
+        sendResponse(res, 200, {
+          success: true,
+          message: 'Login exitoso',
+          data: {
+            token: sessionId,
+            user: {
+              id: user.id,
+              username: user.username,
+              email: user.email,
+              role: user.role,
+              nombre: user.nombre
+            }
+          }
+        });
+      } catch (e) {
+        sendResponse(res, 400, { success: false, message: 'JSON inválido' });
+      }
+    });
+    return;
+  }
+  
+  // POST /api/auth/register
+  if (path === '/api/auth/register' && method === 'POST') {
+    let body = '';
+    req.on('data', chunk => (body += chunk));
+    req.on('end', () => {
+      try {
+        const { username, email, password, nombre } = JSON.parse(body);
+        
+        if (!username || !email || !password || !nombre) {
+          return sendResponse(res, 400, { 
+            success: false, 
+            message: 'Todos los campos son requeridos' 
+          });
+        }
+        
+        // Verificar si ya existe
+        const existingUser = users.find(u => u.username === username || u.email === email);
+        if (existingUser) {
+          return sendResponse(res, 409, { 
+            success: false, 
+            message: 'Usuario o email ya existe' 
+          });
+        }
+        
+        // Crear nuevo usuario
+        const newUser = {
+          id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1,
+          username,
+          email,
+          password: hashPassword(password),
+          role: 'viewer', // Por defecto viewer
+          nombre,
+          createdAt: new Date().toISOString(),
+          lastLogin: null,
+          activo: true
+        };
+        
+        users.push(newUser);
+        saveUsers();
+        
+        sendResponse(res, 201, {
+          success: true,
+          message: 'Usuario creado exitosamente',
+          data: {
+            user: {
+              id: newUser.id,
+              username: newUser.username,
+              email: newUser.email,
+              role: newUser.role,
+              nombre: newUser.nombre
+            }
+          }
+        });
+      } catch (e) {
+        sendResponse(res, 400, { success: false, message: 'JSON inválido' });
+      }
+    });
+    return;
+  }
+  
+  // POST /api/auth/logout
+  if (path === '/api/auth/logout' && method === 'POST') {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.substring(7);
+      sessions.delete(token);
+      saveUsers();
+    }
+    
+    sendResponse(res, 200, {
+      success: true,
+      message: 'Logout exitoso'
+    });
+    return;
+  }
+  
+  // GET /api/auth/me
+  if (path === '/api/auth/me' && method === 'GET') {
+    return requireAuth(req, res, (user) => {
+      sendResponse(res, 200, {
+        success: true,
+        data: {
+          user: {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            role: user.role,
+            nombre: user.nombre,
+            lastLogin: user.lastLogin
+          }
+        }
+      });
+    });
+  }
+
+  // ====================================
+  // RUTAS PÚBLICAS (sin autenticación)
+  // ====================================
+  
+  // Ruta principal
+  if (path === '/' && method === 'GET') {
+    sendResponse(res, 200, {
+      success: true,
+      message: '🏆 Copa Maracaná 14ED - API con autenticación',
+      torneo: TOURNAMENT_CONFIG,
+      version: '4.0.0 - Autenticación',
+      endpoints: {
+        auth: {
+          login: 'POST /api/auth/login',
+          register: 'POST /api/auth/register',
+          logout: 'POST /api/auth/logout',
+          me: 'GET /api/auth/me'
+        },
+        public: {
+          equipos: 'GET /api/equipos',
+          partidos: 'GET /api/partidos',
+          posiciones: 'GET /api/posiciones',
+          fechas: 'GET /api/fechas'
+        },
+        protected: {
+          admin: 'GET /api/admin/* (requiere role admin)'
+        }
+      }
+    });
+    return;
+  }
+
+  // Rutas públicas - equipos, partidos, posiciones, fechas (mismas que antes)
+  if (path === '/api/equipos' && method === 'GET') {
+    sendResponse(res, 200, { success: true, data: equipos, total: equipos.length });
+    return;
+  }
+
+  if (path.startsWith('/api/equipos/grupo/') && method === 'GET') {
+    const grupo = path.split('/')[4]?.toUpperCase();
+    if (!['A', 'B', 'C'].includes(grupo)) {
+      sendResponse(res, 400, { success: false, message: 'Grupo debe ser A, B o C' });
+      return;
+    }
+    const equiposGrupo = equipos.filter(eq => eq.grupo === grupo);
+    sendResponse(res, 200, { success: true, data: equiposGrupo, total: equiposGrupo.length });
+    return;
+  }
+
+  if (path === '/api/partidos' && method === 'GET') {
+    const partidosConEquipos = partidos.map(partido => ({
+      ...partido,
+      equipoLocal: encontrarEquipoPorId(partido.equipoLocalId),
+      equipoVisitante: encontrarEquipoPorId(partido.equipoVisitanteId)
+    }));
+    sendResponse(res, 200, { success: true, data: partidosConEquipos, total: partidosConEquipos.length });
+    return;
+  }
+
+  if (path.startsWith('/api/partidos/fecha/') && method === 'GET') {
+    const fechaId = parseInt(path.split('/')[4]);
+    const fecha = fechas.find(f => f.id === fechaId);
+    if (!fecha) {
+      sendResponse(res, 404, { success: false, message: 'Fecha no encontrada' });
+      return;
+    }
+    
+    const partidosFecha = partidos
+      .filter(p => p.fechaId === fechaId)
+      .map(partido => ({
+        ...partido,
+        equipoLocal: encontrarEquipoPorId(partido.equipoLocalId),
+        equipoVisitante: encontrarEquipoPorId(partido.equipoVisitanteId)
+      }));
+    
+    const equiposJuegan = partidosFecha.flatMap(p => [p.equipoLocalId, p.equipoVisitanteId]);
+    const equiposDescansan = equipos.filter(eq => !equiposJuegan.includes(eq.id));
+    
+    sendResponse(res, 200, {
+      success: true,
+      data: { fecha, partidos: partidosFecha, equiposDescansan }
+    });
+    return;
+  }
+
+  if (path === '/api/posiciones' && method === 'GET') {
+    sendResponse(res, 200, {
+      success: true,
+      data: {
+        grupoA: calcularPosiciones('A'),
+        grupoB: calcularPosiciones('B'),
+        grupoC: calcularPosiciones('C')
+      }
+    });
+    return;
+  }
+
+  if (path === '/api/fechas' && method === 'GET') {
+    sendResponse(res, 200, { success: true, data: fechas, total: fechas.length });
+    return;
+  }
+
+  // ====================================
+  // RUTAS PROTEGIDAS (requieren autenticación de admin)
+  // ====================================
+  
+  // PUT /api/partidos/:id (solo admin)
+  if (path.startsWith('/api/partidos/') && method === 'PUT') {
+    const id = parseInt(path.split('/')[3]);
+    return requireAdmin(req, res, (user) => {
+      let body = '';
+      req.on('data', chunk => (body += chunk));
+      req.on('end', () => {
+        try {
+          const data = JSON.parse(body || '{}');
+          const idx = partidos.findIndex(p => p.id === id);
+          if (idx === -1) return sendResponse(res, 404, { success: false, message: 'Partido no encontrado' });
+
+          const p = partidos[idx];
+          partidos[idx] = {
+            ...p,
+            hora: data.hora ?? p.hora,
+            cancha: data.cancha ?? p.cancha,
+            estado: data.estado ?? p.estado,
+            golesLocal: data.golesLocal ?? p.golesLocal,
+            golesVisitante: data.golesVisitante ?? p.golesVisitante,
+          };
+
+          const saved = saveData({ 
+            partidos, equipos, fechas, 
+            version: '4.0.0',
+            lastUpdate: new Date().toISOString(),
+            updatedBy: user.username
+          });
+
+          return sendResponse(res, 200, { 
+            success: true, 
+            message: 'Partido actualizado por ' + user.nombre, 
+            data: partidos[idx]
+          });
+        } catch (e) {
+          return sendResponse(res, 400, { success: false, message: 'JSON inválido' });
+        }
+      });
+    });
+  }
+
+  // GET /api/admin/users (solo admin)
+  if (path === '/api/admin/users' && method === 'GET') {
+    return requireAdmin(req, res, (user) => {
+      const safeUsers = users.map(u => ({
+        id: u.id,
+        username: u.username,
+        email: u.email,
+        role: u.role,
+        nombre: u.nombre,
+        createdAt: u.createdAt,
+        lastLogin: u.lastLogin,
+        activo: u.activo
+      }));
+      
+      sendResponse(res, 200, {
+        success: true,
+        data: safeUsers,
+        total: safeUsers.length
+      });
+    });
+  }
+
+  // PUT /api/admin/users/:id/role (solo admin)
+  if (path.startsWith('/api/admin/users/') && path.endsWith('/role') && method === 'PUT') {
+    const userId = parseInt(path.split('/')[4]);
+    return requireAdmin(req, res, (adminUser) => {
+      let body = '';
+      req.on('data', chunk => (body += chunk));
+      req.on('end', () => {
+        try {
+          const { role } = JSON.parse(body);
+          
+          if (!['admin', 'viewer'].includes(role)) {
+            return sendResponse(res, 400, { 
+              success: false, 
+              message: 'Role debe ser admin o viewer' 
+            });
+          }
+          
+          const userIndex = users.findIndex(u => u.id === userId);
+          if (userIndex === -1) {
+            return sendResponse(res, 404, { 
+              success: false, 
+              message: 'Usuario no encontrado' 
+            });
+          }
+          
+          users[userIndex].role = role;
+          saveUsers();
+          
+          sendResponse(res, 200, {
+            success: true,
+            message: `Role actualizado a ${role}`,
+            data: {
+              id: users[userIndex].id,
+              username: users[userIndex].username,
+              role: users[userIndex].role
+            }
+          });
+        } catch (e) {
+          sendResponse(res, 400, { success: false, message: 'JSON inválido' });
+        }
+      });
+    });
+  }
+
+  // DELETE /api/admin/users/:id (solo admin)
+  if (path.startsWith('/api/admin/users/') && method === 'DELETE') {
+    const userId = parseInt(path.split('/')[4]);
+    return requireAdmin(req, res, (adminUser) => {
+      if (userId === adminUser.id) {
+        return sendResponse(res, 400, { 
+          success: false, 
+          message: 'No puedes eliminar tu propia cuenta' 
+        });
+      }
+      
+      const userIndex = users.findIndex(u => u.id === userId);
+      if (userIndex === -1) {
+        return sendResponse(res, 404, { 
+          success: false, 
+          message: 'Usuario no encontrado' 
+        });
+      }
+      
+      // Eliminar sesiones del usuario
+      for (const [sessionId, uId] of sessions.entries()) {
+        if (uId === userId) {
+          sessions.delete(sessionId);
+        }
+      }
+      
+      users.splice(userIndex, 1);
+      saveUsers();
+      
+      sendResponse(res, 200, {
+        success: true,
+        message: 'Usuario eliminado exitosamente'
+      });
+    });
+  }
+
+  // GET /api/admin/stats (solo admin)
+  if (path === '/api/admin/stats' && method === 'GET') {
+    return requireAdmin(req, res, (user) => {
+      const partidosCompletados = partidos.filter(p => p.estado === 'finalizado').length;
+      const activeSessions = sessions.size;
+      const adminUsers = users.filter(u => u.role === 'admin' && u.activo).length;
+      const viewerUsers = users.filter(u => u.role === 'viewer' && u.activo).length;
+      
+      sendResponse(res, 200, {
+        success: true,
+        data: {
+          torneo: TOURNAMENT_CONFIG,
+          equipos: { total: equipos.length },
+          partidos: { 
+            total: partidos.length,
+            completados: partidosCompletados,
+            pendientes: partidos.length - partidosCompletados
+          },
+          usuarios: {
+            total: users.length,
+            admins: adminUsers,
+            viewers: viewerUsers,
+            sesionesActivas: activeSessions
+          },
+          fechas: { total: fechas.length }
+        }
+      });
+    });
+  }
+
+  // 404 - Ruta no encontrada
+  sendResponse(res, 404, {
+    success: false,
+    message: `Ruta ${path} no encontrada`,
+    rutasDisponibles: [
+      'POST /api/auth/login',
+      'POST /api/auth/register', 
+      'GET /api/equipos',
+      'GET /api/partidos',
+      'GET /api/posiciones',
+      'PUT /api/partidos/:id (requiere admin)',
+      'GET /api/admin/* (requiere admin)'
+    ]
+  });
+});
+
+// ====================================
+// INICIAR SERVIDOR
+// ====================================
+initializeData();
+
+server.listen(PORT, () => {
+  console.log('\n🚀 =====================================');
+  console.log('🏆   COPA MARACANÁ 14ED - API v4.0');
+  console.log('   🔐 CON AUTENTICACIÓN COMPLETA');
+  console.log('=====================================');
+  console.log(`📡 Servidor: http://localhost:${PORT}`);
+  console.log(`🔐 Usuarios por defecto:`);
+  console.log(`   👤 admin / admin123 (admin)`);
+  console.log(`   👤 organizador / beaver2024 (admin)`);
+  console.log(`   👤 viewer / viewer123 (viewer)`);
+  console.log('=====================================');
+  console.log(`👥 Usuarios activos: ${users.length}`);
+  console.log(`🏟️  Partidos: ${partidos.length} cargados`);
+  console.log(`🔑 Sesiones activas: ${sessions.size}`);
+  console.log('=====================================');
+  console.log('🔐 CARACTERÍSTICAS v4.0:');
+  console.log('   ✅ Sistema de login/register');
+  console.log('   ✅ Tokens de autenticación');
+  console.log('   ✅ Roles: admin y viewer');
+  console.log('   ✅ Rutas protegidas');
+  console.log('   ✅ Gestión de usuarios');
+  console.log('   ✅ Sesiones persistentes');
+  console.log('\n✨ ¡Sistema de autenticación listo! ✨\n');
+});

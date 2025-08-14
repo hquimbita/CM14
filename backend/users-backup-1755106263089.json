@@ -1,0 +1,54 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "email": "admin@copamaracana.com",
+      "password": "0462d568fe580b53e22e3e02455870a5a6fbb736a991d0c310a18a6d4f3d0716",
+      "role": "admin",
+      "nombre": "Administrador",
+      "createdAt": "2025-08-13T16:44:50.639Z",
+      "lastLogin": "2025-08-13T17:05:46.211Z",
+      "activo": true
+    },
+    {
+      "id": 2,
+      "username": "organizador",
+      "email": "organizador@beaver.com",
+      "password": "64f4901f3894f4f7d1e9f567f034d7a80cff8414046b9bbc0a1c300399260cd2",
+      "role": "admin",
+      "nombre": "BEAVER INGENIERÍA",
+      "createdAt": "2025-08-13T16:44:50.640Z",
+      "lastLogin": null,
+      "activo": true
+    },
+    {
+      "id": 3,
+      "username": "viewer",
+      "email": "viewer@copamaracana.com",
+      "password": "4d81c91ee75476ccea5f6cfd9da36990c594177a4fc06072d447e622e51f1ddd",
+      "role": "viewer",
+      "nombre": "Usuario Viewer",
+      "createdAt": "2025-08-13T16:44:50.640Z",
+      "lastLogin": null,
+      "activo": true
+    },
+    {
+      "id": 4,
+      "username": "hquimbita",
+      "email": "holguer.quimbita@outlook.es",
+      "password": "4187874abe3aabb9a47698ecb861f2e8e9434979551acc44ac25096499fe0494",
+      "role": "viewer",
+      "nombre": "Holguer Quimbita",
+      "createdAt": "2025-08-13T17:05:21.490Z",
+      "lastLogin": null,
+      "activo": true
+    }
+  ],
+  "sessions": [
+    [
+      "0c61f79450cd5c4e40bc2c5fedc2c0094801e58d58f5cd3cc4a8d6ab058f058e",
+      1
+    ]
+  ]
+}

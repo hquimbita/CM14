@@ -1,0 +1,16 @@
+{
+  "name": "copa-maracana-backend",
+  "version": "1.0.0",
+  "main": "server-auth.js",
+  "scripts": {
+    "start": "node server-auth.js",
+    "dev": "node server-auth.js"
+  },
+  "dependencies": {
+    "express": "4.17.3",
+    "dotenv": "16.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.22"
+  }
+}
