@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 // server-auth.js - Copa Maracaná 14ED con autenticación + logos por posición
 const http = require('http');
 const url = require('url');
