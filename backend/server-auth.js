@@ -7,10 +7,22 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-
 const PORT = process.env.PORT || 3001;
 const DATA_FILE = path.join(__dirname, 'partidos-data.json');
 const USERS_FILE = path.join(__dirname, 'users-data.json');
+
+// ================================
+// CORS seguro por dominios
+// ================================
+const ALLOWED_ORIGINS = (process.env.CORS_ORIGIN || '')
+  .split(',')
+  .map(s => s.trim())
+  .filter(Boolean);
+
+function pickOrigin(origin) {
+  if (!ALLOWED_ORIGINS.length) return '*';
+  return ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+}
 
 // ====================================
 // CONFIGURACIÓN DEL TORNEO
@@ -132,13 +144,13 @@ function authenticateUser(req) {
 }
 function requireAuth(req, res, fn) {
   const user = authenticateUser(req);
-  if (!user) { sendResponse(res, 401, { success:false, message:'Token de autenticación requerido o inválido', code:'UNAUTHORIZED' }); return false; }
+  if (!user) { sendResponse(res, 401, { success:false, message:'Token de autenticación requerido o inválido', code:'UNAUTHORIZED' }, req.headers.origin); return false; }
   return fn(user);
 }
 function requireAdmin(req, res, fn) {
   const user = authenticateUser(req);
-  if (!user) { sendResponse(res, 401, { success:false, message:'Token de autenticación requerido', code:'UNAUTHORIZED' }); return false; }
-  if (user.role !== 'admin') { sendResponse(res, 403, { success:false, message:'Permisos de administrador requeridos', code:'FORBIDDEN' }); return false; }
+  if (!user) { sendResponse(res, 401, { success:false, message:'Token de autenticación requerido', code:'UNAUTHORIZED' }, req.headers.origin); return false; }
+  if (user.role !== 'admin') { sendResponse(res, 403, { success:false, message:'Permisos de administrador requeridos', code:'FORBIDDEN' }, req.headers.origin); return false; }
   return fn(user);
 }
 
@@ -258,33 +270,24 @@ const EQUIPO_POSICIONES = {
   28: { grupo: 'c', posicion: 10 }, // VELPACK A& F
 };
 
-/**
- * Busca el logo de un equipo por su posición en el grupo
- * @param {number} equipoId - ID del equipo
- * @returns {string|null} - Ruta del logo o null si no existe
- */
+/** Busca el logo de un equipo por su posición en el grupo */
 function findLogoByPosition(equipoId) {
   const posicionData = EQUIPO_POSICIONES[equipoId];
   if (!posicionData) return null;
 
   const { grupo, posicion } = posicionData;
   const extensions = ['webp', 'png', 'jpg', 'jpeg'];
-  
   for (const ext of extensions) {
     const filename = `${grupo}${posicion}.${ext}`;
     const logoPath = path.join(LOGOS_DIR, filename);
-    
     if (fs.existsSync(logoPath)) {
       return `/uploads/logos/${filename}`;
     }
   }
-  
   return null;
 }
 
-/**
- * Asigna logos a todos los equipos usando el nuevo sistema
- */
+/** Asigna logos a todos los equipos usando el nuevo sistema */
 function attachLogosFromDisk() {
   if (!fs.existsSync(LOGOS_DIR)) {
     console.log('⚠️  Carpeta de logos no encontrada:', LOGOS_DIR);
@@ -295,9 +298,7 @@ function attachLogosFromDisk() {
   let logosFaltantes = 0;
 
   for (const equipo of equipos) {
-    // Solo asignar si no tiene logo ya
     const logoPath = findLogoByPosition(equipo.id);
-    
     if (logoPath) {
       equipo.logo = logoPath;
       logosEncontrados++;
@@ -311,18 +312,14 @@ function attachLogosFromDisk() {
   console.log(`📊 Logos procesados: ${logosEncontrados} encontrados, ${logosFaltantes} faltantes`);
 }
 
-/**
- * Obtiene información de logo de un equipo específico
- * @param {number} equipoId - ID del equipo
- * @returns {object} - Información del logo
- */
+/** Info de logo por equipo (para debugging) */
 function getLogoInfo(equipoId) {
   const posicionData = EQUIPO_POSICIONES[equipoId];
   if (!posicionData) {
-    return { 
-      exists: false, 
-      expectedFilename: null, 
-      error: 'Equipo no encontrado en mapeo de posiciones' 
+    return {
+      exists: false,
+      expectedFilename: null,
+      error: 'Equipo no encontrado en mapeo de posiciones'
     };
   }
 
@@ -393,19 +390,16 @@ function initializeData() {
   // 2) Cargar persistencia si existe
   const saved = loadData();
   if (saved) {
-    // Equipos desde JSON (normalizados para asegurar logo/activo)
     if (Array.isArray(saved.equipos) && saved.equipos.length) {
       equipos.length = 0;
       equipos.push(...normalizeEquiposFromSaved(saved.equipos));
     }
-    // Partidos
     if (Array.isArray(saved.partidos) && saved.partidos.length) {
       partidos = saved.partidos;
     } else {
       partidos = generateAllMatches();
     }
   } else {
-    // Primera vez
     partidos = generateAllMatches();
   }
 
@@ -473,9 +467,7 @@ const calcularPosiciones = (grupo) => {
   return posiciones;
 };
 
-/**
- * Maneja el endpoint de información de logos para debugging
- */
+/** Maneja el endpoint de información de logos para debugging */
 function handleLogosInfo(req, res) {
   return requireAdmin(req, res, (user) => {
     const logosInfo = equipos.map(equipo => {
@@ -504,16 +496,18 @@ function handleLogosInfo(req, res) {
         estadisticas: stats,
         equipos: logosInfo
       }
-    });
+    }, req.headers.origin);
   });
 }
 
-const sendResponse = (res, statusCode, data) => {
+const sendResponse = (res, statusCode, data, reqOrigin = '') => {
+  const allowOrigin = pickOrigin(reqOrigin);
   res.writeHead(statusCode, {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': allowOrigin,
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+    'Vary': 'Origin'
   });
   res.end(JSON.stringify(data, null, 2));
 };
@@ -528,10 +522,12 @@ const server = http.createServer((req, res) => {
 
   // CORS preflight
   if (method === 'OPTIONS') {
-    res.writeHead(200, {
-      'Access-Control-Allow-Origin': '*',
+    const allowOrigin = pickOrigin(req.headers.origin || '');
+    res.writeHead(204, {
+      'Access-Control-Allow-Origin': allowOrigin,
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+      'Vary': 'Origin'
     });
     res.end();
     return;
@@ -543,22 +539,22 @@ const server = http.createServer((req, res) => {
     req.on('end', () => {
       try {
         const { username, password } = JSON.parse(body || '{}');
-        if (!username || !password) return sendResponse(res, 400, { success:false, message:'Username y password son requeridos' });
+        if (!username || !password) return sendResponse(res, 400, { success:false, message:'Username y password son requeridos' }, req.headers.origin);
 
         const user = users.find(u =>
           (u.username === username || u.email === username) &&
           u.password === hashPassword(password) &&
           u.activo
         );
-        if (!user) return sendResponse(res, 401, { success:false, message:'Credenciales inválidas' });
+        if (!user) return sendResponse(res, 401, { success:false, message:'Credenciales inválidas' }, req.headers.origin);
 
         const sessionId = generateSessionId();
         sessions.set(sessionId, user.id);
         user.lastLogin = new Date().toISOString();
         saveUsers();
 
-        sendResponse(res, 200, { success:true, message:'Login exitoso', data:{ token: sessionId, user:{ id:user.id, username:user.username, email:user.email, role:user.role, nombre:user.nombre } } });
-      } catch { sendResponse(res, 400, { success:false, message:'JSON inválido' }); }
+        sendResponse(res, 200, { success:true, message:'Login exitoso', data:{ token: sessionId, user:{ id:user.id, username:user.username, email:user.email, role:user.role, nombre:user.nombre } } }, req.headers.origin);
+      } catch { sendResponse(res, 400, { success:false, message:'JSON inválido' }, req.headers.origin); }
     });
     return;
   }
@@ -568,15 +564,15 @@ const server = http.createServer((req, res) => {
     req.on('end', () => {
       try {
         const { username, email, password, nombre } = JSON.parse(body || '{}');
-        if (!username || !email || !password || !nombre) return sendResponse(res, 400, { success:false, message:'Todos los campos son requeridos' });
+        if (!username || !email || !password || !nombre) return sendResponse(res, 400, { success:false, message:'Todos los campos son requeridos' }, req.headers.origin);
 
         const existing = users.find(u => u.username === username || u.email === email);
-        if (existing) return sendResponse(res, 409, { success:false, message:'Usuario o email ya existe' });
+        if (existing) return sendResponse(res, 409, { success:false, message:'Usuario o email ya existe' }, req.headers.origin);
 
         const newUser = { id: users.length ? Math.max(...users.map(u => u.id)) + 1 : 1, username, email, password: hashPassword(password), role:'viewer', nombre, createdAt:new Date().toISOString(), lastLogin:null, activo:true };
         users.push(newUser); saveUsers();
-        sendResponse(res, 201, { success:true, message:'Usuario creado exitosamente', data:{ user:{ id:newUser.id, username:newUser.username, email:newUser.email, role:newUser.role, nombre:newUser.nombre } } });
-      } catch { sendResponse(res, 400, { success:false, message:'JSON inválido' }); }
+        sendResponse(res, 201, { success:true, message:'Usuario creado exitosamente', data:{ user:{ id:newUser.id, username:newUser.username, email:newUser.email, role:newUser.role, nombre:newUser.nombre } } }, req.headers.origin);
+      } catch { sendResponse(res, 400, { success:false, message:'JSON inválido' }, req.headers.origin); }
     });
     return;
   }
@@ -584,13 +580,13 @@ const server = http.createServer((req, res) => {
   if (pathname === '/api/auth/logout' && method === 'POST') {
     const auth = req.headers.authorization;
     if (auth && auth.startsWith('Bearer ')) { const t = auth.substring(7); sessions.delete(t); saveUsers(); }
-    sendResponse(res, 200, { success:true, message:'Logout exitoso' });
+    sendResponse(res, 200, { success:true, message:'Logout exitoso' }, req.headers.origin);
     return;
   }
 
   if (pathname === '/api/auth/me' && method === 'GET') {
     return requireAuth(req, res, (user) => {
-      sendResponse(res, 200, { success:true, data:{ user:{ id:user.id, username:user.username, email:user.email, role:user.role, nombre:user.nombre, lastLogin:user.lastLogin } } });
+      sendResponse(res, 200, { success:true, data:{ user:{ id:user.id, username:user.username, email:user.email, role:user.role, nombre:user.nombre, lastLogin:user.lastLogin } } }, req.headers.origin);
     });
   }
 
@@ -606,49 +602,48 @@ const server = http.createServer((req, res) => {
         public: { equipos:'GET /api/equipos', partidos:'GET /api/partidos', posiciones:'GET /api/posiciones', fechas:'GET /api/fechas' },
         protected: { admin:'GET /api/admin/* (requiere role admin)', logosInfo:'GET /api/admin/logos-info' }
       }
-    });
+    }, req.headers.origin);
     return;
   }
 
   if (pathname === '/api/equipos' && method === 'GET') {
-    sendResponse(res, 200, { success: true, data: equipos, total: equipos.length });
+    sendResponse(res, 200, { success: true, data: equipos, total: equipos.length }, req.headers.origin);
     return;
   }
 
   if (pathname.startsWith('/api/equipos/grupo/') && method === 'GET') {
     const grupo = pathname.split('/')[4]?.toUpperCase();
-    if (!['A','B','C'].includes(grupo)) { sendResponse(res, 400, { success:false, message:'Grupo debe ser A, B o C' }); return; }
+    if (!['A','B','C'].includes(grupo)) { sendResponse(res, 400, { success:false, message:'Grupo debe ser A, B o C' }, req.headers.origin); return; }
     const equiposGrupo = equipos.filter(eq => eq.grupo === grupo);
-    sendResponse(res, 200, { success:true, data:equiposGrupo, total:equiposGrupo.length });
+    sendResponse(res, 200, { success:true, data:equiposGrupo, total:equiposGrupo.length }, req.headers.origin);
     return;
   }
 
   if (pathname === '/api/partidos' && method === 'GET') {
     const partidosConEquipos = partidos.map(p => ({ ...p, equipoLocal: encontrarEquipoPorId(p.equipoLocalId), equipoVisitante: encontrarEquipoPorId(p.equipoVisitanteId) }));
-    sendResponse(res, 200, { success:true, data:partidosConEquipos, total:partidosConEquipos.length });
+    sendResponse(res, 200, { success:true, data:partidosConEquipos, total:partidosConEquipos.length }, req.headers.origin);
     return;
   }
 
-  // ✅ RUTA CORREGIDA - PARTIDOS POR FECHA (SIN DUPLICACIÓN)
+  // ✅ PARTIDOS POR FECHA
   if (pathname.startsWith('/api/partidos/fecha/') && method === 'GET') {
     const fechaId = parseInt(pathname.split('/')[4], 10);
     const fecha = fechas.find(f => f.id === fechaId);
-    if (!fecha) { 
-      sendResponse(res, 404, { success: false, message: 'Fecha no encontrada' }); 
-      return; 
+    if (!fecha) {
+      sendResponse(res, 404, { success: false, message: 'Fecha no encontrada' }, req.headers.origin);
+      return;
     }
 
     const partidosFecha = partidos
       .filter(p => p.fechaId === fechaId)
-      .map(p => ({ 
-        ...p, 
-        equipoLocal: encontrarEquipoPorId(p.equipoLocalId), 
-        equipoVisitante: encontrarEquipoPorId(p.equipoVisitanteId) 
+      .map(p => ({
+        ...p,
+        equipoLocal: encontrarEquipoPorId(p.equipoLocalId),
+        equipoVisitante: encontrarEquipoPorId(p.equipoVisitanteId)
       }));
 
-    // ✅ CALCULAR EQUIPOS QUE DESCANSAN POR GRUPO (LÓGICA CORREGIDA)
+    // Equipos que descansan por grupo
     const equiposDescansan = [];
-    
     ['A', 'B', 'C'].forEach(grupo => {
       const equiposGrupo = equipos.filter(eq => eq.grupo === grupo);
       const partidosGrupo = partidosFecha.filter(p => p.grupo === grupo);
@@ -657,24 +652,24 @@ const server = http.createServer((req, res) => {
       equiposDescansan.push(...equiposDescansanGrupo);
     });
 
-    sendResponse(res, 200, { 
-      success: true, 
-      data: { 
-        fecha, 
-        partidos: partidosFecha, 
-        equiposDescansan 
-      } 
-    });
+    sendResponse(res, 200, {
+      success: true,
+      data: {
+        fecha,
+        partidos: partidosFecha,
+        equiposDescansan
+      }
+    }, req.headers.origin);
     return;
   }
 
   if (pathname === '/api/posiciones' && method === 'GET') {
-    sendResponse(res, 200, { success:true, data:{ grupoA: calcularPosiciones('A'), grupoB: calcularPosiciones('B'), grupoC: calcularPosiciones('C') } });
+    sendResponse(res, 200, { success:true, data:{ grupoA: calcularPosiciones('A'), grupoB: calcularPosiciones('B'), grupoC: calcularPosiciones('C') } }, req.headers.origin);
     return;
   }
 
   if (pathname === '/api/fechas' && method === 'GET') {
-    sendResponse(res, 200, { success:true, data:fechas, total:fechas.length });
+    sendResponse(res, 200, { success:true, data:fechas, total:fechas.length }, req.headers.origin);
     return;
   }
 
@@ -687,7 +682,7 @@ const server = http.createServer((req, res) => {
         try {
           const data = JSON.parse(body || '{}');
           const idx = partidos.findIndex(p => p.id === id);
-          if (idx === -1) return sendResponse(res, 404, { success:false, message:'Partido no encontrado' });
+          if (idx === -1) return sendResponse(res, 404, { success:false, message:'Partido no encontrado' }, req.headers.origin);
 
           const p = partidos[idx];
           partidos[idx] = {
@@ -700,8 +695,8 @@ const server = http.createServer((req, res) => {
           };
 
           saveData({ partidos, equipos, fechas, version: '4.1.0', lastUpdate: new Date().toISOString(), updatedBy: user.username });
-          return sendResponse(res, 200, { success:true, message:`Partido actualizado por ${user.nombre}`, data: partidos[idx] });
-        } catch { return sendResponse(res, 400, { success:false, message:'JSON inválido' }); }
+          return sendResponse(res, 200, { success:true, message:`Partido actualizado por ${user.nombre}`, data: partidos[idx] }, req.headers.origin);
+        } catch { return sendResponse(res, 400, { success:false, message:'JSON inválido' }, req.headers.origin); }
       });
     });
   }
@@ -709,7 +704,7 @@ const server = http.createServer((req, res) => {
   if (pathname === '/api/admin/users' && method === 'GET') {
     return requireAdmin(req, res, () => {
       const safe = users.map(u => ({ id:u.id, username:u.username, email:u.email, role:u.role, nombre:u.nombre, createdAt:u.createdAt, lastLogin:u.lastLogin, activo:u.activo }));
-      sendResponse(res, 200, { success:true, data:safe, total:safe.length });
+      sendResponse(res, 200, { success:true, data:safe, total:safe.length }, req.headers.origin);
     });
   }
 
@@ -720,14 +715,14 @@ const server = http.createServer((req, res) => {
       req.on('end', () => {
         try {
           const { role } = JSON.parse(body || '{}');
-          if (!['admin','viewer'].includes(role)) return sendResponse(res, 400, { success:false, message:'Role debe ser admin o viewer' });
+          if (!['admin','viewer'].includes(role)) return sendResponse(res, 400, { success:false, message:'Role debe ser admin o viewer' }, req.headers.origin);
 
           const idx = users.findIndex(u => u.id === userId);
-          if (idx === -1) return sendResponse(res, 404, { success:false, message:'Usuario no encontrado' });
+          if (idx === -1) return sendResponse(res, 404, { success:false, message:'Usuario no encontrado' }, req.headers.origin);
 
           users[idx].role = role; saveUsers();
-          sendResponse(res, 200, { success:true, message:`Role actualizado a ${role}`, data:{ id:users[idx].id, username:users[idx].username, role:users[idx].role } });
-        } catch { sendResponse(res, 400, { success:false, message:'JSON inválido' }); }
+          sendResponse(res, 200, { success:true, message:`Role actualizado a ${role}`, data:{ id:users[idx].id, username:users[idx].username, role:users[idx].role } }, req.headers.origin);
+        } catch { sendResponse(res, 400, { success:false, message:'JSON inválido' }, req.headers.origin); }
       });
     });
   }
@@ -740,15 +735,15 @@ const server = http.createServer((req, res) => {
       req.on('end', () => {
         try {
           const { logo } = JSON.parse(body || '{}');
-          if (!logo || typeof logo !== 'string') return sendResponse(res, 400, { success:false, message:'Debes enviar { "logo": "/uploads/logos/archivo.ext" }' });
+          if (!logo || typeof logo !== 'string') return sendResponse(res, 400, { success:false, message:'Debes enviar { "logo": "/uploads/logos/archivo.ext" }' }, req.headers.origin);
 
           const equipo = equipos.find(e => e.id === id);
-          if (!equipo) return sendResponse(res, 404, { success:false, message:'Equipo no encontrado' });
+          if (!equipo) return sendResponse(res, 404, { success:false, message:'Equipo no encontrado' }, req.headers.origin);
 
           equipo.logo = logo;
           saveData({ partidos, equipos, fechas, version:'4.1.0', lastUpdate:new Date().toISOString(), updatedBy:user.username });
-          return sendResponse(res, 200, { success:true, message:'Logo asignado', data:{ id:equipo.id, logo:equipo.logo } });
-        } catch { return sendResponse(res, 400, { success:false, message:'JSON inválido' }); }
+          return sendResponse(res, 200, { success:true, message:'Logo asignado', data:{ id:equipo.id, logo:equipo.logo } }, req.headers.origin);
+        } catch { return sendResponse(res, 400, { success:false, message:'JSON inválido' }, req.headers.origin); }
       });
     });
   }
@@ -756,14 +751,14 @@ const server = http.createServer((req, res) => {
   if (pathname.startsWith('/api/admin/users/') && method === 'DELETE') {
     const userId = parseInt(pathname.split('/')[4], 10);
     return requireAdmin(req, res, (adminUser) => {
-      if (userId === adminUser.id) return sendResponse(res, 400, { success:false, message:'No puedes eliminar tu propia cuenta' });
+      if (userId === adminUser.id) return sendResponse(res, 400, { success:false, message:'No puedes eliminar tu propia cuenta' }, req.headers.origin);
 
       const idx = users.findIndex(u => u.id === userId);
-      if (idx === -1) return sendResponse(res, 404, { success:false, message:'Usuario no encontrado' });
+      if (idx === -1) return sendResponse(res, 404, { success:false, message:'Usuario no encontrado' }, req.headers.origin);
 
       for (const [sid, uid] of sessions.entries()) if (uid === userId) sessions.delete(sid);
       users.splice(idx, 1); saveUsers();
-      sendResponse(res, 200, { success:true, message:'Usuario eliminado exitosamente' });
+      sendResponse(res, 200, { success:true, message:'Usuario eliminado exitosamente' }, req.headers.origin);
     });
   }
 
@@ -783,7 +778,7 @@ const server = http.createServer((req, res) => {
           usuarios: { total: users.length, admins: adminUsers, viewers: viewerUsers, sesionesActivas: activeSessions },
           fechas: { total: fechas.length }
         }
-      });
+      }, req.headers.origin);
     });
   }
 
@@ -800,11 +795,15 @@ const server = http.createServer((req, res) => {
       const mime = ext === 'png' ? 'image/png' :
                    ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg' :
                    ext === 'webp' ? 'image/webp' : 'application/octet-stream';
-      res.writeHead(200, { 'Content-Type': mime, 'Access-Control-Allow-Origin': '*' });
+      res.writeHead(200, {
+        'Content-Type': mime,
+        'Access-Control-Allow-Origin': pickOrigin(req.headers.origin || ''),
+        'Vary': 'Origin'
+      });
       fs.createReadStream(filePath).pipe(res);
       return;
     }
-    return sendResponse(res, 404, { success:false, message:'Archivo no encontrado' });
+    return sendResponse(res, 404, { success:false, message:'Archivo no encontrado' }, req.headers.origin);
   }
 
   // 404
@@ -821,7 +820,7 @@ const server = http.createServer((req, res) => {
       'GET /api/admin/* (requiere admin)',
       'GET /api/admin/logos-info (requiere admin)'
     ]
-  });
+  }, req.headers.origin);
 });
 
 // ====================================
