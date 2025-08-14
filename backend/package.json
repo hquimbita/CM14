@@ -7,8 +7,9 @@
     "dev": "node server-auth.js"
   },
   "dependencies": {
-    "express": "4.17.3",
-    "dotenv": "16.0.3"
+    "cors": "^2.8.5",
+    "dotenv": "16.0.3",
+    "express": "4.17.3"
   },
   "devDependencies": {
     "nodemon": "2.0.22"
