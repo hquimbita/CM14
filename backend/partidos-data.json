@@ -469,7 +469,7 @@
       "estado": "finalizado"
     },
     {
-      "id": 118,
+      "id": 197,
       "fechaId": 4,
       "hora": null,
       "grupo": "A",
@@ -481,7 +481,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 119,
+      "id": 198,
       "fechaId": 4,
       "hora": null,
       "grupo": "A",
@@ -493,7 +493,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 120,
+      "id": 199,
       "fechaId": 4,
       "hora": null,
       "grupo": "A",
@@ -505,7 +505,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 121,
+      "id": 200,
       "fechaId": 4,
       "hora": null,
       "grupo": "A",
@@ -517,7 +517,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 122,
+      "id": 201,
       "fechaId": 4,
       "hora": null,
       "grupo": "B",
@@ -529,7 +529,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 123,
+      "id": 202,
       "fechaId": 4,
       "hora": null,
       "grupo": "B",
@@ -541,7 +541,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 124,
+      "id": 203,
       "fechaId": 4,
       "hora": null,
       "grupo": "B",
@@ -553,7 +553,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 125,
+      "id": 204,
       "fechaId": 4,
       "hora": null,
       "grupo": "B",
@@ -565,7 +565,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 126,
+      "id": 205,
       "fechaId": 4,
       "hora": null,
       "grupo": "C",
@@ -577,7 +577,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 127,
+      "id": 206,
       "fechaId": 4,
       "hora": null,
       "grupo": "C",
@@ -589,7 +589,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 128,
+      "id": 207,
       "fechaId": 4,
       "hora": null,
       "grupo": "C",
@@ -601,7 +601,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 129,
+      "id": 208,
       "fechaId": 4,
       "hora": null,
       "grupo": "C",
@@ -613,67 +613,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 130,
-      "fechaId": 4,
-      "hora": null,
-      "grupo": "A",
-      "equipoLocalId": 5,
-      "equipoVisitanteId": 9,
-      "cancha": null,
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "por_programar"
-    },
-    {
-      "id": 131,
-      "fechaId": 4,
-      "hora": null,
-      "grupo": "A",
-      "equipoLocalId": 6,
-      "equipoVisitanteId": 8,
-      "cancha": null,
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "por_programar"
-    },
-    {
-      "id": 132,
-      "fechaId": 4,
-      "hora": null,
-      "grupo": "B",
-      "equipoLocalId": 15,
-      "equipoVisitanteId": 18,
-      "cancha": null,
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "por_programar"
-    },
-    {
-      "id": 133,
-      "fechaId": 4,
-      "hora": null,
-      "grupo": "C",
-      "equipoLocalId": 20,
-      "equipoVisitanteId": 28,
-      "cancha": null,
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "por_programar"
-    },
-    {
-      "id": 134,
-      "fechaId": 4,
-      "hora": null,
-      "grupo": "C",
-      "equipoLocalId": 23,
-      "equipoVisitanteId": 27,
-      "cancha": null,
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "por_programar"
-    },
-    {
-      "id": 135,
+      "id": 209,
       "fechaId": 5,
       "hora": null,
       "grupo": "A",
@@ -685,7 +625,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 136,
+      "id": 210,
       "fechaId": 5,
       "hora": null,
       "grupo": "A",
@@ -697,7 +637,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 137,
+      "id": 211,
       "fechaId": 5,
       "hora": null,
       "grupo": "A",
@@ -709,7 +649,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 138,
+      "id": 212,
       "fechaId": 5,
       "hora": null,
       "grupo": "A",
@@ -721,7 +661,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 139,
+      "id": 213,
       "fechaId": 5,
       "hora": null,
       "grupo": "B",
@@ -733,7 +673,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 140,
+      "id": 214,
       "fechaId": 5,
       "hora": null,
       "grupo": "B",
@@ -745,7 +685,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 141,
+      "id": 215,
       "fechaId": 5,
       "hora": null,
       "grupo": "B",
@@ -757,7 +697,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 142,
+      "id": 216,
       "fechaId": 5,
       "hora": null,
       "grupo": "C",
@@ -769,7 +709,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 143,
+      "id": 217,
       "fechaId": 5,
       "hora": null,
       "grupo": "C",
@@ -781,7 +721,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 144,
+      "id": 218,
       "fechaId": 5,
       "hora": null,
       "grupo": "C",
@@ -793,7 +733,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 145,
+      "id": 219,
       "fechaId": 5,
       "hora": null,
       "grupo": "C",
@@ -805,43 +745,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 146,
-      "fechaId": 5,
-      "hora": null,
-      "grupo": "B",
-      "equipoLocalId": 16,
-      "equipoVisitanteId": 18,
-      "cancha": null,
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "por_programar"
-    },
-    {
-      "id": 147,
-      "fechaId": 5,
-      "hora": null,
-      "grupo": "C",
-      "equipoLocalId": 22,
-      "equipoVisitanteId": 28,
-      "cancha": null,
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "por_programar"
-    },
-    {
-      "id": 148,
-      "fechaId": 5,
-      "hora": null,
-      "grupo": "C",
-      "equipoLocalId": 24,
-      "equipoVisitanteId": 27,
-      "cancha": null,
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "por_programar"
-    },
-    {
-      "id": 149,
+      "id": 220,
       "fechaId": 6,
       "hora": null,
       "grupo": "A",
@@ -853,7 +757,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 150,
+      "id": 221,
       "fechaId": 6,
       "hora": null,
       "grupo": "A",
@@ -865,7 +769,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 151,
+      "id": 222,
       "fechaId": 6,
       "hora": null,
       "grupo": "A",
@@ -877,7 +781,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 152,
+      "id": 223,
       "fechaId": 6,
       "hora": null,
       "grupo": "A",
@@ -889,7 +793,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 153,
+      "id": 224,
       "fechaId": 6,
       "hora": null,
       "grupo": "B",
@@ -901,7 +805,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 154,
+      "id": 225,
       "fechaId": 6,
       "hora": null,
       "grupo": "B",
@@ -913,7 +817,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 155,
+      "id": 226,
       "fechaId": 6,
       "hora": null,
       "grupo": "B",
@@ -925,7 +829,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 156,
+      "id": 227,
       "fechaId": 6,
       "hora": null,
       "grupo": "B",
@@ -937,7 +841,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 157,
+      "id": 228,
       "fechaId": 6,
       "hora": null,
       "grupo": "C",
@@ -949,7 +853,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 158,
+      "id": 229,
       "fechaId": 6,
       "hora": null,
       "grupo": "C",
@@ -961,7 +865,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 159,
+      "id": 230,
       "fechaId": 6,
       "hora": null,
       "grupo": "C",
@@ -973,7 +877,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 160,
+      "id": 231,
       "fechaId": 6,
       "hora": null,
       "grupo": "C",
@@ -985,43 +889,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 161,
-      "fechaId": 6,
-      "hora": null,
-      "grupo": "B",
-      "equipoLocalId": 17,
-      "equipoVisitanteId": 18,
-      "cancha": null,
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "por_programar"
-    },
-    {
-      "id": 162,
-      "fechaId": 6,
-      "hora": null,
-      "grupo": "C",
-      "equipoLocalId": 23,
-      "equipoVisitanteId": 28,
-      "cancha": null,
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "por_programar"
-    },
-    {
-      "id": 163,
-      "fechaId": 6,
-      "hora": null,
-      "grupo": "C",
-      "equipoLocalId": 25,
-      "equipoVisitanteId": 27,
-      "cancha": null,
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "por_programar"
-    },
-    {
-      "id": 164,
+      "id": 232,
       "fechaId": 7,
       "hora": null,
       "grupo": "A",
@@ -1033,7 +901,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 165,
+      "id": 233,
       "fechaId": 7,
       "hora": null,
       "grupo": "A",
@@ -1045,7 +913,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 166,
+      "id": 234,
       "fechaId": 7,
       "hora": null,
       "grupo": "A",
@@ -1057,7 +925,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 167,
+      "id": 235,
       "fechaId": 7,
       "hora": null,
       "grupo": "A",
@@ -1069,7 +937,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 168,
+      "id": 236,
       "fechaId": 7,
       "hora": null,
       "grupo": "B",
@@ -1081,7 +949,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 169,
+      "id": 237,
       "fechaId": 7,
       "hora": null,
       "grupo": "B",
@@ -1093,7 +961,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 170,
+      "id": 238,
       "fechaId": 7,
       "hora": null,
       "grupo": "B",
@@ -1105,7 +973,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 171,
+      "id": 239,
       "fechaId": 7,
       "hora": null,
       "grupo": "B",
@@ -1117,7 +985,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 172,
+      "id": 240,
       "fechaId": 7,
       "hora": null,
       "grupo": "C",
@@ -1129,7 +997,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 173,
+      "id": 241,
       "fechaId": 7,
       "hora": null,
       "grupo": "C",
@@ -1141,7 +1009,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 174,
+      "id": 242,
       "fechaId": 7,
       "hora": null,
       "grupo": "C",
@@ -1153,7 +1021,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 175,
+      "id": 243,
       "fechaId": 7,
       "hora": null,
       "grupo": "C",
@@ -1165,7 +1033,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 176,
+      "id": 244,
       "fechaId": 7,
       "hora": null,
       "grupo": "C",
@@ -1177,19 +1045,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 177,
-      "fechaId": 7,
-      "hora": null,
-      "grupo": "C",
-      "equipoLocalId": 26,
-      "equipoVisitanteId": 28,
-      "cancha": null,
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "por_programar"
-    },
-    {
-      "id": 178,
+      "id": 245,
       "fechaId": 8,
       "hora": null,
       "grupo": "A",
@@ -1201,7 +1057,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 179,
+      "id": 246,
       "fechaId": 8,
       "hora": null,
       "grupo": "A",
@@ -1213,7 +1069,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 180,
+      "id": 247,
       "fechaId": 8,
       "hora": null,
       "grupo": "A",
@@ -1225,7 +1081,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 181,
+      "id": 248,
       "fechaId": 8,
       "hora": null,
       "grupo": "B",
@@ -1237,7 +1093,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 182,
+      "id": 249,
       "fechaId": 8,
       "hora": null,
       "grupo": "B",
@@ -1249,7 +1105,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 183,
+      "id": 250,
       "fechaId": 8,
       "hora": null,
       "grupo": "B",
@@ -1261,7 +1117,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 184,
+      "id": 251,
       "fechaId": 8,
       "hora": null,
       "grupo": "C",
@@ -1273,7 +1129,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 185,
+      "id": 252,
       "fechaId": 8,
       "hora": null,
       "grupo": "C",
@@ -1285,7 +1141,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 186,
+      "id": 253,
       "fechaId": 8,
       "hora": null,
       "grupo": "C",
@@ -1297,7 +1153,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 187,
+      "id": 254,
       "fechaId": 8,
       "hora": null,
       "grupo": "C",
@@ -1309,7 +1165,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 188,
+      "id": 255,
       "fechaId": 9,
       "hora": null,
       "grupo": "A",
@@ -1321,7 +1177,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 189,
+      "id": 256,
       "fechaId": 9,
       "hora": null,
       "grupo": "A",
@@ -1333,7 +1189,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 190,
+      "id": 257,
       "fechaId": 9,
       "hora": null,
       "grupo": "A",
@@ -1345,7 +1201,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 191,
+      "id": 258,
       "fechaId": 9,
       "hora": null,
       "grupo": "B",
@@ -1357,7 +1213,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 192,
+      "id": 259,
       "fechaId": 9,
       "hora": null,
       "grupo": "B",
@@ -1369,7 +1225,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 193,
+      "id": 260,
       "fechaId": 9,
       "hora": null,
       "grupo": "B",
@@ -1381,7 +1237,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 194,
+      "id": 261,
       "fechaId": 9,
       "hora": null,
       "grupo": "C",
@@ -1393,7 +1249,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 195,
+      "id": 262,
       "fechaId": 9,
       "hora": null,
       "grupo": "C",
@@ -1405,7 +1261,7 @@
       "estado": "por_programar"
     },
     {
-      "id": 196,
+      "id": 263,
       "fechaId": 9,
       "hora": null,
       "grupo": "C",
@@ -1673,5 +1529,5 @@
   ],
   "version": "5.0.0-fixture-completo",
   "timestamp": "2025-08-14T20:45:00.000Z",
-  "nota": "Fechas 1-3 actualizadas con resultados reales; Fechas 4-9 rearmadas sin cruces duplicados ni consecutivos; horas/canchas por programar"
+  "nota": "Fixture reequilibrado: cap por fecha (A=4,B=4,C=5), sin cruces duplicados; 1-3 finalizados respetados."
 }
