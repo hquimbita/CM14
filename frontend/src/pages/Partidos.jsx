@@ -55,7 +55,7 @@ const PartidoCard = ({ partido, index }) => {
 
   return (
     <motion.div
-      className="partido-card"
+      className="partido-card partido-card-horizontal"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.02 * index }}
@@ -70,31 +70,32 @@ const PartidoCard = ({ partido, index }) => {
         <EstadoBadge estado={estado} />
       </div>
 
-      {/* Enfrentamiento */}
-      <div className="partido-enfrentamiento">
-        {/* Local */}
-        <div className="equipo-side vertical">
-          <EquipoLogo equipo={equipoLocal} size={48} />
-          <span className="equipo-nombre">{equipoLocal?.nombre}</span>
+      {/* Enfrentamiento HORIZONTAL */}
+      <div className="partido-enfrentamiento-horizontal">
+        {/* Fila de logos */}
+        <div className="equipos-logos-row">
+          <EquipoLogo equipo={equipoLocal} size={40} />
+          
+          {/* VS / Resultado en el centro */}
+          <div className="resultado-center">
+            {mostrarResultado && tieneGoles ? (
+              <div className="resultado">
+                <span className="goles">{golesLocal}</span>
+                <span className="sep">-</span>
+                <span className="goles">{golesVisitante}</span>
+              </div>
+            ) : (
+              <span className="vs-pill">VS</span>
+            )}
+          </div>
+          
+          <EquipoLogo equipo={equipoVisitante} size={40} />
         </div>
-
-        {/* VS / Resultado */}
-        <div className="resultado-block">
-          {mostrarResultado && tieneGoles ? (
-            <div className="resultado">
-              <span className="goles">{golesLocal}</span>
-              <span className="sep">-</span>
-              <span className="goles">{golesVisitante}</span>
-            </div>
-          ) : (
-            <span className="vs-pill">VS</span>
-          )}
-        </div>
-
-        {/* Visitante */}
-        <div className="equipo-side vertical">
-          <EquipoLogo equipo={equipoVisitante} size={48} />
-          <span className="equipo-nombre">{equipoVisitante?.nombre}</span>
+        
+        {/* Fila de nombres */}
+        <div className="equipos-nombres-row">
+          <span className="equipo-nombre equipo-local">{equipoLocal?.nombre}</span>
+          <span className="equipo-nombre equipo-visitante">{equipoVisitante?.nombre}</span>
         </div>
       </div>
     </motion.div>
@@ -120,7 +121,7 @@ const GrupoColumn = ({ grupo, partidos, equiposDescansan }) => {
 
       {equiposDescansanGrupo.length > 0 && (
         <div className="equipos-descansan-grupo">
-          <h4>⏸️ Descansan</h4>
+          <h4>⸻ Descansan</h4>
           <div className="equipos-descansan-list">
             {equiposDescansanGrupo.map(eq => (
               <div key={eq.id} className="equipo-descansa-card">
@@ -317,7 +318,7 @@ const Partidos = () => {
 
   return (
     <div className="page">
-      <h1 className="page-title">🏟️ Partidos</h1>
+      <h1 className="page-title">🟢 Partidos</h1>
 
       {/* Tabs Fechas */}
       <div className="glass-card tabs-fechas">
@@ -406,7 +407,7 @@ const Partidos = () => {
       {/* Equipos que descansan globalmente (solo en vista por cancha) */}
       {!loading && !error && vistaFiltro === 'CANCHA' && dataFecha?.equiposDescansan?.length > 0 && (
         <div className="equipos-descansan-global">
-          <h3>⏸️ Equipos que descansan en esta fecha</h3>
+          <h3>⸻ Equipos que descansan en esta fecha</h3>
           <div className="equipos-descansan-list-global">
             {dataFecha.equiposDescansan.map(eq => (
               <div key={eq.id} className="equipo-descansa-card-global">
@@ -510,7 +511,7 @@ const Partidos = () => {
         }
 
         .partido-slot {
-          min-height: 180px;
+          min-height: 120px; /* Reducido para layout horizontal */
           display: flex;
           align-items: stretch;
         }
@@ -531,7 +532,7 @@ const Partidos = () => {
           font-style: italic;
           font-size: 0.9rem;
           width: 100%;
-          min-height: 180px;
+          min-height: 120px; /* Reducido para layout horizontal */
         }
 
         /* Partidos sin horario */
@@ -622,7 +623,7 @@ const Partidos = () => {
           font-style: italic;
         }
 
-        /* Card de partido */
+        /* Card de partido - LAYOUT HORIZONTAL */
         .partido-card {
           background: var(--card-bg-color);
           border: 1px solid var(--border-color);
@@ -632,6 +633,11 @@ const Partidos = () => {
           flex-direction: column;
           transition: transform .2s ease, box-shadow .2s ease;
         }
+        
+        .partido-card-horizontal {
+          min-height: 120px; /* Reducido de 180px */
+        }
+
         .partido-card:hover { 
           transform: translateY(-2px); 
           box-shadow: 0 6px 20px rgba(0,0,0,.25); 
@@ -670,27 +676,71 @@ const Partidos = () => {
           border-radius: 8px; 
         }
 
-        /* Enfrentamiento */
-        .partido-enfrentamiento {
-          display: grid;
-          grid-template-columns: 1fr auto 1fr;
-          gap: 0.75rem;
-          align-items: center;
-          min-height: 80px;
-        }
-
-        /* Equipo side */
-        .equipo-side.vertical {
+        /* NUEVO LAYOUT HORIZONTAL */
+        .partido-enfrentamiento-horizontal {
           display: flex;
           flex-direction: column;
+          gap: 0.75rem;
+          align-items: center;
+        }
+
+        /* Fila de logos horizontal */
+        .equipos-logos-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          max-width: 280px;
+        }
+
+        /* Resultado centrado */
+        .resultado-center {
+          display: flex;
           align-items: center;
           justify-content: center;
-          gap: .4rem;
+          min-width: 60px;
+        }
+
+        /* Fila de nombres */
+        .equipos-nombres-row {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          max-width: 280px;
+          gap: 0.5rem;
+        }
+
+        .equipo-nombre {
+          font-weight: 600; 
+          color: var(--text-color);
+          font-size: 0.8rem; 
+          line-height: 1.2;
+          text-align: center;
+          flex: 1;
+          white-space: nowrap; 
+          overflow: hidden; 
+          text-overflow: ellipsis;
+        }
+
+        .equipo-local {
+          text-align: left;
+        }
+
+        .equipo-visitante {
+          text-align: right;
+        }
+
+        /* Logos optimizados para layout horizontal */
+        .partido-card-horizontal .logo-shell {
+          width: 40px; 
+          height: 40px;
+        }
+
+        .partido-card-horizontal .logo-initials { 
+          font-size: 10px; 
         }
 
         .logo-shell {
-          width: 48px; 
-          height: 48px;
           display: grid; 
           place-items: center;
           border-radius: 8px;
@@ -699,31 +749,11 @@ const Partidos = () => {
           overflow: hidden;
         }
         .logo-initials { 
-          font-size: 11px; 
           font-weight: 800; 
           letter-spacing: .5px; 
           color: var(--text-color); 
         }
 
-        .equipo-nombre {
-          font-weight: 600; 
-          color: var(--text-color);
-          font-size: .82rem; 
-          line-height: 1.2;
-          text-align: center;
-          max-width: 100px;
-          white-space: nowrap; 
-          overflow: hidden; 
-          text-overflow: ellipsis;
-        }
-
-        /* Resultado block */
-        .resultado-block {
-          display: flex; 
-          align-items: center; 
-          justify-content: center;
-          min-width: 60px;
-        }
         .vs-pill {
           font-size: 0.9rem; 
           font-weight: 800; 
@@ -840,7 +870,7 @@ const Partidos = () => {
           font-weight: 500;
         }
 
-        /* Responsive */
+        /* Responsive mejorado para layout horizontal */
         @media (max-width: 1200px) {
           .vista-grupos {
             grid-template-columns: 1fr;
@@ -879,10 +909,19 @@ const Partidos = () => {
             align-items: flex-start; 
             gap: .5rem; 
           }
-          .equipo-nombre { 
-            font-size: .8rem; 
-            max-width: 90px; 
+          
+          .equipos-logos-row {
+            max-width: 250px;
           }
+          
+          .equipos-nombres-row {
+            max-width: 250px;
+          }
+          
+          .equipo-nombre {
+            font-size: 0.75rem;
+          }
+          
           .vista-container {
             gap: 1.5rem;
           }
@@ -894,13 +933,29 @@ const Partidos = () => {
         }
 
         @media (max-width: 480px) {
-          .partido-enfrentamiento { 
-            grid-template-columns: 1fr; 
-            gap: 1rem; 
-            text-align: center;
+          .equipos-logos-row {
+            max-width: 220px;
           }
-          .resultado-block { 
-            width: 100%; 
+          
+          .equipos-nombres-row {
+            max-width: 220px;
+          }
+          
+          .partido-card-horizontal .logo-shell {
+            width: 35px; 
+            height: 35px;
+          }
+          
+          .equipo-nombre {
+            font-size: 0.7rem;
+          }
+          
+          .partido-slot {
+            min-height: 100px;
+          }
+          
+          .slot-vacio {
+            min-height: 100px;
           }
         }
       `}</style>

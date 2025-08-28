@@ -1,5 +1,5 @@
-// src/components/Header.jsx - Header con autenticación (limpio)
-import React, { useState } from 'react';
+// src/components/Header.jsx - Header compacto para vista horizontal
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
@@ -10,11 +10,28 @@ const Header = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(false);
+
+  // Detectar orientación horizontal
+  useEffect(() => {
+    const checkOrientation = () => {
+      setIsLandscape(window.innerHeight < 500 && window.innerWidth > window.innerHeight);
+    };
+    
+    checkOrientation();
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', checkOrientation);
+    
+    return () => {
+      window.removeEventListener('resize', checkOrientation);
+      window.removeEventListener('orientationchange', checkOrientation);
+    };
+  }, []);
 
   const navItems = [
     { path: '/', label: 'Inicio', icon: '🏠', public: true },
     { path: '/equipos', label: 'Equipos', icon: '⚽', public: true },
-    { path: '/partidos', label: 'Partidos', icon: '🏟️', public: true },
+    { path: '/partidos', label: 'Partidos', icon: '🟢', public: true },
     { path: '/posiciones', label: 'Posiciones', icon: '🏆', public: true },
     { path: '/admin', label: 'Admin', icon: '⚙️', adminOnly: true },
   ];
@@ -39,14 +56,14 @@ const Header = () => {
 
   return (
     <motion.header 
-      className="header"
+      className={`header ${isLandscape ? 'header-landscape' : ''}`}
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div className="container">
         <nav className="nav">
-          {/* Logo animado */}
+          {/* Logo adaptativo */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -68,44 +85,48 @@ const Header = () => {
               >
                 ⚽
               </motion.span>
-              <span className="ml-2">COPA MARACANÁ 14ED</span>
+              <span className="logo-text">
+                {isLandscape ? 'CM14ED' : 'COPA MARACANÁ 14ED'}
+              </span>
             </Link>
           </motion.div>
 
-          {/* Enlaces de navegación */}
-          <ul className="nav-links">
-            {filteredNavItems.map((item, index) => (
-              <motion.li 
-                key={item.path}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  duration: 0.5, 
-                  delay: 0.1 * index,
-                  ease: "easeOut"
-                }}
-              >
-                <Link
-                  to={item.path}
-                  className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
+          {/* Enlaces de navegación - Ocultos en landscape móvil */}
+          {!isLandscape && (
+            <ul className="nav-links">
+              {filteredNavItems.map((item, index) => (
+                <motion.li 
+                  key={item.path}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    duration: 0.5, 
+                    delay: 0.1 * index,
+                    ease: "easeOut"
+                  }}
                 >
-                  <motion.div
-                    className="nav-item"
-                    whileHover={{ 
-                      scale: 1.1,
-                      textShadow: "0 0 8px #00dd4c"
-                    }}
-                    whileTap={{ scale: 0.95 }}
+                  <Link
+                    to={item.path}
+                    className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
                   >
-                    <span className="nav-icon">{item.icon}</span>
-                    <span className="nav-text">{item.label}</span>
-                  </motion.div>
-                </Link>
-              </motion.li>
-            ))}
-          </ul>
+                    <motion.div
+                      className="nav-item"
+                      whileHover={{ 
+                        scale: 1.1,
+                        textShadow: "0 0 8px #00dd4c"
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <span className="nav-icon">{item.icon}</span>
+                      <span className="nav-text">{item.label}</span>
+                    </motion.div>
+                  </Link>
+                </motion.li>
+              ))}
+            </ul>
+          )}
 
-          {/* Sección de usuario */}
+          {/* Sección de usuario compacta */}
           <div className="user-section">
             {isAuthenticated() ? (
               <motion.div 
@@ -115,7 +136,7 @@ const Header = () => {
                 transition={{ duration: 0.3 }}
               >
                 <motion.button
-                  className="user-button"
+                  className={`user-button ${isLandscape ? 'user-button-compact' : ''}`}
                   onClick={() => setShowUserMenu(!showUserMenu)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -123,10 +144,12 @@ const Header = () => {
                   <div className="user-avatar">
                     {user?.role === 'admin' ? '👑' : '👤'}
                   </div>
-                  <div className="user-info">
-                    <span className="user-name">{user?.nombre}</span>
-                    <span className="user-role">{user?.role}</span>
-                  </div>
+                  {!isLandscape && (
+                    <div className="user-info">
+                      <span className="user-name">{user?.nombre}</span>
+                      <span className="user-role">{user?.role}</span>
+                    </div>
+                  )}
                   <span className="dropdown-arrow">
                     {showUserMenu ? '▲' : '▼'}
                   </span>
@@ -158,7 +181,7 @@ const Header = () => {
               </motion.div>
             ) : (
               <motion.div 
-                className="auth-buttons"
+                className={`auth-buttons ${isLandscape ? 'auth-buttons-compact' : ''}`}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
@@ -168,17 +191,19 @@ const Header = () => {
                   whileTap={{ scale: 0.95 }}
                 >
                   <Link to="/login" className="btn btn-secondary btn-small">
-                    Iniciar Sesión
+                    {isLandscape ? 'Login' : 'Iniciar Sesión'}
                   </Link>
                 </motion.div>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Link to="/register" className="btn btn-small">
-                    Registrarse
-                  </Link>
-                </motion.div>
+                {!isLandscape && (
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Link to="/register" className="btn btn-small">
+                      Registrarse
+                    </Link>
+                  </motion.div>
+                )}
               </motion.div>
             )}
           </div>
@@ -193,7 +218,7 @@ const Header = () => {
         />
       )}
 
-      {/* Estilos específicos para autenticación */}
+      {/* Estilos optimizados para landscape */}
       <style jsx>{`
         .user-section {
           display: flex;
@@ -330,6 +355,61 @@ const Header = () => {
           background: transparent;
         }
 
+        .logo-text {
+          margin-left: 0.5rem;
+        }
+
+        /* ====================================
+           ESTILOS PARA VISTA HORIZONTAL
+           ================================== */
+        
+        /* Header compacto en landscape */
+        .header-landscape {
+          padding: 5px 0 !important; /* Reducido drásticamente */
+        }
+
+        .header-landscape .nav {
+          padding: 0.25rem 0; /* Padding mínimo */
+        }
+
+        .header-landscape .logo {
+          font-size: 1rem; /* Logo más pequeño */
+          line-height: 1;
+        }
+
+        .header-landscape .logo-text {
+          font-size: 0.85rem;
+          margin-left: 0.25rem;
+        }
+
+        /* Usuario compacto en landscape */
+        .user-button-compact {
+          padding: 0.25rem 0.5rem !important;
+          border-radius: 20px;
+          gap: 0.5rem;
+        }
+
+        .user-button-compact .user-avatar {
+          width: 24px;
+          height: 24px;
+          font-size: 1rem;
+        }
+
+        .user-button-compact .dropdown-arrow {
+          font-size: 0.6rem;
+        }
+
+        /* Auth buttons compactos */
+        .auth-buttons-compact {
+          gap: 0.5rem;
+        }
+
+        .auth-buttons-compact .btn {
+          padding: 0.25rem 0.75rem;
+          font-size: 0.8rem;
+        }
+
+        /* Responsive normal */
         @media (max-width: 768px) {
           .user-info {
             display: none;
@@ -347,6 +427,35 @@ const Header = () => {
 
           .nav-links {
             display: none;
+          }
+        }
+
+        /* Optimización adicional para landscape móvil */
+        @media (max-height: 500px) and (orientation: landscape) {
+          .header {
+            padding: 3px 0 !important;
+          }
+          
+          .nav {
+            padding: 0.2rem 0;
+          }
+          
+          .logo {
+            font-size: 0.9rem;
+          }
+          
+          .logo-text {
+            font-size: 0.8rem;
+          }
+          
+          .user-button {
+            padding: 0.2rem 0.4rem;
+          }
+          
+          .user-avatar {
+            width: 22px;
+            height: 22px;
+            font-size: 0.9rem;
           }
         }
 

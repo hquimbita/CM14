@@ -1,7 +1,19 @@
-// src/pages/Posiciones.jsx - Con visualización mejorada
+// src/pages/Posiciones.jsx - Estilo El Universo con logos
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { apiService } from '../services/api';
+
+const API_BASE = import.meta.env.VITE_API_BASE || '';
+
+function initials(name = '') {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(w => w[0])
+    .join('')
+    .toUpperCase();
+}
 
 const TablaGrupo = ({ titulo, filas }) => {
   return (
@@ -13,19 +25,19 @@ const TablaGrupo = ({ titulo, filas }) => {
     >
       <h3>{titulo}</h3>
       <div className="posiciones-table-container">
-        <table className="posiciones-table" role="table">
+        <table className="posiciones-table">
           <thead>
             <tr>
-              <th>#</th>
-              <th>Equipo</th>
-              <th>PJ</th>
-              <th>G</th>
-              <th>E</th>
-              <th>P</th>
-              <th>GF</th>
-              <th>GC</th>
-              <th>DG</th>
-              <th>Pts</th>
+              <th className="pos-col">#</th>
+              <th className="equipo-col">EQUIPO</th>
+              <th className="pts-col">PTS</th>
+              <th className="dg-col">DG</th>
+              <th className="num-col">PJ</th>
+              <th className="num-col">G</th>
+              <th className="num-col">E</th>
+              <th className="num-col">P</th>
+              <th className="num-col">GF</th>
+              <th className="num-col">GC</th>
             </tr>
           </thead>
           <tbody>
@@ -36,22 +48,35 @@ const TablaGrupo = ({ titulo, filas }) => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.1 }}
               >
-                <td className="posicion">{r.posicion}</td>
-                <td style={{ fontWeight: '600' }}>{r.equipo.nombre}</td>
-                <td>{r.partidosJugados}</td>
-                <td style={{ color: r.ganados > 0 ? '#28a745' : 'inherit' }}>{r.ganados}</td>
-                <td style={{ color: r.empatados > 0 ? '#ffc107' : 'inherit' }}>{r.empatados}</td>
-                <td style={{ color: r.perdidos > 0 ? '#dc3545' : 'inherit' }}>{r.perdidos}</td>
-                <td>{r.golesFavor}</td>
-                <td>{r.golesContra}</td>
-                <td style={{ 
-                  color: r.diferenciaGoles > 0 ? '#28a745' : 
-                         r.diferenciaGoles < 0 ? '#dc3545' : 'inherit',
-                  fontWeight: '600'
-                }}>
+                <td className="pos-col posicion">{r.posicion}</td>
+                <td className="equipo-col">
+                  <div className="equipo-row">
+                    <div className="logo-container">
+                      {r.equipo.logo ? (
+                        <img
+                          src={`${API_BASE}${r.equipo.logo}`}
+                          alt={r.equipo.nombre}
+                          className="equipo-logo"
+                        />
+                      ) : (
+                        <div className="logo-placeholder">
+                          {initials(r.equipo.nombre)}
+                        </div>
+                      )}
+                    </div>
+                    <span className="equipo-nombre">{r.equipo.nombre}</span>
+                  </div>
+                </td>
+                <td className="pts-col puntos">{r.puntos}</td>
+                <td className="dg-col diferencia">
                   {r.diferenciaGoles > 0 ? '+' : ''}{r.diferenciaGoles}
                 </td>
-                <td style={{ fontSize: '1.1rem' }}>{r.puntos}</td>
+                <td className="num-col">{r.partidosJugados}</td>
+                <td className="num-col">{r.ganados}</td>
+                <td className="num-col">{r.empatados}</td>
+                <td className="num-col">{r.perdidos}</td>
+                <td className="num-col">{r.golesFavor}</td>
+                <td className="num-col">{r.golesContra}</td>
               </motion.tr>
             ))}
           </tbody>
@@ -66,7 +91,6 @@ const Posiciones = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [lastUpdate, setLastUpdate] = useState(new Date());
-  const [autoRefresh, setAutoRefresh] = useState(true);
 
   const cargarPosiciones = async () => {
     try {
@@ -87,18 +111,6 @@ const Posiciones = () => {
     cargarPosiciones();
   }, []);
 
-  // Auto-refresh cada 10 segundos si está activado
-  useEffect(() => {
-    if (!autoRefresh) return;
-
-    const interval = setInterval(() => {
-      cargarPosiciones();
-    }, 10000); // 10 segundos
-
-    return () => clearInterval(interval);
-  }, [autoRefresh]);
-
-  // Refresh manual
   const handleRefresh = () => {
     cargarPosiciones();
   };
@@ -130,39 +142,12 @@ const Posiciones = () => {
       >
         <h1 className="page-title" style={{ margin: 0 }}>🏆 Posiciones</h1>
         
-        {/* Controles de actualización */}
         <div style={{ 
           display: 'flex', 
           gap: '1rem', 
           alignItems: 'center',
           flexWrap: 'wrap'
         }}>
-          <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '0.5rem',
-            background: 'rgba(0, 221, 76, 0.1)',
-            padding: '0.5rem 1rem',
-            borderRadius: '25px',
-            border: '1px solid rgba(0, 221, 76, 0.3)'
-          }}>
-            <input
-              type="checkbox"
-              id="auto-refresh"
-              checked={autoRefresh}
-              onChange={(e) => setAutoRefresh(e.target.checked)}
-              style={{ transform: 'scale(1.2)', accentColor: 'var(--primary-color)' }}
-            />
-            <label htmlFor="auto-refresh" style={{ 
-              color: 'var(--primary-color)', 
-              fontSize: '0.9rem',
-              fontWeight: '600',
-              cursor: 'pointer'
-            }}>
-              Auto-actualizar (10s)
-            </label>
-          </div>
-          
           <button
             onClick={handleRefresh}
             disabled={loading}
@@ -186,7 +171,6 @@ const Posiciones = () => {
         </div>
       </motion.div>
 
-      {/* Información de última actualización */}
       <motion.div 
         className="glass-card" 
         style={{ 
@@ -203,25 +187,400 @@ const Posiciones = () => {
         <span style={{ color: 'var(--primary-color)', fontWeight: '600' }}>
           📊 Última actualización: {lastUpdate.toLocaleTimeString()}
         </span>
-        {autoRefresh && (
-          <span style={{ marginLeft: '1rem', opacity: 0.8 }}>
-            • Auto-actualización activa ✅
-          </span>
-        )}
       </motion.div>
 
-      {/* Grid de tablas mejorado */}
-      <div className="grid-posiciones">
+      <div className="grupos-container">
         <TablaGrupo titulo="🏆 Grupo A" filas={pos?.grupoA || []} />
         <TablaGrupo titulo="🏆 Grupo B" filas={pos?.grupoB || []} />
         <TablaGrupo titulo="🏆 Grupo C" filas={pos?.grupoC || []} />
       </div>
 
-      {/* Estilos adicionales para animaciones */}
       <style jsx>{`
         @keyframes spin {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
+        }
+
+        /* ==============================================
+           ESTILO EL UNIVERSO - TABLA COMPACTA
+           ============================================== */
+
+        .grupos-container {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          max-width: 650px;
+          margin: 0 auto;
+        }
+
+        .grupo-posiciones-card {
+          background: var(--card-bg-color);
+          border-radius: 12px;
+          border: 1px solid var(--border-color);
+          padding: 1rem;
+          box-shadow: 0 4px 20px 0 var(--shadow-color);
+        }
+
+        .grupo-posiciones-card h3 {
+          text-align: center;
+          margin-bottom: 1rem;
+          color: var(--primary-color);
+          font-size: 1.3rem;
+          font-weight: 700;
+        }
+
+        .posiciones-table-container {
+          overflow-x: auto;
+          border-radius: 10px;
+          background: rgba(52, 58, 64, 0.3);
+          position: relative;
+        }
+
+        .posiciones-table {
+          width: 100%;
+          min-width: 550px;
+          border-collapse: collapse;
+          font-size: 0.8rem;
+          background: transparent;
+          position: relative;
+        }
+
+        /* ================================
+           COLUMNAS CON STICKY - PTS Y DG DESPUÉS DE EQUIPO
+           ================================ */
+        
+        .pos-col {
+          width: 30px;
+          text-align: center;
+          position: sticky;
+          left: 0;
+          background: rgba(52, 58, 64, 0.95);
+          z-index: 5;
+        }
+        
+        .equipo-col {
+          width: 140px;
+          text-align: left;
+          position: sticky;
+          left: 30px;
+          background: rgba(52, 58, 64, 0.95);
+          z-index: 5;
+        }
+        
+        .pts-col {
+          width: 50px;
+          text-align: center;
+          font-weight: bold;
+          position: sticky;
+          left: 170px;
+          background: rgba(52, 58, 64, 0.95);
+          z-index: 5;
+          border-right: 1px solid rgba(0, 221, 76, 0.3);
+        }
+        
+        .dg-col {
+          width: 40px;
+          text-align: center;
+          position: sticky;
+          left: 220px;
+          background: rgba(52, 58, 64, 0.95);
+          z-index: 5;
+          border-right: 1px solid rgba(0, 221, 76, 0.3);
+        }
+        
+        .num-col {
+          width: 35px;
+          text-align: center;
+        }
+
+        /* ===============================
+           HEADER ESTILO EL UNIVERSO
+           =============================== */
+
+        .posiciones-table th {
+          background: rgba(52, 58, 64, 0.9);
+          color: #ffffff;
+          font-weight: 700;
+          font-size: 0.7rem;
+          text-transform: uppercase;
+          letter-spacing: 0.3px;
+          padding: 0.8rem 0.3rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          position: sticky;
+          top: 0;
+          z-index: 10;
+        }
+        
+        /* Headers sticky también */
+        .posiciones-table th.pos-col {
+          left: 0;
+          z-index: 11;
+        }
+        
+        .posiciones-table th.equipo-col {
+          left: 30px;
+          z-index: 11;
+        }
+        
+        .posiciones-table th.pts-col {
+          left: 170px;
+          z-index: 11;
+          border-right: 1px solid rgba(0, 221, 76, 0.3);
+        }
+        
+        .posiciones-table th.dg-col {
+          left: 220px;
+          z-index: 11;
+          border-right: 1px solid rgba(0, 221, 76, 0.3);
+        }
+
+        .posiciones-table td {
+          padding: 0.7rem 0.3rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          vertical-align: middle;
+          height: 44px;
+        }
+        
+        /* Celdas sticky con fondo */
+        .posiciones-table td.pos-col,
+        .posiciones-table td.equipo-col,
+        .posiciones-table td.dg-col,
+        .posiciones-table td.pts-col {
+          background: inherit;
+        }
+
+        /* ===============================
+           EQUIPO CON LOGO
+           =============================== */
+
+        .equipo-row {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          height: 100%;
+          min-height: 32px;
+          padding: 0;
+        }
+
+        .logo-container {
+          width: 20px;
+          height: 20px;
+          flex-shrink: 0;
+          border-radius: 50%;
+          overflow: hidden;
+          background: rgba(255, 255, 255, 0.1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0;
+        }
+
+        .equipo-logo {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .logo-placeholder {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.5rem;
+          font-weight: 700;
+          color: var(--primary-color);
+          background: linear-gradient(135deg, rgba(0,221,76,.2), rgba(0,102,204,.2));
+        }
+
+        .equipo-nombre {
+          font-weight: 600;
+          color: #ffffff;
+          font-size: 0.75rem;
+          line-height: 1;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin: 0;
+          padding: 0;
+          align-self: center;
+        }
+
+        /* ===============================
+           ESTILOS DE DATOS
+           =============================== */
+
+        .posicion {
+          font-weight: bold;
+          color: var(--primary-color);
+          font-size: 0.8rem;
+        }
+
+        .puntos {
+          font-weight: 900;
+          color: var(--primary-color);
+          font-size: 0.9rem;
+          background: rgba(0, 221, 76, 0.1);
+          border-radius: 4px;
+          padding: 0.2rem 0.3rem;
+        }
+
+        .diferencia {
+          font-weight: 600;
+          color: #ffffff;
+          font-size: 0.75rem;
+        }
+
+        /* Estados de fila - con sticky mejorado */
+        .posiciones-table tbody tr {
+          transition: background-color 0.2s ease;
+          background: rgba(255, 255, 255, 0.02);
+        }
+
+        .posiciones-table tbody tr:hover {
+          background: rgba(0, 221, 76, 0.05);
+        }
+
+        .posiciones-table tbody tr:nth-child(even) {
+          background: rgba(255, 255, 255, 0.04);
+        }
+
+        .posiciones-table tbody tr:nth-child(even):hover {
+          background: rgba(0, 221, 76, 0.05);
+        }
+
+        /* Mantener fondo en celdas sticky al hacer hover */
+        .posiciones-table tbody tr:hover .pos-col,
+        .posiciones-table tbody tr:hover .equipo-col,
+        .posiciones-table tbody tr:hover .dg-col,
+        .posiciones-table tbody tr:hover .pts-col {
+          background: rgba(0, 221, 76, 0.05);
+        }
+
+        .posiciones-table tbody tr:nth-child(even):hover .pos-col,
+        .posiciones-table tbody tr:nth-child(even):hover .equipo-col,
+        .posiciones-table tbody tr:nth-child(even):hover .dg-col,
+        .posiciones-table tbody tr:nth-child(even):hover .pts-col {
+          background: rgba(0, 221, 76, 0.05);
+        }
+
+        .posiciones-table tbody tr:last-child td {
+          border-bottom: none;
+        }
+
+        /* =======================
+           RESPONSIVE
+           ======================= */
+
+        @media (max-width: 768px) {
+          .grupos-container {
+            max-width: 100%;
+          }
+          
+          .grupo-posiciones-card {
+            padding: 0.8rem;
+          }
+          
+          .grupo-posiciones-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+          }
+          
+          .posiciones-table {
+            font-size: 0.7rem;
+            min-width: 480px;
+          }
+          
+          .posiciones-table th,
+          .posiciones-table td {
+            padding: 0.5rem 0.2rem;
+          }
+          
+          .pos-col {
+            width: 25px;
+          }
+          
+          .equipo-col {
+            width: 120px;
+            left: 25px;
+          }
+          
+          .pts-col {
+            width: 45px;
+            left: 145px;
+          }
+          
+          .dg-col {
+            width: 35px;
+            left: 190px;
+          }
+          
+          .num-col {
+            width: 30px;
+          }
+          
+          .logo-container {
+            width: 18px;
+            height: 18px;
+          }
+          
+          .equipo-row {
+            gap: 0.3rem;
+          }
+          
+          .equipo-nombre {
+            font-size: 0.7rem;
+          }
+          
+          .logo-placeholder {
+            font-size: 0.45rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .posiciones-table {
+            font-size: 0.65rem;
+          }
+          
+          .posiciones-table th,
+          .posiciones-table td {
+            padding: 0.4rem 0.15rem;
+          }
+          
+          .logo-container {
+            width: 16px;
+            height: 16px;
+          }
+          
+          .equipo-nombre {
+            font-size: 0.65rem;
+          }
+          
+          .logo-placeholder {
+            font-size: 0.4rem;
+          }
+          
+          .puntos {
+            font-size: 0.8rem;
+            padding: 0.15rem 0.25rem;
+          }
+          
+          .pos-col {
+            width: 25px;
+          }
+          
+          .equipo-col {
+            width: 120px;
+          }
+          
+          .pts-col {
+            width: 40px;
+          }
+          
+          .num-col {
+            width: 30px;
+          }
         }
       `}</style>
     </div>
