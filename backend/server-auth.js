@@ -635,28 +635,31 @@ const server = http.createServer((req, res) => {
       sendResponse(res, 200, { success:true, data:{ user:{ id:user.id, username:user.username, email:user.email, role:user.role, nombre:user.nombre, lastLogin:user.lastLogin } } }, req.headers.origin);
     });
   }
+
 // ============ RUTAS FASE FINAL ============
-if (pathname.startsWith('/api/fase-final/') && method === 'POST') {
-  if (pathname === '/api/fase-final/calcular') {
-    return requireAdmin(req, res, (user) => {
-      const faseFinalController = require('./controllers/faseFinalController');
-      faseFinalController.calcularFaseFinal(req, res);
+if (pathname.startsWith('/api/fase-final')) {
+  const faseFinalController = require('./controllers/faseFinalController');
+  
+  // POST /api/fase-final/generar (Solo admin)
+  if (pathname === '/api/fase-final/generar' && method === 'POST') {
+    return requireAdmin(req, res, () => {
+      faseFinalController.generarFaseFinal(req, res);
     });
   }
   
-  if (pathname === '/api/fase-final/actualizar-octavos') {
-    return requireAdmin(req, res, (user) => {
-      const faseFinalController = require('./controllers/faseFinalController');
-      faseFinalController.actualizarOctavosConRepechaje(req, res);
-    });
+  // GET /api/fase-final/partidos (Público)
+  if (pathname === '/api/fase-final/partidos' && method === 'GET') {
+    faseFinalController.obtenerFaseFinal(req, res);
+    return;
+  }
+  
+  // GET /api/fase-final/clasificados (Público)
+  if (pathname === '/api/fase-final/clasificados' && method === 'GET') {
+    faseFinalController.obtenerClasificados(req, res);
+    return;
   }
 }
 
-if (pathname === '/api/fase-final/resumen' && method === 'GET') {
-  const faseFinalController = require('./controllers/faseFinalController');
-  faseFinalController.getResumenFaseFinal(req, res);
-  return;
-}
   // ============ RUTAS PÚBLICAS ============
   if (pathname === '/' && method === 'GET') {
     sendResponse(res, 200, {
