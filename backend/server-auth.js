@@ -11,6 +11,10 @@ const PORT = process.env.PORT || 3001;
 const DATA_FILE = path.join(__dirname, 'partidos-data.json');
 const USERS_FILE = path.join(__dirname, 'users-data.json');
 
+
+
+
+
 // ================================
 // CORS seguro por dominios
 // ================================
@@ -631,7 +635,28 @@ const server = http.createServer((req, res) => {
       sendResponse(res, 200, { success:true, data:{ user:{ id:user.id, username:user.username, email:user.email, role:user.role, nombre:user.nombre, lastLogin:user.lastLogin } } }, req.headers.origin);
     });
   }
+// ============ RUTAS FASE FINAL ============
+if (pathname.startsWith('/api/fase-final/') && method === 'POST') {
+  if (pathname === '/api/fase-final/calcular') {
+    return requireAdmin(req, res, (user) => {
+      const faseFinalController = require('./controllers/faseFinalController');
+      faseFinalController.calcularFaseFinal(req, res);
+    });
+  }
+  
+  if (pathname === '/api/fase-final/actualizar-octavos') {
+    return requireAdmin(req, res, (user) => {
+      const faseFinalController = require('./controllers/faseFinalController');
+      faseFinalController.actualizarOctavosConRepechaje(req, res);
+    });
+  }
+}
 
+if (pathname === '/api/fase-final/resumen' && method === 'GET') {
+  const faseFinalController = require('./controllers/faseFinalController');
+  faseFinalController.getResumenFaseFinal(req, res);
+  return;
+}
   // ============ RUTAS PÚBLICAS ============
   if (pathname === '/' && method === 'GET') {
     sendResponse(res, 200, {
