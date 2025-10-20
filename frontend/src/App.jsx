@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import Equipos from './pages/Equipos';
 import Partidos from './pages/Partidos';
 import Posiciones from './pages/Posiciones';
+import FaseFinal from './pages/FaseFinal';
 import AdminPanel from './pages/AdminPanel';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -31,7 +32,7 @@ function App() {
                 <Route path="/equipos" element={<Equipos />} />
                 <Route path="/partidos" element={<Partidos />} />
                 <Route path="/posiciones" element={<Posiciones />} />
-                
+                <Route path="/fase-final" element={<FaseFinal />} />
                 {/* Rutas de autenticación */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />

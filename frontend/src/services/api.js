@@ -3,7 +3,6 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 // Configuración base de Axios
-//const API_BASE_URL = 'http://localhost:3001';
 const API_BASE_URL = import.meta.env.VITE_API_BASE || 'http://localhost:3001';
 
 const api = axios.create({
@@ -41,7 +40,6 @@ api.interceptors.response.use(
     
     // Manejar errores de autenticación
     if (error.response?.status === 401) {
-      // Token inválido o expirado
       localStorage.removeItem('token');
       if (window.location.pathname !== '/login') {
         toast.error('⚠️ Sesión expirada. Por favor inicia sesión nuevamente');
@@ -102,7 +100,6 @@ export const apiService = {
       toast.success('👋 Sesión cerrada');
     } catch (error) {
       console.error('Error en logout:', error);
-      // No mostrar error toast para logout, ya que puede fallar por token inválido
     }
   },
 
@@ -193,6 +190,103 @@ export const apiService = {
       return response.data;
     } catch (error) {
       toast.error('❌ Error al actualizar resultado', { id: `partido-${partidoId}` });
+      throw error;
+    }
+  },
+
+  // ====================================
+  // FASE FINAL (partidos 118-137)
+  // ====================================
+  
+  async getPartidosFaseFinal() {
+    try {
+      toast.loading('Cargando partidos de fase final...', { id: 'fase-final' });
+      const response = await api.get('/api/partidos/fase-final');
+      toast.success(`✅ ${response.data.total || response.data.data?.length || 0} partidos de fase final cargados`, { id: 'fase-final' });
+      return response.data;
+    } catch (error) {
+      toast.error('❌ Error al cargar partidos de fase final', { id: 'fase-final' });
+      throw error;
+    }
+  },
+
+  async getPartidosRepechaje() {
+    try {
+      const response = await api.get('/api/partidos/fase-final/repechaje');
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async getPartidosOctavos() {
+    try {
+      const response = await api.get('/api/partidos/fase-final/octavos');
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async getPartidosCuartos() {
+    try {
+      const response = await api.get('/api/partidos/fase-final/cuartos');
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async getPartidosSemifinales() {
+    try {
+      const response = await api.get('/api/partidos/fase-final/semifinales');
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async getPartidoFinal() {
+    try {
+      const response = await api.get('/api/partidos/fase-final/final');
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Calcular automáticamente la fase final
+  async calcularFaseFinal() {
+    try {
+      toast.loading('Calculando fase final...', { id: 'calcular-ff' });
+      const response = await api.post('/api/fase-final/calcular');
+      toast.success('✅ Fase final calculada correctamente', { id: 'calcular-ff' });
+      return response.data;
+    } catch (error) {
+      toast.error('❌ Error al calcular fase final', { id: 'calcular-ff' });
+      throw error;
+    }
+  },
+
+  // Actualizar octavos con ganadores de repechaje
+  async actualizarOctavosConRepechaje() {
+    try {
+      toast.loading('Actualizando octavos...', { id: 'actualizar-octavos' });
+      const response = await api.post('/api/fase-final/actualizar-octavos');
+      toast.success('✅ Octavos actualizados', { id: 'actualizar-octavos' });
+      return response.data;
+    } catch (error) {
+      toast.error('❌ Error al actualizar octavos', { id: 'actualizar-octavos' });
+      throw error;
+    }
+  },
+
+  // Obtener resumen de fase final
+  async getResumenFaseFinal() {
+    try {
+      const response = await api.get('/api/fase-final/resumen');
+      return response.data;
+    } catch (error) {
       throw error;
     }
   },
@@ -339,8 +433,6 @@ export const apiService = {
     if (!token) return null;
     
     try {
-      // En un sistema real, aquí decodificarías el JWT
-      // Por simplicidad, solo verificamos que existe
       return { token, valid: true };
     } catch (error) {
       return null;
