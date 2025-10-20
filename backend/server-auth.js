@@ -782,29 +782,6 @@ const server = http.createServer((req, res) => {
     });
   }
 
-  // ============ NUEVO ENDPOINT DE LOGOS INFO ============
-  if (pathname === '/api/admin/logos-info' && method === 'GET') {
-    return handleLogosInfo(req, res);
-  }
-
-  // ============ SERVIDO ESTÁTICO /uploads ============
-  if (pathname.startsWith('/uploads/') && method === 'GET') {
-    const filePath = path.join(__dirname, pathname);
-    if (fs.existsSync(filePath)) {
-      const ext = (filePath.split('.').pop() || '').toLowerCase();
-      const mime = ext === 'png' ? 'image/png' :
-                   ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg' :
-                   ext === 'webp' ? 'image/webp' : 'application/octet-stream';
-      res.writeHead(200, {
-        'Content-Type': mime,
-        'Access-Control-Allow-Origin': pickOrigin(req.headers.origin || ''),
-        'Vary': 'Origin'
-      });
-      fs.createReadStream(filePath).pipe(res);
-      return;
-    }
-    return sendResponse(res, 404, { success:false, message:'Archivo no encontrado' }, req.headers.origin);
-  }
 
   // 404
   sendResponse(res, 404, {
