@@ -533,6 +533,48 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // ====================================
+  // SERVIR ARCHIVOS ESTÁTICOS
+  // ====================================
+  if (pathname.startsWith('/uploads/') && method === 'GET') {
+    const filePath = path.join(__dirname, pathname);
+    
+    if (!fs.existsSync(filePath)) {
+      sendResponse(res, 404, { success: false, message: 'Archivo no encontrado' }, req.headers.origin);
+      return;
+    }
+
+    const ext = path.extname(filePath).toLowerCase();
+    const mimeTypes = {
+      '.webp': 'image/webp',
+      '.png': 'image/png',
+      '.jpg': 'image/jpeg',
+      '.jpeg': 'image/jpeg',
+      '.svg': 'image/svg+xml'
+    };
+
+    const contentType = mimeTypes[ext] || 'application/octet-stream';
+    const allowOrigin = pickOrigin(req.headers.origin || '');
+
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        console.error('Error leyendo archivo:', err);
+        sendResponse(res, 500, { success: false, message: 'Error leyendo archivo' }, req.headers.origin);
+        return;
+      }
+
+      res.writeHead(200, {
+        'Content-Type': contentType,
+        'Content-Length': data.length,
+        'Access-Control-Allow-Origin': allowOrigin,
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'Cache-Control': 'public, max-age=31536000',
+        'Vary': 'Origin'
+      });
+      res.end(data);
+    });
+    return;
+  }
   // ============ RUTAS AUTH ============
   if (pathname === '/api/auth/login' && method === 'POST') {
     let body = ''; req.on('data', c => (body += c));
