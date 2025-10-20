@@ -33,6 +33,7 @@ const Header = () => {
     { path: '/equipos', label: 'Equipos', icon: '⚽', public: true },
     { path: '/partidos', label: 'Partidos', icon: '🟢', public: true },
     { path: '/posiciones', label: 'Posiciones', icon: '🏆', public: true },
+    { path: '/fase-final', label: 'Fase Final', icon: '🥇', public: true },
     { path: '/admin', label: 'Admin', icon: '⚙️', adminOnly: true },
   ];
 
