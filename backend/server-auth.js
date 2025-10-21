@@ -33,12 +33,12 @@ function pickOrigin(origin) {
 // ====================================
 const TOURNAMENT_CONFIG = {
   nombre: "Copa Maracaná 14ED",
-  organizador: "BEAVER INGENIERÍA SAS",
-  año: 2024,
+  organizador: "CANCHAS MARACANÁ",
+  año: 2025,
   temporada: "14ED",
   tipo: "futbol-7",
   complejo: "Complejo Maracaná",
-  ciudad: "Quito",
+  ciudad: "Latacunga",
   pais: "Ecuador",
   grupos: ["A", "B", "C"],
   totalEquipos: 28,
