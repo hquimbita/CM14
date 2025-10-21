@@ -221,9 +221,17 @@ const FaseFinal = () => {
       {/* Partidos */}
       {!loading && !error && partidos.length > 0 && (
         <div className="partidos-fase-final">
-          {partidos.map((partido, idx) => (
-            <PartidoFaseFinal key={partido.id} partido={partido} index={idx} />
-          ))}
+          {partidos
+            .sort((a, b) => {
+              // Partidos sin hora van al final
+              if (!a.hora && !b.hora) return 0;
+              if (!a.hora) return 1;
+              if (!b.hora) return -1;
+              return a.hora.localeCompare(b.hora);
+            })
+            .map((partido, idx) => (
+              <PartidoFaseFinal key={partido.id} partido={partido} index={idx} />
+            ))}
         </div>
       )}
 
