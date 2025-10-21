@@ -750,31 +750,201 @@ if (pathname.startsWith('/api/fase-final')) {
 
   // ============ RUTAS PROTEGIDAS (ADMIN) ============
   if (pathname.startsWith('/api/partidos/') && method === 'PUT') {
-    const id = parseInt(pathname.split('/')[3], 10);
-    return requireAdmin(req, res, (user) => {
-      let body = ''; req.on('data', c => (body += c));
-      req.on('end', () => {
-        try {
-          const data = JSON.parse(body || '{}');
-          const idx = partidos.findIndex(p => p.id === id);
-          if (idx === -1) return sendResponse(res, 404, { success:false, message:'Partido no encontrado' }, req.headers.origin);
+  const id = parseInt(pathname.split('/')[3], 10);
+  return requireAdmin(req, res, (user) => {
+    let body = ''; 
+    req.on('data', c => (body += c));
+    req.on('end', () => {
+      try {
+        const data = JSON.parse(body || '{}');
+        const idx = partidos.findIndex(p => p.id === id);
+        if (idx === -1) return sendResponse(res, 404, { success:false, message:'Partido no encontrado' }, req.headers.origin);
 
-          const p = partidos[idx];
-          partidos[idx] = {
-            ...p,
-            hora: data.hora ?? p.hora,
-            cancha: data.cancha ?? p.cancha,
-            estado: data.estado ?? p.estado,
-            golesLocal: data.golesLocal ?? p.golesLocal,
-            golesVisitante: data.golesVisitante ?? p.golesVisitante,
+        const p = partidos[idx];
+        partidos[idx] = {
+          ...p,
+          hora: data.hora ?? p.hora,
+          cancha: data.cancha ?? p.cancha,
+          estado: data.estado ?? p.estado,
+          golesLocal: data.golesLocal ?? p.golesLocal,
+          golesVisitante: data.golesVisitante ?? p.golesVisitante,
+        };
+
+        // ===== LÓGICA AUTOMÁTICA DE FASE FINAL =====
+        const partidoActualizado = partidos[idx];
+        
+        // Si es un partido de REPECHAJE que se marcó como finalizado
+        if (partidoActualizado.grupo === 'REPECHAJE' && 
+            partidoActualizado.estado === 'finalizado' &&
+            partidoActualizado.golesLocal !== null && 
+            partidoActualizado.golesVisitante !== null) {
+          
+          // Determinar ganador
+          const ganadorId = partidoActualizado.golesLocal > partidoActualizado.golesVisitante 
+            ? partidoActualizado.equipoLocalId 
+            : partidoActualizado.equipoVisitanteId;
+          
+          // Mapeo: Repechaje → Octavos
+          const mapeoRepechajeOctavos = {
+            118: { partidoOctavos: 125, esVisitante: true },  // R1 → OF4 visitante
+            119: { partidoOctavos: 124, esVisitante: true },  // R2 → OF3 visitante
+            120: { partidoOctavos: 123, esVisitante: true },  // R3 → OF2 visitante
+            121: { partidoOctavos: 122, esVisitante: true }   // R4 → OF1 visitante
           };
-
-          saveData({ partidos, equipos, fechas, version: '4.1.0', lastUpdate: new Date().toISOString(), updatedBy: user.username });
-          return sendResponse(res, 200, { success:true, message:`Partido actualizado por ${user.nombre}`, data: partidos[idx] }, req.headers.origin);
-        } catch { return sendResponse(res, 400, { success:false, message:'JSON inválido' }, req.headers.origin); }
-      });
+          
+          const mapeo = mapeoRepechajeOctavos[partidoActualizado.id];
+          
+          if (mapeo) {
+            const idxOctavos = partidos.findIndex(p => p.id === mapeo.partidoOctavos);
+            
+            if (idxOctavos !== -1) {
+              if (mapeo.esVisitante) {
+                partidos[idxOctavos].equipoVisitanteId = ganadorId;
+              } else {
+                partidos[idxOctavos].equipoLocalId = ganadorId;
+              }
+              
+              console.log(`✅ Octavos actualizado: Partido ${mapeo.partidoOctavos} con ganador de R${partidoActualizado.id - 117}`);
+            }
+          }
+        }
+        
+        // Si es OCTAVOS finalizado → actualizar CUARTOS
+        if (partidoActualizado.grupo === 'OCTAVOS' && 
+            partidoActualizado.estado === 'finalizado' &&
+            partidoActualizado.golesLocal !== null && 
+            partidoActualizado.golesVisitante !== null) {
+          
+          const ganadorId = partidoActualizado.golesLocal > partidoActualizado.golesVisitante 
+            ? partidoActualizado.equipoLocalId 
+            : partidoActualizado.equipoVisitanteId;
+          
+          // Mapeo: Octavos → Cuartos
+          const mapeoOctavosCuartos = {
+            122: { partidoCuartos: 130, esLocal: true },   // OF1 → CF1 local
+            129: { partidoCuartos: 130, esLocal: false },  // OF8 → CF1 visitante
+            123: { partidoCuartos: 131, esLocal: true },   // OF2 → CF2 local
+            128: { partidoCuartos: 131, esLocal: false },  // OF7 → CF2 visitante
+            124: { partidoCuartos: 132, esLocal: true },   // OF3 → CF3 local
+            127: { partidoCuartos: 132, esLocal: false },  // OF6 → CF3 visitante
+            125: { partidoCuartos: 133, esLocal: true },   // OF4 → CF4 local
+            126: { partidoCuartos: 133, esLocal: false }   // OF5 → CF4 visitante
+          };
+          
+          const mapeo = mapeoOctavosCuartos[partidoActualizado.id];
+          
+          if (mapeo) {
+            const idxCuartos = partidos.findIndex(p => p.id === mapeo.partidoCuartos);
+            
+            if (idxCuartos !== -1) {
+              if (mapeo.esLocal) {
+                partidos[idxCuartos].equipoLocalId = ganadorId;
+              } else {
+                partidos[idxCuartos].equipoVisitanteId = ganadorId;
+              }
+              
+              console.log(`✅ Cuartos actualizado: Partido ${mapeo.partidoCuartos}`);
+            }
+          }
+        }
+        
+        // Si es CUARTOS finalizado → actualizar SEMIFINALES
+        if (partidoActualizado.grupo === 'CUARTOS' && 
+            partidoActualizado.estado === 'finalizado' &&
+            partidoActualizado.golesLocal !== null && 
+            partidoActualizado.golesVisitante !== null) {
+          
+          const ganadorId = partidoActualizado.golesLocal > partidoActualizado.golesVisitante 
+            ? partidoActualizado.equipoLocalId 
+            : partidoActualizado.equipoVisitanteId;
+          
+          // Mapeo: Cuartos → Semifinales
+          const mapeoCuartosSemis = {
+            130: { partidoSemi: 134, esLocal: true },   // CF1 → SF1 local
+            133: { partidoSemi: 134, esLocal: false },  // CF4 → SF1 visitante
+            131: { partidoSemi: 135, esLocal: true },   // CF2 → SF2 local
+            132: { partidoSemi: 135, esLocal: false }   // CF3 → SF2 visitante
+          };
+          
+          const mapeo = mapeoCuartosSemis[partidoActualizado.id];
+          
+          if (mapeo) {
+            const idxSemi = partidos.findIndex(p => p.id === mapeo.partidoSemi);
+            
+            if (idxSemi !== -1) {
+              if (mapeo.esLocal) {
+                partidos[idxSemi].equipoLocalId = ganadorId;
+              } else {
+                partidos[idxSemi].equipoVisitanteId = ganadorId;
+              }
+              
+              console.log(`✅ Semifinal actualizada: Partido ${mapeo.partidoSemi}`);
+            }
+          }
+        }
+        
+        // Si es SEMIFINAL finalizado → actualizar FINAL y TERCER LUGAR
+        if (partidoActualizado.grupo === 'SEMIFINAL' && 
+            partidoActualizado.estado === 'finalizado' &&
+            partidoActualizado.golesLocal !== null && 
+            partidoActualizado.golesVisitante !== null) {
+          
+          const ganadorId = partidoActualizado.golesLocal > partidoActualizado.golesVisitante 
+            ? partidoActualizado.equipoLocalId 
+            : partidoActualizado.equipoVisitanteId;
+          
+          const perdedorId = partidoActualizado.golesLocal > partidoActualizado.golesVisitante 
+            ? partidoActualizado.equipoVisitanteId 
+            : partidoActualizado.equipoLocalId;
+          
+          // Mapeo: Semifinales → Final y 3er Lugar
+          const mapeoSemisFinal = {
+            134: { partidoFinal: 137, esLocal: true, partidoTercero: 136, esPerdedorLocal: true },   // SF1
+            135: { partidoFinal: 137, esLocal: false, partidoTercero: 136, esPerdedorLocal: false }  // SF2
+          };
+          
+          const mapeo = mapeoSemisFinal[partidoActualizado.id];
+          
+          if (mapeo) {
+            // Actualizar FINAL con ganador
+            const idxFinal = partidos.findIndex(p => p.id === mapeo.partidoFinal);
+            if (idxFinal !== -1) {
+              if (mapeo.esLocal) {
+                partidos[idxFinal].equipoLocalId = ganadorId;
+              } else {
+                partidos[idxFinal].equipoVisitanteId = ganadorId;
+              }
+              console.log(`✅ Final actualizada con ganador de SF${partidoActualizado.id - 133}`);
+            }
+            
+            // Actualizar TERCER LUGAR con perdedor
+            const idxTercero = partidos.findIndex(p => p.id === mapeo.partidoTercero);
+            if (idxTercero !== -1) {
+              if (mapeo.esPerdedorLocal) {
+                partidos[idxTercero].equipoLocalId = perdedorId;
+              } else {
+                partidos[idxTercero].equipoVisitanteId = perdedorId;
+              }
+              console.log(`✅ 3er Lugar actualizado con perdedor de SF${partidoActualizado.id - 133}`);
+            }
+          }
+        }
+        
+        // Guardar cambios
+        saveData({ partidos, equipos, fechas, version: '4.1.0', lastUpdate: new Date().toISOString(), updatedBy: user.username });
+        
+        return sendResponse(res, 200, { 
+          success: true, 
+          message: `Partido actualizado por ${user.nombre}`, 
+          data: partidos[idx] 
+        }, req.headers.origin);
+        
+      } catch { 
+        return sendResponse(res, 400, { success:false, message:'JSON inválido' }, req.headers.origin); 
+      }
     });
-  }
+  });
+}
 
   if (pathname === '/api/admin/users' && method === 'GET') {
     return requireAdmin(req, res, () => {
