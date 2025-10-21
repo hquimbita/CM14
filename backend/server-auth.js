@@ -97,7 +97,12 @@ const fechas = [
   { id: 6, numero: 6, fecha: '2024-09-13', descripcion: 'Sexta Fecha' },
   { id: 7, numero: 7, fecha: '2024-09-20', descripcion: 'Séptima Fecha' },
   { id: 8, numero: 8, fecha: '2024-09-27', descripcion: 'Octava Fecha' },
-  { id: 9, numero: 9, fecha: '2024-10-04', descripcion: 'Fecha Final' }
+  { id: 9, numero: 9, fecha: '2024-10-04', descripcion: 'Fecha Final' },
+  { id: 10, numero: 10, fecha: '2025-10-25', descripcion: 'Repechaje' },
+  { id: 11, numero: 11, fecha: '2025-11-08', descripcion: 'Octavos de Final' },
+  { id: 12, numero: 12, fecha: '2025-11-15', descripcion: 'Cuartos de Final' },
+  { id: 13, numero: 13, fecha: '2025-11-22', descripcion: 'Semifinales' },
+  { id: 14, numero: 14, fecha: '2025-11-29', descripcion: '3er Lugar y Final' }
 ];
 
 // ====================================
