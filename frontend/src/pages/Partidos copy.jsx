@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { apiService } from '../services/api';
 
+//const API_BASE = 'http://localhost:3001';
 const API_BASE = import.meta.env.VITE_API_BASE || '';
 
 // Iniciales si no hay logo
@@ -47,8 +48,8 @@ const EquipoLogo = ({ equipo, size = 56 }) => {
   );
 };
 
-const PartidoCard = ({ partido, index, esFaseFinal }) => {
-  const { equipoLocal, equipoVisitante, hora, cancha, estado, golesLocal, golesVisitante, grupo, descripcion } = partido;
+const PartidoCard = ({ partido, index }) => {
+  const { equipoLocal, equipoVisitante, hora, cancha, estado, golesLocal, golesVisitante, grupo } = partido;
   const mostrarResultado = estado === 'finalizado' || estado === 'en-curso';
   const tieneGoles = golesLocal !== null && golesVisitante !== null;
 
@@ -63,19 +64,11 @@ const PartidoCard = ({ partido, index, esFaseFinal }) => {
       <div className="partido-header">
         <div className="partido-info-top">
           <span className="partido-hora">{hora || 'Por programar'}</span>
-          {!esFaseFinal && <span className="partido-grupo">Grupo {grupo}</span>}
-          {esFaseFinal && <span className="partido-grupo">{grupo}</span>}
+          <span className="partido-grupo">Grupo {grupo}</span>
           <span className="partido-cancha">Cancha {cancha || 'TBD'}</span>
         </div>
         <EstadoBadge estado={estado} />
       </div>
-
-      {/* Descripción (solo fase final) */}
-      {esFaseFinal && descripcion && (
-        <div className="partido-descripcion">
-          <span>{descripcion}</span>
-        </div>
-      )}
 
       {/* Enfrentamiento HORIZONTAL */}
       <div className="partido-enfrentamiento-horizontal">
@@ -101,8 +94,8 @@ const PartidoCard = ({ partido, index, esFaseFinal }) => {
         
         {/* Fila de nombres */}
         <div className="equipos-nombres-row">
-          <span className="equipo-nombre equipo-local">{equipoLocal?.nombre || 'TBD'}</span>
-          <span className="equipo-nombre equipo-visitante">{equipoVisitante?.nombre || 'TBD'}</span>
+          <span className="equipo-nombre equipo-local">{equipoLocal?.nombre}</span>
+          <span className="equipo-nombre equipo-visitante">{equipoVisitante?.nombre}</span>
         </div>
       </div>
     </motion.div>
@@ -122,13 +115,13 @@ const GrupoColumn = ({ grupo, partidos, equiposDescansan }) => {
       
       <div className="partidos-grupo">
         {partidosGrupo.map((partido, idx) => (
-          <PartidoCard key={partido.id} partido={partido} index={idx} esFaseFinal={false} />
+          <PartidoCard key={partido.id} partido={partido} index={idx} />
         ))}
       </div>
 
       {equiposDescansanGrupo.length > 0 && (
         <div className="equipos-descansan-grupo">
-          <h4>⏸ Descansan</h4>
+          <h4>⸻ Descansan</h4>
           <div className="equipos-descansan-list">
             {equiposDescansanGrupo.map(eq => (
               <div key={eq.id} className="equipo-descansa-card">
@@ -143,7 +136,7 @@ const GrupoColumn = ({ grupo, partidos, equiposDescansan }) => {
   );
 };
 
-const CanchaColumn = ({ cancha, partidos, esFaseFinal }) => {
+const CanchaColumn = ({ cancha, partidos }) => {
   return (
     <div className="cancha-column">
       <div className="cancha-header">
@@ -153,7 +146,7 @@ const CanchaColumn = ({ cancha, partidos, esFaseFinal }) => {
       
       <div className="partidos-cancha">
         {partidos.map((partido, idx) => (
-          <PartidoCard key={partido.id} partido={partido} index={idx} esFaseFinal={esFaseFinal} />
+          <PartidoCard key={partido.id} partido={partido} index={idx} />
         ))}
         
         {partidos.length === 0 && (
@@ -166,7 +159,8 @@ const CanchaColumn = ({ cancha, partidos, esFaseFinal }) => {
   );
 };
 
-const VistaPorCancha = ({ partidosPorCancha, esFaseFinal }) => {
+const VistaPorCancha = ({ partidosPorCancha }) => {
+  // Crear una matriz de horarios sincronizados
   const horariosDisponibles = ['16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
   
   const filasPorHorario = horariosDisponibles.map(horario => {
@@ -180,6 +174,7 @@ const VistaPorCancha = ({ partidosPorCancha, esFaseFinal }) => {
     };
   });
 
+  // Agregar partidos sin horario al final
   const partidosSinHorario = [
     ...partidosPorCancha.NORTE.filter(p => !p.hora || !horariosDisponibles.includes(p.hora)),
     ...partidosPorCancha.SUR.filter(p => !p.hora || !horariosDisponibles.includes(p.hora))
@@ -187,6 +182,7 @@ const VistaPorCancha = ({ partidosPorCancha, esFaseFinal }) => {
 
   return (
     <div className="vista-por-cancha">
+      {/* Headers de canchas */}
       <div className="canchas-headers">
         <div className="cancha-header-col">
           <h3>Cancha NORTE</h3>
@@ -198,6 +194,7 @@ const VistaPorCancha = ({ partidosPorCancha, esFaseFinal }) => {
         </div>
       </div>
 
+      {/* Partidos sincronizados por horario */}
       <div className="partidos-sincronizados">
         {filasPorHorario.map(({ horario, norte, sur }) => (
           <div key={horario} className="fila-horario">
@@ -207,7 +204,7 @@ const VistaPorCancha = ({ partidosPorCancha, esFaseFinal }) => {
             <div className="partidos-fila">
               <div className="partido-slot">
                 {norte ? (
-                  <PartidoCard partido={norte} index={0} esFaseFinal={esFaseFinal} />
+                  <PartidoCard partido={norte} index={0} />
                 ) : (
                   <div className="slot-vacio">
                     <span>Sin partido</span>
@@ -216,7 +213,7 @@ const VistaPorCancha = ({ partidosPorCancha, esFaseFinal }) => {
               </div>
               <div className="partido-slot">
                 {sur ? (
-                  <PartidoCard partido={sur} index={0} esFaseFinal={esFaseFinal} />
+                  <PartidoCard partido={sur} index={0} />
                 ) : (
                   <div className="slot-vacio">
                     <span>Sin partido</span>
@@ -228,12 +225,13 @@ const VistaPorCancha = ({ partidosPorCancha, esFaseFinal }) => {
         ))}
       </div>
 
+      {/* Partidos sin horario definido */}
       {partidosSinHorario.length > 0 && (
         <div className="partidos-sin-horario">
           <h4>📅 Por programar</h4>
           <div className="partidos-sin-horario-grid">
             {partidosSinHorario.map((partido, idx) => (
-              <PartidoCard key={partido.id} partido={partido} index={idx} esFaseFinal={esFaseFinal} />
+              <PartidoCard key={partido.id} partido={partido} index={idx} />
             ))}
           </div>
         </div>
@@ -279,9 +277,6 @@ const Partidos = () => {
     })();
   }, [fechaSel]);
 
-  // Detectar si es fase final (fechas 10-14)
-  const esFaseFinal = fechaSel >= 10 && fechaSel <= 14;
-
   const partidosPorGrupo = useMemo(() => {
     if (!dataFecha) return { A: [], B: [], C: [] };
     const ps = dataFecha.partidos || [];
@@ -296,7 +291,9 @@ const Partidos = () => {
     if (!dataFecha) return { NORTE: [], SUR: [] };
     const ps = dataFecha.partidos || [];
     
+    // Ordenar por hora
     const partidosOrdenados = [...ps].sort((a, b) => {
+      // Si no tienen hora, van al final
       if (!a.hora && !b.hora) return 0;
       if (!a.hora) return 1;
       if (!b.hora) return 1;
@@ -335,33 +332,31 @@ const Partidos = () => {
               aria-pressed={active}
               title={`Fecha ${f.numero}${f.fecha ? ` (${f.fecha})` : ''}`}
             >
-              {f.numero <= 9 ? `Fecha ${f.numero}` : f.descripcion}
+              {`Fecha ${f.numero}`}
               {active && f.fecha && <span className="fecha-real">({f.fecha})</span>}
             </button>
           );
         })}
       </div>
 
-      {/* Filtro de vista - SOLO para fechas 1-9 */}
-      {!esFaseFinal && (
-        <div className="glass-card tabs-vista">
-          {[
-            { key: 'ALL', label: 'Todos los grupos' },
-            { key: 'A', label: 'Grupo A' },
-            { key: 'B', label: 'Grupo B' },
-            { key: 'C', label: 'Grupo C' },
-            { key: 'CANCHA', label: 'Por Cancha' }
-          ].map(({ key, label }) => (
-            <button
-              key={key}
-              className={`btn btn-small ${vistaFiltro === key ? '' : 'btn-secondary'}`}
-              onClick={() => setVistaFiltro(key)}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-      )}
+      {/* Filtro de vista */}
+      <div className="glass-card tabs-vista">
+        {[
+          { key: 'ALL', label: 'Todos los grupos' },
+          { key: 'A', label: 'Grupo A' },
+          { key: 'B', label: 'Grupo B' },
+          { key: 'C', label: 'Grupo C' },
+          { key: 'CANCHA', label: 'Por Cancha' }
+        ].map(({ key, label }) => (
+          <button
+            key={key}
+            className={`btn btn-small ${vistaFiltro === key ? '' : 'btn-secondary'}`}
+            onClick={() => setVistaFiltro(key)}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
 
       {loading && (
         <div className="loading">
@@ -373,25 +368,12 @@ const Partidos = () => {
       {error && <div className="error">{error}</div>}
 
       {!loading && !error && (
-        <div className={`vista-container ${vistaFiltro === 'CANCHA' || esFaseFinal ? 'vista-cancha' : 'vista-grupos'}`}>
-          {esFaseFinal ? (
-            // Vista Fase Final - Ordenada por hora
-            <div className="fase-final-container">
-              {dataFecha?.partidos
-                ?.sort((a, b) => {
-                  // Partidos sin hora van al final
-                  if (!a.hora && !b.hora) return 0;
-                  if (!a.hora) return 1;
-                  if (!b.hora) return -1;
-                  return a.hora.localeCompare(b.hora);
-                })
-                .map((partido, idx) => (
-                  <PartidoCard key={partido.id} partido={partido} index={idx} esFaseFinal={true} />
-                ))}
-            </div>
-          ) : vistaFiltro === 'CANCHA' ? (
-            <VistaPorCancha partidosPorCancha={partidosPorCancha} esFaseFinal={false} />
+        <div className={`vista-container ${vistaFiltro === 'CANCHA' ? 'vista-cancha' : 'vista-grupos'}`}>
+          {vistaFiltro === 'CANCHA' ? (
+            // Vista por canchas sincronizada por horarios
+            <VistaPorCancha partidosPorCancha={partidosPorCancha} />
           ) : vistaFiltro === 'ALL' ? (
+            // Vista de 3 columnas con todos los grupos
             <>
               <GrupoColumn 
                 grupo="A" 
@@ -410,6 +392,7 @@ const Partidos = () => {
               />
             </>
           ) : (
+            // Vista de un solo grupo
             <div className="single-grupo-view">
               <GrupoColumn 
                 grupo={vistaFiltro} 
@@ -421,10 +404,10 @@ const Partidos = () => {
         </div>
       )}
 
-      {/* Equipos que descansan - SOLO en vista por cancha Y fechas 1-9 */}
-      {!loading && !error && !esFaseFinal && vistaFiltro === 'CANCHA' && dataFecha?.equiposDescansan?.length > 0 && (
+      {/* Equipos que descansan globalmente (solo en vista por cancha) */}
+      {!loading && !error && vistaFiltro === 'CANCHA' && dataFecha?.equiposDescansan?.length > 0 && (
         <div className="equipos-descansan-global">
-          <h3>⏸ Equipos que descansan en esta fecha</h3>
+          <h3>⸻ Equipos que descansan en esta fecha</h3>
           <div className="equipos-descansan-list-global">
             {dataFecha.equiposDescansan.map(eq => (
               <div key={eq.id} className="equipo-descansa-card-global">
@@ -440,42 +423,27 @@ const Partidos = () => {
       )}
 
       <style jsx>{`
+        /* Tabs */
         .tabs-fechas, .tabs-vista {
           display: flex; flex-wrap: wrap; gap: .5rem;
           justify-content: center; margin-bottom: .5rem;
         }
         .fecha-real { opacity: .7; margin-left: 6px; }
 
+        /* Container principal */
         .vista-container {
           margin: 1.25rem 0 2rem;
           align-items: start;
         }
 
+        /* Vista por grupos */
         .vista-grupos {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 1.5rem;
         }
 
-        /* Fase Final Container */
-        .fase-final-container {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-          gap: 1.5rem;
-        }
-
-        /* Descripción del partido */
-        .partido-descripcion {
-          text-align: center;
-          font-size: 0.85rem;
-          color: rgba(255, 255, 255, 0.7);
-          font-style: italic;
-          padding: 0.5rem;
-          background: rgba(255, 255, 255, 0.03);
-          border-radius: 8px;
-          margin-bottom: 0.5rem;
-        }
-
+        /* Vista por cancha sincronizada */
         .vista-por-cancha {
           display: flex;
           flex-direction: column;
@@ -506,6 +474,7 @@ const Partidos = () => {
           font-weight: 700;
         }
 
+        /* Partidos sincronizados por horario */
         .partidos-sincronizados {
           display: flex;
           flex-direction: column;
@@ -542,7 +511,7 @@ const Partidos = () => {
         }
 
         .partido-slot {
-          min-height: 120px;
+          min-height: 120px; /* Reducido para layout horizontal */
           display: flex;
           align-items: stretch;
         }
@@ -563,9 +532,10 @@ const Partidos = () => {
           font-style: italic;
           font-size: 0.9rem;
           width: 100%;
-          min-height: 120px;
+          min-height: 120px; /* Reducido para layout horizontal */
         }
 
+        /* Partidos sin horario */
         .partidos-sin-horario {
           margin-top: 2rem;
           text-align: center;
@@ -583,23 +553,27 @@ const Partidos = () => {
           gap: 1rem;
         }
 
+        /* Vista de un solo grupo */
         .single-grupo-view {
           max-width: 800px;
           margin: 0 auto;
         }
 
+        /* Columna de grupo */
         .grupo-column {
           display: flex;
           flex-direction: column;
           gap: 1rem;
         }
 
+        /* Columna de cancha */
         .cancha-column {
           display: flex;
           flex-direction: column;
           gap: 1rem;
         }
 
+        /* Header del grupo/cancha */
         .grupo-header, .cancha-header {
           background: var(--card-bg-color);
           border: 1px solid var(--border-color);
@@ -631,12 +605,14 @@ const Partidos = () => {
           font-weight: 600;
         }
 
+        /* Contenedor de partidos */
         .partidos-grupo, .partidos-cancha {
           display: flex;
           flex-direction: column;
           gap: 1rem;
         }
 
+        /* No partidos */
         .no-partidos {
           background: rgba(255,255,255,0.05);
           border: 1px dashed var(--border-color);
@@ -647,6 +623,7 @@ const Partidos = () => {
           font-style: italic;
         }
 
+        /* Card de partido - LAYOUT HORIZONTAL */
         .partido-card {
           background: var(--card-bg-color);
           border: 1px solid var(--border-color);
@@ -658,7 +635,7 @@ const Partidos = () => {
         }
         
         .partido-card-horizontal {
-          min-height: 120px;
+          min-height: 120px; /* Reducido de 180px */
         }
 
         .partido-card:hover { 
@@ -666,6 +643,7 @@ const Partidos = () => {
           box-shadow: 0 6px 20px rgba(0,0,0,.25); 
         }
 
+        /* Header del partido */
         .partido-header {
           display: flex; 
           justify-content: space-between; 
@@ -698,6 +676,7 @@ const Partidos = () => {
           border-radius: 8px; 
         }
 
+        /* NUEVO LAYOUT HORIZONTAL */
         .partido-enfrentamiento-horizontal {
           display: flex;
           flex-direction: column;
@@ -705,6 +684,7 @@ const Partidos = () => {
           align-items: center;
         }
 
+        /* Fila de logos horizontal */
         .equipos-logos-row {
           display: flex;
           align-items: center;
@@ -713,6 +693,7 @@ const Partidos = () => {
           max-width: 280px;
         }
 
+        /* Resultado centrado */
         .resultado-center {
           display: flex;
           align-items: center;
@@ -720,6 +701,7 @@ const Partidos = () => {
           min-width: 60px;
         }
 
+        /* Fila de nombres */
         .equipos-nombres-row {
           display: flex;
           justify-content: space-between;
@@ -748,6 +730,7 @@ const Partidos = () => {
           text-align: right;
         }
 
+        /* Logos optimizados para layout horizontal */
         .partido-card-horizontal .logo-shell {
           width: 40px; 
           height: 40px;
@@ -801,6 +784,7 @@ const Partidos = () => {
           font-weight: 700; 
         }
 
+        /* Equipos que descansan por grupo */
         .equipos-descansan-grupo {
           background: rgba(255,165,0,.08);
           border: 1px solid rgba(255,165,0,.25);
@@ -838,6 +822,7 @@ const Partidos = () => {
           font-size: .85rem; 
         }
 
+        /* Equipos que descansan globalmente (vista por cancha) */
         .equipos-descansan-global {
           margin: 2rem 0;
           text-align: center;
@@ -885,6 +870,7 @@ const Partidos = () => {
           font-weight: 500;
         }
 
+        /* Responsive mejorado para layout horizontal */
         @media (max-width: 1200px) {
           .vista-grupos {
             grid-template-columns: 1fr;
@@ -914,10 +900,6 @@ const Partidos = () => {
           .partidos-fila {
             grid-template-columns: 1fr;
             gap: 1rem;
-          }
-
-          .fase-final-container {
-            grid-template-columns: 1fr;
           }
         }
 

@@ -1,257 +1,566 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
-import { apiService } from "../services/api";
+// src/pages/FaseFinal.jsx
+import React, { useEffect, useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { apiService } from '../services/api';
+import { Trophy } from 'lucide-react';
 
-/**
- * FaseFinal.jsx – Vista de Fase Final (Repechaje → Octavos → Cuartos → Semis → Final)
- *
- * REGLAS (según reglamento CM14 2024 – 14ta edición):
- * - Participan 27 equipos (masculino) en 3 grupos de 9.
- * - Clasifican directo a Fase Final: TOP 4 de cada grupo (A, B, C) → 12 equipos.
- * - Repechaje: 5º y 6º de cada grupo + 2 mejores 7º → 8 equipos → 4 llaves.
- *   • 5º A vs Mejor 7º
- *   • 5º B vs Segundo Mejor 7º
- *   • 5º C vs 6º A
- *   • 6º B vs 6º C
- * - Los 4 ganadores de Repechaje se suman a los 12 clasificados → Octavos (16).
- * - Luego: Cuartos, Semifinales y Final.
- *
- * NOTA sobre ordenamiento de los 12 clasificados directos:
- *   El reglamento menciona un ordenamiento específico, pero no está completo en el fragmento recibido.
- *   Aquí implementamos un seeding estándar: 1ros > 2dos > 3ros > 4tos (por puntos/DG/GF),
- *   y los 4 clasificados por Repechaje entran como seeds más bajos.
- *   Si el reglamento exige otro orden, basta ajustar la función `ordenarClasificadosDirectos`.
- */
+const API_BASE = import.meta.env.VITE_API_BASE || '';
 
-// ================= Utilidades de posiciones =================
-function compareStandings(a, b) {
-  // Ordena por puntos desc, diferencia de goles desc, goles a favor desc, y si existe: posicion asc
-  if (b.puntos !== a.puntos) return b.puntos - a.puntos;
-  const dgA = a.diferenciaGoles ?? (a.golesFavor - a.golesContra);
-  const dgB = b.diferenciaGoles ?? (b.golesFavor - b.golesContra);
-  if (dgB !== dgA) return dgB - dgA;
-  if ((b.golesFavor ?? 0) !== (a.golesFavor ?? 0)) return (b.golesFavor ?? 0) - (a.golesFavor ?? 0);
-  if ((a.posicion ?? 99) !== (b.posicion ?? 99)) return (a.posicion ?? 99) - (b.posicion ?? 99);
-  return 0;
+// Iniciales si no hay logo
+function initials(name = '') {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 3)
+    .map(w => w[0])
+    .join('')
+    .toUpperCase();
 }
 
-function pickMejores(array, n) {
-  return [...array].sort(compareStandings).slice(0, n);
-}
+const EstadoBadge = ({ estado }) => {
+  const cls =
+    estado === 'finalizado'
+      ? 'estado-badge estado-finalizado'
+      : estado === 'en-curso'
+      ? 'estado-badge estado-en-curso'
+      : 'estado-badge estado-programado';
+  const label =
+    estado === 'finalizado' ? 'Finalizado' : estado === 'en-curso' ? 'En curso' : 'Programado';
+  return <span className={cls}>{label}</span>;
+};
 
-// ================= Componentes UI =================
-const Badge = ({ children }) => (
-  <span style={{
-    padding: "4px 10px",
-    borderRadius: 999,
-    background: "rgba(0,221,76,.12)",
-    border: "1px solid rgba(0,221,76,.35)",
-    color: "var(--primary-color)",
-    fontSize: 12,
-    fontWeight: 700
-  }}>{children}</span>
-);
-
-const TeamChip = ({ r }) => (
-  <div className="team-chip">
-    <span className="team-name">{r?.equipo?.nombre || r?.equipoNombre || "TBD"}</span>
-    <span className="team-meta">{r?.grupo ? `Grupo ${r.grupo}` : ""}{typeof r?.posicion === 'number' ? ` · ${r.posicion}º` : ""}</span>
-  </div>
-);
-
-const MatchCard = ({ title, a, b, onSetWinner }) => {
-  const [gA, setGA] = useState(0);
-  const [gB, setGB] = useState(0);
-  const winner = gA > gB ? a : gB > gA ? b : null;
+const EquipoLogo = ({ equipo, size = 56 }) => {
+  const hasLogo = Boolean(equipo?.logo);
+  const logoSrc = hasLogo ? `${API_BASE}${equipo.logo}` : null;
   return (
-    <motion.div className="glass-card" initial={{opacity:0,y:10}} animate={{opacity:1,y:0}}>
-      <div className="match-header">
-        <h4>{title}</h4>
-        <Badge>90' + SO</Badge>
-      </div>
-      <div className="match-body">
-        <div className="match-row">
-          <TeamChip r={a} />
-          <input type="number" min={0} value={gA} onChange={e=>setGA(parseInt(e.target.value||0))} />
+    <div className="logo-shell" style={{ width: size, height: size }}>
+      {hasLogo ? (
+        <img
+          src={logoSrc}
+          alt={equipo?.nombre || 'Equipo'}
+          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+          loading="lazy"
+        />
+      ) : (
+        <span className="logo-initials">{initials(equipo?.nombre || '')}</span>
+      )}
+    </div>
+  );
+};
+
+const PartidoFaseFinal = ({ partido, index }) => {
+  const { equipoLocal, equipoVisitante, hora, cancha, estado, golesLocal, golesVisitante, descripcion } = partido;
+  const mostrarResultado = estado === 'finalizado' || estado === 'en-curso';
+  const tieneGoles = golesLocal !== null && golesVisitante !== null;
+
+  // Si no tiene equipos asignados, mostrar descripción
+  const equipoLocalNombre = equipoLocal?.nombre || descripcion?.split(' vs ')[0] || 'TBD';
+  const equipoVisitanteNombre = equipoVisitante?.nombre || descripcion?.split(' vs ')[1] || 'TBD';
+
+  return (
+    <motion.div
+      className="partido-card-ff"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.02 * index }}
+    >
+      {/* Header */}
+      <div className="partido-header-ff">
+        <div className="partido-info-top-ff">
+          {hora && <span className="partido-hora-ff">{hora}</span>}
+          {cancha && <span className="partido-cancha-ff">Cancha {cancha}</span>}
         </div>
-        <div className="match-row">
-          <TeamChip r={b} />
-          <input type="number" min={0} value={gB} onChange={e=>setGB(parseInt(e.target.value||0))} />
-        </div>
+        <EstadoBadge estado={estado} />
       </div>
-      <div className="match-footer">
-        <button className="btn btn-small" onClick={()=> onSetWinner?.(winner)} disabled={!winner}>Confirmar ganador</button>
+
+      {/* Descripción del partido */}
+      {descripcion && (
+        <div className="partido-descripcion">
+          <span>{descripcion}</span>
+        </div>
+      )}
+
+      {/* Enfrentamiento */}
+      <div className="partido-enfrentamiento-ff">
+        {/* Equipo Local */}
+        <div className="equipo-ff">
+          {equipoLocal ? (
+            <EquipoLogo equipo={equipoLocal} size={48} />
+          ) : (
+            <div className="logo-placeholder">?</div>
+          )}
+          <span className="equipo-nombre-ff">{equipoLocalNombre}</span>
+        </div>
+
+        {/* VS / Resultado */}
+        <div className="resultado-center-ff">
+          {mostrarResultado && tieneGoles ? (
+            <div className="resultado-ff">
+              <span className="goles-ff">{golesLocal}</span>
+              <span className="sep-ff">-</span>
+              <span className="goles-ff">{golesVisitante}</span>
+            </div>
+          ) : (
+            <span className="vs-pill-ff">VS</span>
+          )}
+        </div>
+
+        {/* Equipo Visitante */}
+        <div className="equipo-ff">
+          {equipoVisitante ? (
+            <EquipoLogo equipo={equipoVisitante} size={48} />
+          ) : (
+            <div className="logo-placeholder">?</div>
+          )}
+          <span className="equipo-nombre-ff">{equipoVisitanteNombre}</span>
+        </div>
       </div>
     </motion.div>
   );
 };
 
-// ================= Página principal =================
-export default function FaseFinal() {
-  const [pos, setPos] = useState(null);
-  const [loading, setLoading] = useState(false);
+const FaseFinal = () => {
+  const [fechas, setFechas] = useState([]);
+  const [fechaSel, setFechaSel] = useState(null);
+  const [partidos, setPartidos] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Cargar fechas
   useEffect(() => {
     (async () => {
       try {
-        setLoading(true);
-        const res = await apiService.getPosiciones();
-        setPos(res.data);
-      } catch (e) {
-        console.error(e);
-        setError("No se pudo cargar posiciones");
-      } finally {
-        setLoading(false);
+        const res = await apiService.getFechas();
+        const fs = res.data || [];
+        // Filtrar solo fechas de fase final (10-14)
+        const fechasFaseFinal = fs.filter(f => f.id >= 10 && f.id <= 14);
+        setFechas(fechasFaseFinal);
+        if (fechasFaseFinal.length) setFechaSel(fechasFaseFinal[0].id);
+      } catch {
+        setError('No se pudieron cargar las fechas');
       }
     })();
   }, []);
 
-  const tablas = useMemo(() => {
-    if (!pos) return null;
-    const A = [...(pos.grupoA || [])].sort(compareStandings);
-    const B = [...(pos.grupoB || [])].sort(compareStandings);
-    const C = [...(pos.grupoC || [])].sort(compareStandings);
-    return { A, B, C };
-  }, [pos]);
+  // Cargar partidos de la fecha seleccionada
+  useEffect(() => {
+    if (!fechaSel) return;
+    (async () => {
+      try {
+        setLoading(true);
+        const res = await apiService.getPartidosPorFecha(fechaSel);
+        const data = res.data;
+        setPartidos(data?.partidos || []);
+        setError(null);
+      } catch {
+        setError('No se pudieron cargar los partidos');
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [fechaSel]);
 
-  const repechaje = useMemo(() => {
-    if (!tablas) return null;
-    const { A, B, C } = tablas;
-    const quintos = [A[4], B[4], C[4]].filter(Boolean);
-    const sextos = [A[5], B[5], C[5]].filter(Boolean);
-    const septimos = [A[6], B[6], C[6]].filter(Boolean);
+  // Obtener el nombre de la fase actual
+  const faseActual = useMemo(() => {
+    const fecha = fechas.find(f => f.id === fechaSel);
+    return fecha?.descripcion || '';
+  }, [fechas, fechaSel]);
 
-    const [mejor7, segundo7] = pickMejores(septimos, 2);
-
-    return [
-      { code: "R1", a: quintos[0], b: mejor7, titulo: "5º A vs Mejor 7º" },
-      { code: "R2", a: quintos[1], b: segundo7, titulo: "5º B vs 2º Mejor 7º" },
-      { code: "R3", a: quintos[2], b: sextos[0], titulo: "5º C vs 6º A" },
-      { code: "R4", a: sextos[1], b: sextos[2], titulo: "6º B vs 6º C" },
-    ];
-  }, [tablas]);
-
-  const clasificadosDirectos = useMemo(() => {
-    if (!tablas) return [];
-    const tops = [
-      ...tablas.A.slice(0, 4).map(r => ({ ...r, seedTag: "A" })),
-      ...tablas.B.slice(0, 4).map(r => ({ ...r, seedTag: "B" })),
-      ...tablas.C.slice(0, 4).map(r => ({ ...r, seedTag: "C" })),
-    ];
-    // Orden estándar 1ros > 2dos > 3ros > 4tos
-    const buckets = [0,1,2,3].map(idx => [tablas.A[idx], tablas.B[idx], tablas.C[idx]].filter(Boolean));
-    const ordenados = [
-      ...buckets[0].sort(compareStandings),
-      ...buckets[1].sort(compareStandings),
-      ...buckets[2].sort(compareStandings),
-      ...buckets[3].sort(compareStandings),
-    ];
-    return ordenados;
-  }, [tablas]);
-
-  // Estado mínimo para winners (solo UI local por ahora)
-  const [ganadoresRepe, setGanadoresRepe] = useState({}); // { R1: row, R2: row, ... }
-
-  const octavos = useMemo(() => {
-    if (!repechaje || clasificadosDirectos.length !== 12) return [];
-    const repe = ["R1","R2","R3","R4"].map(code => ganadoresRepe[code] || { equipoNombre: code });
-    const seeds = [...clasificadosDirectos, ...repe]; // 16
-    // Emparejar 1-16, 2-15, ...
-    const pairs = [];
-    for (let i = 0; i < 8; i++) {
-      pairs.push({ title: `OF${i+1}`, a: seeds[i], b: seeds[15 - i] });
-    }
-    return pairs;
-  }, [clasificadosDirectos, repechaje, ganadoresRepe]);
-
-  if (loading) {
-    return (
-      <div className="loading">
-        <div className="loading-spinner" />
-        <h2>Cargando Fase Final...</h2>
-      </div>
-    );
-  }
-
-  if (error) return <div className="error">{error}</div>;
+  // Obtener el grupo/fase de los partidos
+  const grupoFase = useMemo(() => {
+    if (partidos.length === 0) return '';
+    return partidos[0]?.grupo || '';
+  }, [partidos]);
 
   return (
     <div className="page">
-      <h1 className="page-title">🏁 Fase Final</h1>
-
-      {/* Repechaje */}
-      <section className="glass-card" style={{marginBottom:"1.5rem"}}>
-        <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", gap:16, flexWrap:"wrap"}}>
-          <h2 className="section-title" style={{margin:0}}>Repechaje (4 llaves)</h2>
-          <Badge>Según Reglamento</Badge>
+      {/* Header */}
+      <div className="fase-final-header">
+        <Trophy size={40} className="trophy-icon" />
+        <div>
+          <h1 className="page-title">🏆 Fase Final</h1>
+          <p className="subtitle">Copa Maracaná 14ED • Eliminación Directa</p>
         </div>
-        <div className="grid-container grid-2" style={{marginTop: "1rem"}}>
-          {repechaje?.map((m) => (
-            <MatchCard
-              key={m.code}
-              title={`${m.code} · ${m.titulo}`}
-              a={m.a}
-              b={m.b}
-              onSetWinner={(w)=> setGanadoresRepe(prev=> ({...prev, [m.code]: w}))}
-            />
+      </div>
+
+      {/* Tabs Fechas */}
+      <div className="glass-card tabs-fechas-ff">
+        {fechas.map(f => {
+          const active = fechaSel === f.id;
+          return (
+            <button
+              key={f.id}
+              className={`btn-fecha-ff ${active ? 'active' : ''}`}
+              onClick={() => setFechaSel(f.id)}
+              aria-pressed={active}
+            >
+              <span className="fecha-numero">{f.descripcion}</span>
+              {f.fecha && <span className="fecha-date">{f.fecha}</span>}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Título de la fase */}
+      {faseActual && (
+        <div className="fase-titulo">
+          <h2>{faseActual}</h2>
+          <span className="partidos-count-ff">{partidos.length} partidos</span>
+        </div>
+      )}
+
+      {loading && (
+        <div className="loading">
+          <div className="loading-spinner" />
+          <h2>Cargando partidos...</h2>
+        </div>
+      )}
+
+      {error && <div className="error">{error}</div>}
+
+      {/* Partidos */}
+      {!loading && !error && partidos.length > 0 && (
+        <div className="partidos-fase-final">
+          {partidos.map((partido, idx) => (
+            <PartidoFaseFinal key={partido.id} partido={partido} index={idx} />
           ))}
         </div>
-      </section>
+      )}
 
-      {/* Octavos */}
-      <section className="glass-card" style={{marginBottom:"1.5rem"}}>
-        <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", gap:16, flexWrap:"wrap"}}>
-          <h2 className="section-title" style={{margin:0}}>Octavos de Final (16 equipos)</h2>
-          <Badge>Seeds 1 vs 16, 2 vs 15, ...</Badge>
+      {!loading && !error && partidos.length === 0 && (
+        <div className="no-partidos-ff">
+          <p>No hay partidos programados para esta fecha</p>
         </div>
-        {octavos?.length === 0 ? (
-          <p className="text-center" style={{opacity:.8}}>Primero confirma los ganadores del Repechaje</p>
-        ) : (
-          <div className="grid-container grid-2" style={{marginTop: "1rem"}}>
-            {octavos.map(m => (
-              <MatchCard key={m.title} title={m.title} a={m.a} b={m.b} onSetWinner={()=>{}} />
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* TODO: Cuartos, Semis y Final → se alimentan con ganadores de Octavos */}
-      <section className="glass-card">
-        <h2 className="section-title">Siguientes rondas</h2>
-        <ul style={{opacity:.85, lineHeight:1.8}}>
-          <li>Cuartos de final: CF1–CF4</li>
-          <li>Semifinales: SE1–SE2</li>
-          <li>Final</li>
-        </ul>
-        <p style={{opacity:.75, marginTop:12}}>Estas fases se pueden encadenar fácilmente leyendo los ganadores de cada <em>MatchCard</em>.</p>
-      </section>
+      )}
 
       <style jsx>{`
-      .team-chip{display:flex;flex-direction:column;gap:2px}
-      .team-name{font-weight:700}
-      .team-meta{opacity:.75;font-size:.85rem}
-      .match-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem}
-      .match-body{display:flex;flex-direction:column;gap:.5rem}
-      .match-row{display:grid;grid-template-columns:1fr 80px;align-items:center;gap:12px}
-      .match-footer{margin-top:.75rem;display:flex;justify-content:flex-end}
-      input[type='number']{width:100%;background:transparent;color:var(--text-color);border:1px solid var(--border-color);border-radius:8px;padding:6px 10px}
+        .fase-final-header {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+          margin-bottom: 2rem;
+        }
+
+        .trophy-icon {
+          color: var(--primary-color);
+        }
+
+        .page-title {
+          margin: 0;
+          font-size: 2.5rem;
+          background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+          margin: 0.5rem 0 0;
+          opacity: 0.7;
+          font-size: 1rem;
+        }
+
+        /* Tabs de fechas */
+        .tabs-fechas-ff {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1rem;
+          justify-content: center;
+          margin-bottom: 2rem;
+          padding: 1.5rem;
+        }
+
+        .btn-fecha-ff {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.25rem;
+          padding: 1rem 1.5rem;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid var(--border-color);
+          border-radius: 12px;
+          cursor: pointer;
+          transition: all 0.3s;
+          color: var(--text-color);
+        }
+
+        .btn-fecha-ff:hover {
+          background: rgba(255, 255, 255, 0.08);
+          transform: translateY(-2px);
+        }
+
+        .btn-fecha-ff.active {
+          background: var(--primary-color);
+          border-color: var(--primary-color);
+          color: #000;
+        }
+
+        .fecha-numero {
+          font-weight: 700;
+          font-size: 1rem;
+        }
+
+        .fecha-date {
+          font-size: 0.85rem;
+          opacity: 0.8;
+        }
+
+        /* Título de la fase */
+        .fase-titulo {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background: var(--card-bg-color);
+          border: 1px solid var(--border-color);
+          border-radius: 12px;
+          padding: 1.5rem;
+          margin-bottom: 2rem;
+        }
+
+        .fase-titulo h2 {
+          margin: 0;
+          font-size: 1.75rem;
+          color: var(--primary-color);
+          font-weight: 700;
+        }
+
+        .partidos-count-ff {
+          background: rgba(0, 221, 76, 0.15);
+          color: var(--primary-color);
+          padding: 0.5rem 1rem;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          font-weight: 600;
+        }
+
+        /* Grid de partidos */
+        .partidos-fase-final {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+          gap: 1.5rem;
+          margin-bottom: 2rem;
+        }
+
+        /* Card de partido */
+        .partido-card-ff {
+          background: var(--card-bg-color);
+          border: 1px solid var(--border-color);
+          border-radius: 12px;
+          padding: 1.25rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .partido-card-ff:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Header del partido */
+        .partido-header-ff {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-bottom: 0.75rem;
+          border-bottom: 1px solid var(--border-color);
+        }
+
+        .partido-info-top-ff {
+          display: flex;
+          gap: 1rem;
+          align-items: center;
+        }
+
+        .partido-hora-ff {
+          font-weight: 800;
+          color: var(--primary-color);
+          font-size: 1rem;
+        }
+
+        .partido-cancha-ff {
+          font-size: 0.85rem;
+          color: rgba(255, 255, 255, 0.8);
+          background: rgba(255, 255, 255, 0.08);
+          padding: 0.25rem 0.75rem;
+          border-radius: 8px;
+        }
+
+        /* Descripción */
+        .partido-descripcion {
+          text-align: center;
+          font-size: 0.85rem;
+          color: rgba(255, 255, 255, 0.7);
+          font-style: italic;
+          padding: 0.5rem;
+          background: rgba(255, 255, 255, 0.03);
+          border-radius: 8px;
+        }
+
+        /* Enfrentamiento */
+        .partido-enfrentamiento-ff {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 1rem;
+          padding: 1rem 0;
+        }
+
+        .equipo-ff {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.75rem;
+          flex: 1;
+        }
+
+        .equipo-nombre-ff {
+          font-weight: 600;
+          font-size: 0.9rem;
+          text-align: center;
+          line-height: 1.2;
+          color: var(--text-color);
+        }
+
+        /* Logo placeholder */
+        .logo-placeholder {
+          width: 48px;
+          height: 48px;
+          border-radius: 8px;
+          background: linear-gradient(135deg, rgba(0, 221, 76, 0.12), rgba(0, 102, 204, 0.12));
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          display: grid;
+          place-items: center;
+          font-size: 1.5rem;
+          font-weight: 800;
+          color: rgba(255, 255, 255, 0.5);
+        }
+
+        .logo-shell {
+          display: grid;
+          place-items: center;
+          border-radius: 8px;
+          background: linear-gradient(135deg, rgba(0, 221, 76, 0.12), rgba(0, 102, 204, 0.12));
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          overflow: hidden;
+        }
+
+        .logo-initials {
+          font-weight: 800;
+          font-size: 12px;
+          letter-spacing: 0.5px;
+          color: var(--text-color);
+        }
+
+        /* Resultado central */
+        .resultado-center-ff {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 80px;
+        }
+
+        .vs-pill-ff {
+          font-size: 1.1rem;
+          font-weight: 800;
+          color: rgba(255, 255, 255, 0.75);
+          background: rgba(255, 255, 255, 0.12);
+          padding: 0.5rem 1rem;
+          border-radius: 8px;
+        }
+
+        .resultado-ff {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          background: rgba(0, 221, 76, 0.12);
+          padding: 0.5rem 1rem;
+          border-radius: 8px;
+          border: 1px solid rgba(0, 221, 76, 0.35);
+        }
+
+        .goles-ff {
+          font-size: 1.5rem;
+          font-weight: 800;
+          color: var(--primary-color);
+          min-width: 1.5rem;
+          text-align: center;
+        }
+
+        .sep-ff {
+          color: rgba(255, 255, 255, 0.7);
+          font-weight: 700;
+        }
+
+        /* Estado badge */
+        .estado-badge {
+          padding: 0.375rem 0.75rem;
+          border-radius: 8px;
+          font-size: 0.8rem;
+          font-weight: 600;
+        }
+
+        .estado-finalizado {
+          background: rgba(0, 221, 76, 0.15);
+          color: var(--primary-color);
+          border: 1px solid rgba(0, 221, 76, 0.35);
+        }
+
+        .estado-en-curso {
+          background: rgba(255, 165, 0, 0.15);
+          color: #ffa500;
+          border: 1px solid rgba(255, 165, 0, 0.35);
+        }
+
+        .estado-programado {
+          background: rgba(0, 102, 204, 0.15);
+          color: var(--secondary-color);
+          border: 1px solid rgba(0, 102, 204, 0.35);
+        }
+
+        /* No partidos */
+        .no-partidos-ff {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px dashed var(--border-color);
+          border-radius: 12px;
+          padding: 3rem;
+          text-align: center;
+          color: rgba(255, 255, 255, 0.6);
+          font-style: italic;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+          .fase-final-header {
+            flex-direction: column;
+            text-align: center;
+          }
+
+          .page-title {
+            font-size: 2rem;
+          }
+
+          .partidos-fase-final {
+            grid-template-columns: 1fr;
+          }
+
+          .fase-titulo {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+          }
+
+          .tabs-fechas-ff {
+            flex-direction: column;
+          }
+
+          .btn-fecha-ff {
+            width: 100%;
+          }
+        }
       `}</style>
     </div>
   );
-}
+};
 
-/*
- * 🔧 Cómo integrarlo:
- * 1) Guardar este archivo como src/pages/FaseFinal.jsx
- * 2) Agregar la ruta en src/App.jsx:
- *    import FaseFinal from './pages/FaseFinal';
- *    ...
- *    <Route path="/finales" element={<FaseFinal />} />
- * 3) (Opcional) Agregar un link en Header.jsx al path "/finales".
- *
- * 🧩 Futuras mejoras:
- * - Persistir resultados de cada llave con apiService (endpoints /api/fase-final/*)
- * - Bloquear cruces de mismo grupo en octavos si el reglamento lo exige.
- * - Mostrar horas/canchas y árbitros; activar Shootouts si hay empate.
- */
+export default FaseFinal;
