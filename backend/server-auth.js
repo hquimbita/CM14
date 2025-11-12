@@ -789,8 +789,8 @@ if (pathname.startsWith('/api/fase-final')) {
           // ✅ MAPEO CORRECTO
 const mapeoRepechajeOctavos = {
   118: { partidoOctavos: 124, esVisitante: true },  // R1 (FC DESIRE) → OF3
-  119: { partidoOctavos: 126, esVisitante: true },  // R2 (VELPACK) → OF5
-  120: { partidoOctavos: 128, esVisitante: true },  // R3 (AUTONIC) → OF7
+  119: { partidoOctavos: 128, esVisitante: true },  // R2 (VELPACK) → OF5
+  120: { partidoOctavos: 126, esVisitante: true },  // R3 (AUTONIC) → OF7
   121: { partidoOctavos: 122, esVisitante: true }   // R4 (GALACTICOS) → OF1
 };
           const mapeo = mapeoRepechajeOctavos[partidoActualizado.id];
