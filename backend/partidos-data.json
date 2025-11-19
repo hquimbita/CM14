@@ -1,6 +1,6 @@
 {
   "partidos": [
-    {
+ {
       "id": 1,
       "fechaId": 1,
       "hora": "17:00",
@@ -10,7 +10,21 @@
       "cancha": "NORTE",
       "golesLocal": 1,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 5,
+        "nombre": "THE FAMILY SPORTING CLUB",
+        "grupo": "A",
+        "logo": "/uploads/logos/a5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 6,
+        "nombre": "FC DESIRE",
+        "grupo": "A",
+        "logo": "/uploads/logos/a6.webp",
+        "activo": true
+      }
     },
     {
       "id": 2,
@@ -22,7 +36,21 @@
       "cancha": "SUR",
       "golesLocal": 1,
       "golesVisitante": 10,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 12,
+        "nombre": "ESPARTANOS FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b3.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 11,
+        "nombre": "CLUB LB",
+        "grupo": "B",
+        "logo": "/uploads/logos/b2.webp",
+        "activo": true
+      }
     },
     {
       "id": 3,
@@ -34,7 +62,21 @@
       "cancha": "NORTE",
       "golesLocal": 8,
       "golesVisitante": 2,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 19,
+        "nombre": "BAMBINOS FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 20,
+        "nombre": "SOCXER FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c2.webp",
+        "activo": true
+      }
     },
     {
       "id": 4,
@@ -46,7 +88,21 @@
       "cancha": "SUR",
       "golesLocal": 0,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 23,
+        "nombre": "CEBOLLITAS FOOTBALL CLUB",
+        "grupo": "C",
+        "logo": "/uploads/logos/c5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 25,
+        "nombre": "AD. GUAGRACEO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c7.webp",
+        "activo": true
+      }
     },
     {
       "id": 5,
@@ -58,7 +114,21 @@
       "cancha": "NORTE",
       "golesLocal": 3,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 1,
+        "nombre": "COMPA JR.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 2,
+        "nombre": "LOS LAGARTOS",
+        "grupo": "A",
+        "logo": "/uploads/logos/a2.webp",
+        "activo": true
+      }
     },
     {
       "id": 6,
@@ -70,7 +140,21 @@
       "cancha": "SUR",
       "golesLocal": 12,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 24,
+        "nombre": "11 DE ORO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c6.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 21,
+        "nombre": "NEW GENERATION",
+        "grupo": "C",
+        "logo": "/uploads/logos/c3.webp",
+        "activo": true
+      }
     },
     {
       "id": 7,
@@ -82,7 +166,21 @@
       "cancha": "NORTE",
       "golesLocal": 5,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 14,
+        "nombre": "IRRESPONSABLESFC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 15,
+        "nombre": "ALLIEN BIRDS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b6.webp",
+        "activo": true
+      }
     },
     {
       "id": 8,
@@ -94,7 +192,21 @@
       "cancha": "SUR",
       "golesLocal": 5,
       "golesVisitante": 5,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 26,
+        "nombre": "AUTONIC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c8.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 27,
+        "nombre": "LOS DE SIEMPRE",
+        "grupo": "C",
+        "logo": "/uploads/logos/c9.webp",
+        "activo": true
+      }
     },
     {
       "id": 9,
@@ -106,7 +218,21 @@
       "cancha": "NORTE",
       "golesLocal": 6,
       "golesVisitante": 7,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 3,
+        "nombre": "ALMA MARCE FC.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a3.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 4,
+        "nombre": "REAL VENEZUELA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a4.webp",
+        "activo": true
+      }
     },
     {
       "id": 10,
@@ -118,7 +244,21 @@
       "cancha": "SUR",
       "golesLocal": 2,
       "golesVisitante": 5,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 10,
+        "nombre": "SPORT TU ÑAÑA",
+        "grupo": "B",
+        "logo": "/uploads/logos/b1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 13,
+        "nombre": "REALCOHOLICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b4.webp",
+        "activo": true
+      }
     },
     {
       "id": 11,
@@ -130,7 +270,21 @@
       "cancha": "NORTE",
       "golesLocal": 3,
       "golesVisitante": 9,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 8,
+        "nombre": "NEXT FC.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a8.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 9,
+        "nombre": "CHELSEA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a9.webp",
+        "activo": true
+      }
     },
     {
       "id": 12,
@@ -142,7 +296,21 @@
       "cancha": "SUR",
       "golesLocal": 1,
       "golesVisitante": 7,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 16,
+        "nombre": "MANABA JIRETH FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 17,
+        "nombre": "LEONES FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b8.webp",
+        "activo": true
+      }
     },
     {
       "id": 13,
@@ -154,7 +322,21 @@
       "cancha": "NORTE",
       "golesLocal": 4,
       "golesVisitante": 16,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 22,
+        "nombre": "ALFHA",
+        "grupo": "C",
+        "logo": "/uploads/logos/c4.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 28,
+        "nombre": "VELPACK A& F",
+        "grupo": "C",
+        "logo": "/uploads/logos/c10.webp",
+        "activo": true
+      }
     },
     {
       "id": 14,
@@ -166,7 +348,21 @@
       "cancha": "NORTE",
       "golesLocal": 11,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 1,
+        "nombre": "COMPA JR.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 8,
+        "nombre": "NEXT FC.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a8.webp",
+        "activo": true
+      }
     },
     {
       "id": 15,
@@ -178,7 +374,21 @@
       "cancha": "NORTE",
       "golesLocal": 7,
       "golesVisitante": 2,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 9,
+        "nombre": "CHELSEA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a9.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 3,
+        "nombre": "ALMA MARCE FC.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a3.webp",
+        "activo": true
+      }
     },
     {
       "id": 16,
@@ -190,7 +400,21 @@
       "cancha": "NORTE",
       "golesLocal": 4,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 4,
+        "nombre": "REAL VENEZUELA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a4.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 2,
+        "nombre": "LOS LAGARTOS",
+        "grupo": "A",
+        "logo": "/uploads/logos/a2.webp",
+        "activo": true
+      }
     },
     {
       "id": 17,
@@ -202,7 +426,21 @@
       "cancha": "NORTE",
       "golesLocal": 4,
       "golesVisitante": 6,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 5,
+        "nombre": "THE FAMILY SPORTING CLUB",
+        "grupo": "A",
+        "logo": "/uploads/logos/a5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 7,
+        "nombre": "MILLENIUM JR",
+        "grupo": "A",
+        "logo": "/uploads/logos/a7.webp",
+        "activo": true
+      }
     },
     {
       "id": 18,
@@ -214,7 +452,21 @@
       "cancha": "SUR",
       "golesLocal": 10,
       "golesVisitante": 2,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 10,
+        "nombre": "SPORT TU ÑAÑA",
+        "grupo": "B",
+        "logo": "/uploads/logos/b1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 16,
+        "nombre": "MANABA JIRETH FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b7.webp",
+        "activo": true
+      }
     },
     {
       "id": 19,
@@ -226,7 +478,21 @@
       "cancha": "SUR",
       "golesLocal": 3,
       "golesVisitante": 7,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 17,
+        "nombre": "LEONES FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b8.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 14,
+        "nombre": "IRRESPONSABLESFC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b5.webp",
+        "activo": true
+      }
     },
     {
       "id": 20,
@@ -238,7 +504,21 @@
       "cancha": "SUR",
       "golesLocal": 4,
       "golesVisitante": 8,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 15,
+        "nombre": "ALLIEN BIRDS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b6.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 13,
+        "nombre": "REALCOHOLICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b4.webp",
+        "activo": true
+      }
     },
     {
       "id": 21,
@@ -250,7 +530,21 @@
       "cancha": "NORTE",
       "golesLocal": 2,
       "golesVisitante": 8,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 11,
+        "nombre": "CLUB LB",
+        "grupo": "B",
+        "logo": "/uploads/logos/b2.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 18,
+        "nombre": "GALACTICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b9.webp",
+        "activo": true
+      }
     },
     {
       "id": 22,
@@ -262,7 +556,21 @@
       "cancha": "SUR",
       "golesLocal": 3,
       "golesVisitante": 0,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 19,
+        "nombre": "BAMBINOS FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 27,
+        "nombre": "LOS DE SIEMPRE",
+        "grupo": "C",
+        "logo": "/uploads/logos/c9.webp",
+        "activo": true
+      }
     },
     {
       "id": 23,
@@ -274,7 +582,21 @@
       "cancha": "NORTE",
       "golesLocal": 1,
       "golesVisitante": 6,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 20,
+        "nombre": "SOCXER FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c2.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 26,
+        "nombre": "AUTONIC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c8.webp",
+        "activo": true
+      }
     },
     {
       "id": 24,
@@ -286,7 +608,21 @@
       "cancha": "SUR",
       "golesLocal": 1,
       "golesVisitante": 10,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 28,
+        "nombre": "VELPACK A& F",
+        "grupo": "C",
+        "logo": "/uploads/logos/c10.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 24,
+        "nombre": "11 DE ORO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c6.webp",
+        "activo": true
+      }
     },
     {
       "id": 25,
@@ -298,7 +634,21 @@
       "cancha": "NORTE",
       "golesLocal": 4,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 21,
+        "nombre": "NEW GENERATION",
+        "grupo": "C",
+        "logo": "/uploads/logos/c3.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 23,
+        "nombre": "CEBOLLITAS FOOTBALL CLUB",
+        "grupo": "C",
+        "logo": "/uploads/logos/c5.webp",
+        "activo": true
+      }
     },
     {
       "id": 26,
@@ -310,7 +660,21 @@
       "cancha": "SUR",
       "golesLocal": 4,
       "golesVisitante": 1,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 25,
+        "nombre": "AD. GUAGRACEO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 22,
+        "nombre": "ALFHA",
+        "grupo": "C",
+        "logo": "/uploads/logos/c4.webp",
+        "activo": true
+      }
     },
     {
       "id": 27,
@@ -322,7 +686,21 @@
       "cancha": "NORTE",
       "golesLocal": 4,
       "golesVisitante": 1,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 1,
+        "nombre": "COMPA JR.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 9,
+        "nombre": "CHELSEA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a9.webp",
+        "activo": true
+      }
     },
     {
       "id": 28,
@@ -334,7 +712,21 @@
       "cancha": "NORTE",
       "golesLocal": 2,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 8,
+        "nombre": "NEXT FC.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a8.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 4,
+        "nombre": "REAL VENEZUELA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a4.webp",
+        "activo": true
+      }
     },
     {
       "id": 29,
@@ -346,7 +738,21 @@
       "cancha": "NORTE",
       "golesLocal": 6,
       "golesVisitante": 10,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 3,
+        "nombre": "ALMA MARCE FC.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a3.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 2,
+        "nombre": "LOS LAGARTOS",
+        "grupo": "A",
+        "logo": "/uploads/logos/a2.webp",
+        "activo": true
+      }
     },
     {
       "id": 30,
@@ -358,7 +764,21 @@
       "cancha": "SUR",
       "golesLocal": 7,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 7,
+        "nombre": "MILLENIUM JR",
+        "grupo": "A",
+        "logo": "/uploads/logos/a7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 6,
+        "nombre": "FC DESIRE",
+        "grupo": "A",
+        "logo": "/uploads/logos/a6.webp",
+        "activo": true
+      }
     },
     {
       "id": 31,
@@ -370,7 +790,21 @@
       "cancha": "SUR",
       "golesLocal": 7,
       "golesVisitante": 5,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 10,
+        "nombre": "SPORT TU ÑAÑA",
+        "grupo": "B",
+        "logo": "/uploads/logos/b1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 17,
+        "nombre": "LEONES FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b8.webp",
+        "activo": true
+      }
     },
     {
       "id": 32,
@@ -382,7 +816,21 @@
       "cancha": "NORTE",
       "golesLocal": 0,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 16,
+        "nombre": "MANABA JIRETH FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 15,
+        "nombre": "ALLIEN BIRDS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b6.webp",
+        "activo": true
+      }
     },
     {
       "id": 33,
@@ -394,7 +842,21 @@
       "cancha": "NORTE",
       "golesLocal": 2,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 14,
+        "nombre": "IRRESPONSABLESFC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 13,
+        "nombre": "REALCOHOLICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b4.webp",
+        "activo": true
+      }
     },
     {
       "id": 34,
@@ -406,7 +868,21 @@
       "cancha": "SUR",
       "golesLocal": 0,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 18,
+        "nombre": "GALACTICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b9.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 12,
+        "nombre": "ESPARTANOS FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b3.webp",
+        "activo": true
+      }
     },
     {
       "id": 35,
@@ -418,7 +894,21 @@
       "cancha": "SUR",
       "golesLocal": 12,
       "golesVisitante": 2,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 19,
+        "nombre": "BAMBINOS FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 26,
+        "nombre": "AUTONIC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c8.webp",
+        "activo": true
+      }
     },
     {
       "id": 36,
@@ -430,7 +920,21 @@
       "cancha": "NORTE",
       "golesLocal": 6,
       "golesVisitante": 1,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 27,
+        "nombre": "LOS DE SIEMPRE",
+        "grupo": "C",
+        "logo": "/uploads/logos/c9.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 28,
+        "nombre": "VELPACK A& F",
+        "grupo": "C",
+        "logo": "/uploads/logos/c10.webp",
+        "activo": true
+      }
     },
     {
       "id": 37,
@@ -442,7 +946,21 @@
       "cancha": "NORTE",
       "golesLocal": 2,
       "golesVisitante": 5,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 20,
+        "nombre": "SOCXER FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c2.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 24,
+        "nombre": "11 DE ORO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c6.webp",
+        "activo": true
+      }
     },
     {
       "id": 38,
@@ -454,7 +972,21 @@
       "cancha": "SUR",
       "golesLocal": 13,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 23,
+        "nombre": "CEBOLLITAS FOOTBALL CLUB",
+        "grupo": "C",
+        "logo": "/uploads/logos/c5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 22,
+        "nombre": "ALFHA",
+        "grupo": "C",
+        "logo": "/uploads/logos/c4.webp",
+        "activo": true
+      }
     },
     {
       "id": 39,
@@ -466,7 +998,21 @@
       "cancha": "SUR",
       "golesLocal": 3,
       "golesVisitante": 7,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 21,
+        "nombre": "NEW GENERATION",
+        "grupo": "C",
+        "logo": "/uploads/logos/c3.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 25,
+        "nombre": "AD. GUAGRACEO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c7.webp",
+        "activo": true
+      }
     },
     {
       "id": 40,
@@ -478,7 +1024,21 @@
       "cancha": "NORTE",
       "golesLocal": 7,
       "golesVisitante": 12,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 5,
+        "nombre": "THE FAMILY SPORTING CLUB",
+        "grupo": "A",
+        "logo": "/uploads/logos/a5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 9,
+        "nombre": "CHELSEA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a9.webp",
+        "activo": true
+      }
     },
     {
       "id": 41,
@@ -490,7 +1050,21 @@
       "cancha": "SUR",
       "golesLocal": 5,
       "golesVisitante": 2,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 7,
+        "nombre": "MILLENIUM JR",
+        "grupo": "A",
+        "logo": "/uploads/logos/a7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 2,
+        "nombre": "LOS LAGARTOS",
+        "grupo": "A",
+        "logo": "/uploads/logos/a2.webp",
+        "activo": true
+      }
     },
     {
       "id": 42,
@@ -502,7 +1076,21 @@
       "cancha": "NORTE",
       "golesLocal": 9,
       "golesVisitante": 6,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 4,
+        "nombre": "REAL VENEZUELA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a4.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 6,
+        "nombre": "FC DESIRE",
+        "grupo": "A",
+        "logo": "/uploads/logos/a6.webp",
+        "activo": true
+      }
     },
     {
       "id": 43,
@@ -514,7 +1102,21 @@
       "cancha": "NORTE",
       "golesLocal": 14,
       "golesVisitante": 2,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 8,
+        "nombre": "NEXT FC.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a8.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 3,
+        "nombre": "ALMA MARCE FC.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a3.webp",
+        "activo": true
+      }
     },
     {
       "id": 44,
@@ -526,7 +1128,21 @@
       "cancha": "SUR",
       "golesLocal": 3,
       "golesVisitante": 6,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 12,
+        "nombre": "ESPARTANOS FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b3.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 10,
+        "nombre": "SPORT TU ÑAÑA",
+        "grupo": "B",
+        "logo": "/uploads/logos/b1.webp",
+        "activo": true
+      }
     },
     {
       "id": 45,
@@ -538,7 +1154,21 @@
       "cancha": "SUR",
       "golesLocal": 3,
       "golesVisitante": 2,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 11,
+        "nombre": "CLUB LB",
+        "grupo": "B",
+        "logo": "/uploads/logos/b2.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 15,
+        "nombre": "ALLIEN BIRDS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b6.webp",
+        "activo": true
+      }
     },
     {
       "id": 46,
@@ -550,7 +1180,21 @@
       "cancha": "SUR",
       "golesLocal": 12,
       "golesVisitante": 1,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 13,
+        "nombre": "REALCOHOLICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b4.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 16,
+        "nombre": "MANABA JIRETH FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b7.webp",
+        "activo": true
+      }
     },
     {
       "id": 47,
@@ -562,7 +1206,21 @@
       "cancha": "NORTE",
       "golesLocal": 13,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 17,
+        "nombre": "LEONES FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b8.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 18,
+        "nombre": "GALACTICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b9.webp",
+        "activo": true
+      }
     },
     {
       "id": 48,
@@ -574,7 +1232,21 @@
       "cancha": "NORTE",
       "golesLocal": 6,
       "golesVisitante": 5,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 19,
+        "nombre": "BAMBINOS FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 23,
+        "nombre": "CEBOLLITAS FOOTBALL CLUB",
+        "grupo": "C",
+        "logo": "/uploads/logos/c5.webp",
+        "activo": true
+      }
     },
     {
       "id": 49,
@@ -586,7 +1258,21 @@
       "cancha": "SUR",
       "golesLocal": 1,
       "golesVisitante": 5,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 20,
+        "nombre": "SOCXER FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c2.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 25,
+        "nombre": "AD. GUAGRACEO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c7.webp",
+        "activo": true
+      }
     },
     {
       "id": 50,
@@ -598,7 +1284,21 @@
       "cancha": "NORTE",
       "golesLocal": 6,
       "golesVisitante": 1,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 24,
+        "nombre": "11 DE ORO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c6.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 26,
+        "nombre": "AUTONIC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c8.webp",
+        "activo": true
+      }
     },
     {
       "id": 51,
@@ -610,7 +1310,21 @@
       "cancha": "NORTE",
       "golesLocal": 2,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 21,
+        "nombre": "NEW GENERATION",
+        "grupo": "C",
+        "logo": "/uploads/logos/c3.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 28,
+        "nombre": "VELPACK A& F",
+        "grupo": "C",
+        "logo": "/uploads/logos/c10.webp",
+        "activo": true
+      }
     },
     {
       "id": 52,
@@ -622,7 +1336,21 @@
       "cancha": "SUR",
       "golesLocal": 2,
       "golesVisitante": 6,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 27,
+        "nombre": "LOS DE SIEMPRE",
+        "grupo": "C",
+        "logo": "/uploads/logos/c9.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 22,
+        "nombre": "ALFHA",
+        "grupo": "C",
+        "logo": "/uploads/logos/c4.webp",
+        "activo": true
+      }
     },
     {
       "id": 53,
@@ -634,7 +1362,21 @@
       "cancha": "NORTE",
       "golesLocal": 0,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 5,
+        "nombre": "THE FAMILY SPORTING CLUB",
+        "grupo": "A",
+        "logo": "/uploads/logos/a5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 1,
+        "nombre": "COMPA JR.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a1.webp",
+        "activo": true
+      }
     },
     {
       "id": 54,
@@ -646,7 +1388,21 @@
       "cancha": "NORTE",
       "golesLocal": 4,
       "golesVisitante": 1,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 7,
+        "nombre": "MILLENIUM JR",
+        "grupo": "A",
+        "logo": "/uploads/logos/a7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 8,
+        "nombre": "NEXT FC.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a8.webp",
+        "activo": true
+      }
     },
     {
       "id": 55,
@@ -658,7 +1414,21 @@
       "cancha": "SUR",
       "golesLocal": 3,
       "golesVisitante": 7,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 9,
+        "nombre": "CHELSEA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a9.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 4,
+        "nombre": "REAL VENEZUELA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a4.webp",
+        "activo": true
+      }
     },
     {
       "id": 56,
@@ -670,7 +1440,21 @@
       "cancha": "NORTE",
       "golesLocal": 0,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 3,
+        "nombre": "ALMA MARCE FC.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a3.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 6,
+        "nombre": "FC DESIRE",
+        "grupo": "A",
+        "logo": "/uploads/logos/a6.webp",
+        "activo": true
+      }
     },
     {
       "id": 57,
@@ -682,7 +1466,21 @@
       "cancha": "NORTE",
       "golesLocal": 2,
       "golesVisitante": 10,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 12,
+        "nombre": "ESPARTANOS FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b3.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 17,
+        "nombre": "LEONES FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b8.webp",
+        "activo": true
+      }
     },
     {
       "id": 58,
@@ -694,7 +1492,21 @@
       "cancha": "SUR",
       "golesLocal": 4,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 11,
+        "nombre": "CLUB LB",
+        "grupo": "B",
+        "logo": "/uploads/logos/b2.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 16,
+        "nombre": "MANABA JIRETH FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b7.webp",
+        "activo": true
+      }
     },
     {
       "id": 59,
@@ -706,7 +1518,21 @@
       "cancha": "NORTE",
       "golesLocal": 1,
       "golesVisitante": 2,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 14,
+        "nombre": "IRRESPONSABLESFC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 10,
+        "nombre": "SPORT TU ÑAÑA",
+        "grupo": "B",
+        "logo": "/uploads/logos/b1.webp",
+        "activo": true
+      }
     },
     {
       "id": 60,
@@ -718,7 +1544,21 @@
       "cancha": "SUR",
       "golesLocal": 3,
       "golesVisitante": 0,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 13,
+        "nombre": "REALCOHOLICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b4.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 18,
+        "nombre": "GALACTICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b9.webp",
+        "activo": true
+      }
     },
     {
       "id": 61,
@@ -730,7 +1570,21 @@
       "cancha": "SUR",
       "golesLocal": 6,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 19,
+        "nombre": "BAMBINOS FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 25,
+        "nombre": "AD. GUAGRACEO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c7.webp",
+        "activo": true
+      }
     },
     {
       "id": 62,
@@ -742,7 +1596,21 @@
       "cancha": "SUR",
       "golesLocal": 2,
       "golesVisitante": 8,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 20,
+        "nombre": "SOCXER FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c2.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 23,
+        "nombre": "CEBOLLITAS FOOTBALL CLUB",
+        "grupo": "C",
+        "logo": "/uploads/logos/c5.webp",
+        "activo": true
+      }
     },
     {
       "id": 63,
@@ -754,7 +1622,21 @@
       "cancha": "NORTE",
       "golesLocal": 7,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 24,
+        "nombre": "11 DE ORO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c6.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 27,
+        "nombre": "LOS DE SIEMPRE",
+        "grupo": "C",
+        "logo": "/uploads/logos/c9.webp",
+        "activo": true
+      }
     },
     {
       "id": 64,
@@ -766,7 +1648,21 @@
       "cancha": "NORTE",
       "golesLocal": 5,
       "golesVisitante": 8,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 21,
+        "nombre": "NEW GENERATION",
+        "grupo": "C",
+        "logo": "/uploads/logos/c3.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 22,
+        "nombre": "ALFHA",
+        "grupo": "C",
+        "logo": "/uploads/logos/c4.webp",
+        "activo": true
+      }
     },
     {
       "id": 65,
@@ -778,7 +1674,21 @@
       "cancha": "SUR",
       "golesLocal": 3,
       "golesVisitante": 2,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 26,
+        "nombre": "AUTONIC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c8.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 28,
+        "nombre": "VELPACK A& F",
+        "grupo": "C",
+        "logo": "/uploads/logos/c10.webp",
+        "activo": true
+      }
     },
     {
       "id": 66,
@@ -790,7 +1700,21 @@
       "cancha": "SUR",
       "golesLocal": 1,
       "golesVisitante": 8,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 5,
+        "nombre": "THE FAMILY SPORTING CLUB",
+        "grupo": "A",
+        "logo": "/uploads/logos/a5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 2,
+        "nombre": "LOS LAGARTOS",
+        "grupo": "A",
+        "logo": "/uploads/logos/a2.webp",
+        "activo": true
+      }
     },
     {
       "id": 67,
@@ -802,7 +1726,21 @@
       "cancha": "NORTE",
       "golesLocal": 6,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 7,
+        "nombre": "MILLENIUM JR",
+        "grupo": "A",
+        "logo": "/uploads/logos/a7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 9,
+        "nombre": "CHELSEA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a9.webp",
+        "activo": true
+      }
     },
     {
       "id": 68,
@@ -814,7 +1752,21 @@
       "cancha": "NORTE",
       "golesLocal": 5,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 1,
+        "nombre": "COMPA JR.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 4,
+        "nombre": "REAL VENEZUELA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a4.webp",
+        "activo": true
+      }
     },
     {
       "id": 69,
@@ -826,7 +1778,21 @@
       "cancha": "SUR",
       "golesLocal": 1,
       "golesVisitante": 2,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 8,
+        "nombre": "NEXT FC.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a8.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 6,
+        "nombre": "FC DESIRE",
+        "grupo": "A",
+        "logo": "/uploads/logos/a6.webp",
+        "activo": true
+      }
     },
     {
       "id": 70,
@@ -838,7 +1804,21 @@
       "cancha": "NORTE",
       "golesLocal": 13,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 12,
+        "nombre": "ESPARTANOS FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b3.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 13,
+        "nombre": "REALCOHOLICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b4.webp",
+        "activo": true
+      }
     },
     {
       "id": 71,
@@ -850,7 +1830,21 @@
       "cancha": "SUR",
       "golesLocal": 1,
       "golesVisitante": 7,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 11,
+        "nombre": "CLUB LB",
+        "grupo": "B",
+        "logo": "/uploads/logos/b2.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 17,
+        "nombre": "LEONES FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b8.webp",
+        "activo": true
+      }
     },
     {
       "id": 72,
@@ -862,7 +1856,21 @@
       "cancha": "SUR",
       "golesLocal": 5,
       "golesVisitante": 1,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 14,
+        "nombre": "IRRESPONSABLESFC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 16,
+        "nombre": "MANABA JIRETH FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b7.webp",
+        "activo": true
+      }
     },
     {
       "id": 73,
@@ -874,7 +1882,21 @@
       "cancha": "NORTE",
       "golesLocal": 2,
       "golesVisitante": 2,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 15,
+        "nombre": "ALLIEN BIRDS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b6.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 18,
+        "nombre": "GALACTICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b9.webp",
+        "activo": true
+      }
     },
     {
       "id": 74,
@@ -886,7 +1908,21 @@
       "cancha": "NORTE",
       "golesLocal": 3,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 19,
+        "nombre": "BAMBINOS FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 24,
+        "nombre": "11 DE ORO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c6.webp",
+        "activo": true
+      }
     },
     {
       "id": 75,
@@ -898,7 +1934,21 @@
       "cancha": "NORTE",
       "golesLocal": 3,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 20,
+        "nombre": "SOCXER FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c2.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 21,
+        "nombre": "NEW GENERATION",
+        "grupo": "C",
+        "logo": "/uploads/logos/c3.webp",
+        "activo": true
+      }
     },
     {
       "id": 76,
@@ -910,7 +1960,21 @@
       "cancha": "SUR",
       "golesLocal": 9,
       "golesVisitante": 1,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 23,
+        "nombre": "CEBOLLITAS FOOTBALL CLUB",
+        "grupo": "C",
+        "logo": "/uploads/logos/c5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 27,
+        "nombre": "LOS DE SIEMPRE",
+        "grupo": "C",
+        "logo": "/uploads/logos/c9.webp",
+        "activo": true
+      }
     },
     {
       "id": 77,
@@ -922,7 +1986,21 @@
       "cancha": "SUR",
       "golesLocal": 11,
       "golesVisitante": 2,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 25,
+        "nombre": "AD. GUAGRACEO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 28,
+        "nombre": "VELPACK A& F",
+        "grupo": "C",
+        "logo": "/uploads/logos/c10.webp",
+        "activo": true
+      }
     },
     {
       "id": 78,
@@ -934,7 +2012,21 @@
       "cancha": "NORTE",
       "golesLocal": 9,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 26,
+        "nombre": "AUTONIC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c8.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 22,
+        "nombre": "ALFHA",
+        "grupo": "C",
+        "logo": "/uploads/logos/c4.webp",
+        "activo": true
+      }
     },
     {
       "id": 79,
@@ -946,7 +2038,21 @@
       "cancha": "NORTE",
       "golesLocal": 0,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 5,
+        "nombre": "THE FAMILY SPORTING CLUB",
+        "grupo": "A",
+        "logo": "/uploads/logos/a5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 4,
+        "nombre": "REAL VENEZUELA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a4.webp",
+        "activo": true
+      }
     },
     {
       "id": 80,
@@ -958,7 +2064,21 @@
       "cancha": "SUR",
       "golesLocal": 0,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 7,
+        "nombre": "MILLENIUM JR",
+        "grupo": "A",
+        "logo": "/uploads/logos/a7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 3,
+        "nombre": "ALMA MARCE FC.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a3.webp",
+        "activo": true
+      }
     },
     {
       "id": 81,
@@ -970,7 +2090,21 @@
       "cancha": "NORTE",
       "golesLocal": 11,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 9,
+        "nombre": "CHELSEA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a9.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 2,
+        "nombre": "LOS LAGARTOS",
+        "grupo": "A",
+        "logo": "/uploads/logos/a2.webp",
+        "activo": true
+      }
     },
     {
       "id": 82,
@@ -982,7 +2116,21 @@
       "cancha": "NORTE",
       "golesLocal": 4,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 1,
+        "nombre": "COMPA JR.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 6,
+        "nombre": "FC DESIRE",
+        "grupo": "A",
+        "logo": "/uploads/logos/a6.webp",
+        "activo": true
+      }
     },
     {
       "id": 83,
@@ -994,7 +2142,21 @@
       "cancha": "NORTE",
       "golesLocal": 3,
       "golesVisitante": 0,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 12,
+        "nombre": "ESPARTANOS FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b3.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 16,
+        "nombre": "MANABA JIRETH FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b7.webp",
+        "activo": true
+      }
     },
     {
       "id": 84,
@@ -1006,7 +2168,21 @@
       "cancha": "NORTE",
       "golesLocal": 5,
       "golesVisitante": 9,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 11,
+        "nombre": "CLUB LB",
+        "grupo": "B",
+        "logo": "/uploads/logos/b2.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 14,
+        "nombre": "IRRESPONSABLESFC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b5.webp",
+        "activo": true
+      }
     },
     {
       "id": 85,
@@ -1018,7 +2194,21 @@
       "cancha": "SUR",
       "golesLocal": 4,
       "golesVisitante": 2,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 15,
+        "nombre": "ALLIEN BIRDS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b6.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 17,
+        "nombre": "LEONES FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b8.webp",
+        "activo": true
+      }
     },
     {
       "id": 86,
@@ -1030,7 +2220,21 @@
       "cancha": "SUR",
       "golesLocal": 3,
       "golesVisitante": 6,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 10,
+        "nombre": "SPORT TU ÑAÑA",
+        "grupo": "B",
+        "logo": "/uploads/logos/b1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 18,
+        "nombre": "GALACTICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b9.webp",
+        "activo": true
+      }
     },
     {
       "id": 87,
@@ -1042,7 +2246,21 @@
       "cancha": "NORTE",
       "golesLocal": 0,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 19,
+        "nombre": "BAMBINOS FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 21,
+        "nombre": "NEW GENERATION",
+        "grupo": "C",
+        "logo": "/uploads/logos/c3.webp",
+        "activo": true
+      }
     },
     {
       "id": 88,
@@ -1054,7 +2272,21 @@
       "cancha": "NORTE",
       "golesLocal": 1,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 20,
+        "nombre": "SOCXER FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c2.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 27,
+        "nombre": "LOS DE SIEMPRE",
+        "grupo": "C",
+        "logo": "/uploads/logos/c9.webp",
+        "activo": true
+      }
     },
     {
       "id": 89,
@@ -1066,7 +2298,21 @@
       "cancha": "SUR",
       "golesLocal": 7,
       "golesVisitante": 1,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 23,
+        "nombre": "CEBOLLITAS FOOTBALL CLUB",
+        "grupo": "C",
+        "logo": "/uploads/logos/c5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 28,
+        "nombre": "VELPACK A& F",
+        "grupo": "C",
+        "logo": "/uploads/logos/c10.webp",
+        "activo": true
+      }
     },
     {
       "id": 90,
@@ -1078,7 +2324,21 @@
       "cancha": "SUR",
       "golesLocal": 5,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 25,
+        "nombre": "AD. GUAGRACEO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 26,
+        "nombre": "AUTONIC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c8.webp",
+        "activo": true
+      }
     },
     {
       "id": 91,
@@ -1090,7 +2350,21 @@
       "cancha": "SUR",
       "golesLocal": 3,
       "golesVisitante": 0,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 24,
+        "nombre": "11 DE ORO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c6.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 22,
+        "nombre": "ALFHA",
+        "grupo": "C",
+        "logo": "/uploads/logos/c4.webp",
+        "activo": true
+      }
     },
     {
       "id": 92,
@@ -1102,7 +2376,21 @@
       "cancha": "NORTE",
       "golesLocal": 0,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 5,
+        "nombre": "THE FAMILY SPORTING CLUB",
+        "grupo": "A",
+        "logo": "/uploads/logos/a5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 3,
+        "nombre": "ALMA MARCE FC.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a3.webp",
+        "activo": true
+      }
     },
     {
       "id": 93,
@@ -1114,7 +2402,21 @@
       "cancha": "SUR",
       "golesLocal": 5,
       "golesVisitante": 6,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 7,
+        "nombre": "MILLENIUM JR",
+        "grupo": "A",
+        "logo": "/uploads/logos/a7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 1,
+        "nombre": "COMPA JR.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a1.webp",
+        "activo": true
+      }
     },
     {
       "id": 94,
@@ -1126,7 +2428,21 @@
       "cancha": "NORTE",
       "golesLocal": 5,
       "golesVisitante": 2,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 9,
+        "nombre": "CHELSEA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a9.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 6,
+        "nombre": "FC DESIRE",
+        "grupo": "A",
+        "logo": "/uploads/logos/a6.webp",
+        "activo": true
+      }
     },
     {
       "id": 95,
@@ -1138,7 +2454,21 @@
       "cancha": "SUR",
       "golesLocal": 5,
       "golesVisitante": 5,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 2,
+        "nombre": "LOS LAGARTOS",
+        "grupo": "A",
+        "logo": "/uploads/logos/a2.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 8,
+        "nombre": "NEXT FC.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a8.webp",
+        "activo": true
+      }
     },
     {
       "id": 96,
@@ -1150,7 +2480,21 @@
       "cancha": "NORTE",
       "golesLocal": 3,
       "golesVisitante": 8,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 12,
+        "nombre": "ESPARTANOS FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b3.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 15,
+        "nombre": "ALLIEN BIRDS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b6.webp",
+        "activo": true
+      }
     },
     {
       "id": 97,
@@ -1162,7 +2506,21 @@
       "cancha": "NORTE",
       "golesLocal": 3,
       "golesVisitante": 11,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 11,
+        "nombre": "CLUB LB",
+        "grupo": "B",
+        "logo": "/uploads/logos/b2.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 10,
+        "nombre": "SPORT TU ÑAÑA",
+        "grupo": "B",
+        "logo": "/uploads/logos/b1.webp",
+        "activo": true
+      }
     },
     {
       "id": 98,
@@ -1174,7 +2532,21 @@
       "cancha": "NORTE",
       "golesLocal": 6,
       "golesVisitante": 5,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 14,
+        "nombre": "IRRESPONSABLESFC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 18,
+        "nombre": "GALACTICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b9.webp",
+        "activo": true
+      }
     },
     {
       "id": 99,
@@ -1186,7 +2558,21 @@
       "cancha": "NORTE",
       "golesLocal": 1,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 13,
+        "nombre": "REALCOHOLICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b4.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 17,
+        "nombre": "LEONES FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b8.webp",
+        "activo": true
+      }
     },
     {
       "id": 100,
@@ -1198,7 +2584,21 @@
       "cancha": "SUR",
       "golesLocal": 4,
       "golesVisitante": 5,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 19,
+        "nombre": "BAMBINOS FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 28,
+        "nombre": "VELPACK A& F",
+        "grupo": "C",
+        "logo": "/uploads/logos/c10.webp",
+        "activo": true
+      }
     },
     {
       "id": 101,
@@ -1210,7 +2610,21 @@
       "cancha": "SUR",
       "golesLocal": 6,
       "golesVisitante": 9,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 20,
+        "nombre": "SOCXER FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c2.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 22,
+        "nombre": "ALFHA",
+        "grupo": "C",
+        "logo": "/uploads/logos/c4.webp",
+        "activo": true
+      }
     },
     {
       "id": 102,
@@ -1222,7 +2636,21 @@
       "cancha": "NORTE",
       "golesLocal": 3,
       "golesVisitante": 6,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 23,
+        "nombre": "CEBOLLITAS FOOTBALL CLUB",
+        "grupo": "C",
+        "logo": "/uploads/logos/c5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 24,
+        "nombre": "11 DE ORO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c6.webp",
+        "activo": true
+      }
     },
     {
       "id": 103,
@@ -1234,7 +2662,21 @@
       "cancha": "SUR",
       "golesLocal": 5,
       "golesVisitante": 2,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 25,
+        "nombre": "AD. GUAGRACEO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 27,
+        "nombre": "LOS DE SIEMPRE",
+        "grupo": "C",
+        "logo": "/uploads/logos/c9.webp",
+        "activo": true
+      }
     },
     {
       "id": 104,
@@ -1246,7 +2688,21 @@
       "cancha": "SUR",
       "golesLocal": 5,
       "golesVisitante": 9,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 21,
+        "nombre": "NEW GENERATION",
+        "grupo": "C",
+        "logo": "/uploads/logos/c3.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 26,
+        "nombre": "AUTONIC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c8.webp",
+        "activo": true
+      }
     },
     {
       "id": 105,
@@ -1258,7 +2714,21 @@
       "cancha": "SUR",
       "golesLocal": 0,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 5,
+        "nombre": "THE FAMILY SPORTING CLUB",
+        "grupo": "A",
+        "logo": "/uploads/logos/a5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 8,
+        "nombre": "NEXT FC.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a8.webp",
+        "activo": true
+      }
     },
     {
       "id": 106,
@@ -1270,7 +2740,21 @@
       "cancha": "NORTE",
       "golesLocal": 1,
       "golesVisitante": 0,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 7,
+        "nombre": "MILLENIUM JR",
+        "grupo": "A",
+        "logo": "/uploads/logos/a7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 4,
+        "nombre": "REAL VENEZUELA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a4.webp",
+        "activo": true
+      }
     },
     {
       "id": 107,
@@ -1282,7 +2766,21 @@
       "cancha": "SUR",
       "golesLocal": 3,
       "golesVisitante": 0,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 1,
+        "nombre": "COMPA JR.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 3,
+        "nombre": "ALMA MARCE FC.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a3.webp",
+        "activo": true
+      }
     },
     {
       "id": 108,
@@ -1294,7 +2792,21 @@
       "cancha": "NORTE",
       "golesLocal": 1,
       "golesVisitante": 14,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 2,
+        "nombre": "LOS LAGARTOS",
+        "grupo": "A",
+        "logo": "/uploads/logos/a2.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 6,
+        "nombre": "FC DESIRE",
+        "grupo": "A",
+        "logo": "/uploads/logos/a6.webp",
+        "activo": true
+      }
     },
     {
       "id": 109,
@@ -1306,7 +2818,21 @@
       "cancha": "SUR",
       "golesLocal": 0,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 12,
+        "nombre": "ESPARTANOS FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b3.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 14,
+        "nombre": "IRRESPONSABLESFC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b5.webp",
+        "activo": true
+      }
     },
     {
       "id": 110,
@@ -1318,7 +2844,21 @@
       "cancha": "NORTE",
       "golesLocal": 0,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 11,
+        "nombre": "CLUB LB",
+        "grupo": "B",
+        "logo": "/uploads/logos/b2.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 13,
+        "nombre": "REALCOHOLICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b4.webp",
+        "activo": true
+      }
     },
     {
       "id": 111,
@@ -1330,7 +2870,21 @@
       "cancha": "SUR",
       "golesLocal": 4,
       "golesVisitante": 1,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 15,
+        "nombre": "ALLIEN BIRDS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b6.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 10,
+        "nombre": "SPORT TU ÑAÑA",
+        "grupo": "B",
+        "logo": "/uploads/logos/b1.webp",
+        "activo": true
+      }
     },
     {
       "id": 112,
@@ -1342,7 +2896,21 @@
       "cancha": "NORTE",
       "golesLocal": 0,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 16,
+        "nombre": "MANABA JIRETH FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 18,
+        "nombre": "GALACTICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b9.webp",
+        "activo": true
+      }
     },
     {
       "id": 113,
@@ -1354,7 +2922,21 @@
       "cancha": "NORTE",
       "golesLocal": 3,
       "golesVisitante": 0,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 19,
+        "nombre": "BAMBINOS FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 22,
+        "nombre": "ALFHA",
+        "grupo": "C",
+        "logo": "/uploads/logos/c4.webp",
+        "activo": true
+      }
     },
     {
       "id": 114,
@@ -1366,7 +2948,21 @@
       "cancha": "NORTE",
       "golesLocal": 5,
       "golesVisitante": 3,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 20,
+        "nombre": "SOCXER FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c2.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 28,
+        "nombre": "VELPACK A& F",
+        "grupo": "C",
+        "logo": "/uploads/logos/c10.webp",
+        "activo": true
+      }
     },
     {
       "id": 115,
@@ -1378,7 +2974,21 @@
       "cancha": "SUR",
       "golesLocal": 4,
       "golesVisitante": 4,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 23,
+        "nombre": "CEBOLLITAS FOOTBALL CLUB",
+        "grupo": "C",
+        "logo": "/uploads/logos/c5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 26,
+        "nombre": "AUTONIC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c8.webp",
+        "activo": true
+      }
     },
     {
       "id": 116,
@@ -1390,7 +3000,21 @@
       "cancha": "NORTE",
       "golesLocal": 3,
       "golesVisitante": 5,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 25,
+        "nombre": "AD. GUAGRACEO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 24,
+        "nombre": "11 DE ORO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c6.webp",
+        "activo": true
+      }
     },
     {
       "id": 117,
@@ -1402,215 +3026,453 @@
       "cancha": "SUR",
       "golesLocal": 3,
       "golesVisitante": 1,
-      "estado": "finalizado"
+      "estado": "finalizado",
+      "equipoLocal": {
+        "id": 21,
+        "nombre": "NEW GENERATION",
+        "grupo": "C",
+        "logo": "/uploads/logos/c3.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 27,
+        "nombre": "LOS DE SIEMPRE",
+        "grupo": "C",
+        "logo": "/uploads/logos/c9.webp",
+        "activo": true
+      }
     },
     {
       "id": 118,
       "fechaId": 10,
-      "hora": "",
+      "hora": "18:00",
       "grupo": "REPECHAJE",
       "equipoLocalId": 6,
       "equipoVisitanteId": 12,
-      "cancha": "",
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "pendiente",
-      "descripcion": "R1: FC DESIRE (5ºA) vs ESPARTANOS FC (Mejor 7º)"
+      "cancha": "SUR",
+      "golesLocal": 9,
+      "golesVisitante": 3,
+      "estado": "finalizado",
+      "descripcion": "R1: FC DESIRE (5ºA) vs ESPARTANOS FC (Mejor 7º)",
+      "equipoLocal": {
+        "id": 6,
+        "nombre": "FC DESIRE",
+        "grupo": "A",
+        "logo": "/uploads/logos/a6.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 12,
+        "nombre": "ESPARTANOS FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b3.webp",
+        "activo": true
+      }
     },
     {
       "id": 119,
       "fechaId": 10,
-      "hora": "",
+      "hora": "19:00",
       "grupo": "REPECHAJE",
       "equipoLocalId": 15,
       "equipoVisitanteId": 28,
-      "cancha": "",
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "pendiente",
-      "descripcion": "R2: ALLIEN BIRDS (5ºB) vs VELPACK A& F (2º Mejor 7º)"
+      "cancha": "SUR",
+      "golesLocal": 0,
+      "golesVisitante": 3,
+      "estado": "finalizado",
+      "descripcion": "R2: ALLIEN BIRDS (5ºB) vs VELPACK A& F (2º Mejor 7º)",
+      "equipoLocal": {
+        "id": 15,
+        "nombre": "ALLIEN BIRDS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b6.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 28,
+        "nombre": "VELPACK A& F",
+        "grupo": "C",
+        "logo": "/uploads/logos/c10.webp",
+        "activo": true
+      }
     },
     {
       "id": 120,
       "fechaId": 10,
-      "hora": "",
+      "hora": "20:00",
       "grupo": "REPECHAJE",
       "equipoLocalId": 26,
       "equipoVisitanteId": 2,
-      "cancha": "",
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "pendiente",
-      "descripcion": "R3: AUTONIC (5ºC) vs LOS LAGARTOS (6ºA)"
+      "cancha": "SUR",
+      "golesLocal": 6,
+      "golesVisitante": 5,
+      "estado": "finalizado",
+      "descripcion": "R3: AUTONIC (5ºC) vs LOS LAGARTOS (6ºA)",
+      "equipoLocal": {
+        "id": 26,
+        "nombre": "AUTONIC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c8.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 2,
+        "nombre": "LOS LAGARTOS",
+        "grupo": "A",
+        "logo": "/uploads/logos/a2.webp",
+        "activo": true
+      }
     },
     {
       "id": 121,
       "fechaId": 10,
-      "hora": "",
+      "hora": "21:00",
       "grupo": "REPECHAJE",
       "equipoLocalId": 18,
       "equipoVisitanteId": 21,
-      "cancha": "",
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "pendiente",
-      "descripcion": "R4: GALACTICOS (6ºB) vs NEW GENERATION (6ºC)"
+      "cancha": "SUR",
+      "golesLocal": 9,
+      "golesVisitante": 5,
+      "estado": "finalizado",
+      "descripcion": "R4: GALACTICOS (6ºB) vs NEW GENERATION (6ºC)",
+      "equipoLocal": {
+        "id": 18,
+        "nombre": "GALACTICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b9.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 21,
+        "nombre": "NEW GENERATION",
+        "grupo": "C",
+        "logo": "/uploads/logos/c3.webp",
+        "activo": true
+      }
     },
     {
       "id": 122,
       "fechaId": 11,
-      "hora": "",
+      "hora": "21:00",
       "grupo": "OCTAVOS",
       "equipoLocalId": 1,
-      "equipoVisitanteId": null,
-      "cancha": "",
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "pendiente",
-      "descripcion": "OF1: 1º Grupo A vs Ganador 16º (repechaje)"
+      "equipoVisitanteId": 18,
+      "cancha": "SUR",
+      "golesLocal": 3,
+      "golesVisitante": 6,
+      "estado": "finalizado",
+      "descripcion": "OF1: 1º Grupo A vs Ganador 16º (repechaje)",
+      "equipoLocal": {
+        "id": 1,
+        "nombre": "COMPA JR.",
+        "grupo": "A",
+        "logo": "/uploads/logos/a1.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 18,
+        "nombre": "GALACTICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b9.webp",
+        "activo": true
+      }
     },
     {
       "id": 123,
       "fechaId": 11,
-      "hora": "",
+      "hora": "20:00",
       "grupo": "OCTAVOS",
       "equipoLocalId": 17,
       "equipoVisitanteId": 19,
-      "cancha": "",
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "pendiente",
-      "descripcion": "OF2: 3º Grupo B vs 3º Grupo C"
+      "cancha": "SUR",
+      "golesLocal": 5,
+      "golesVisitante": 1,
+      "estado": "finalizado",
+      "descripcion": "OF2: 3º Grupo B vs 3º Grupo C",
+      "equipoLocal": {
+        "id": 17,
+        "nombre": "LEONES FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b8.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 19,
+        "nombre": "BAMBINOS FC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c1.webp",
+        "activo": true
+      }
     },
     {
       "id": 124,
       "fechaId": 11,
-      "hora": "",
+      "hora": "17:00",
       "grupo": "OCTAVOS",
       "equipoLocalId": 7,
-      "equipoVisitanteId": null,
-      "cancha": "",
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "pendiente",
-      "descripcion": "OF3: 2º Grupo A vs Ganador 13º (repechaje)"
+      "equipoVisitanteId": 6,
+      "cancha": "SUR",
+      "golesLocal": 5,
+      "golesVisitante": 4,
+      "estado": "finalizado",
+      "descripcion": "OF3: 2º Grupo A vs Ganador 13º (repechaje)",
+      "equipoLocal": {
+        "id": 7,
+        "nombre": "MILLENIUM JR",
+        "grupo": "A",
+        "logo": "/uploads/logos/a7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 6,
+        "nombre": "FC DESIRE",
+        "grupo": "A",
+        "logo": "/uploads/logos/a6.webp",
+        "activo": true
+      }
     },
     {
       "id": 125,
       "fechaId": 11,
-      "hora": "",
+      "hora": "16:00",
       "grupo": "OCTAVOS",
       "equipoLocalId": 13,
       "equipoVisitanteId": 23,
-      "cancha": "",
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "pendiente",
-      "descripcion": "OF4: 2º Grupo B vs 4º Grupo C"
+      "cancha": "SUR",
+      "golesLocal": 6,
+      "golesVisitante": 4,
+      "estado": "finalizado",
+      "descripcion": "OF4: 2º Grupo B vs 4º Grupo C",
+      "equipoLocal": {
+        "id": 13,
+        "nombre": "REALCOHOLICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b4.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 23,
+        "nombre": "CEBOLLITAS FOOTBALL CLUB",
+        "grupo": "C",
+        "logo": "/uploads/logos/c5.webp",
+        "activo": true
+      }
     },
     {
       "id": 126,
       "fechaId": 11,
-      "hora": "",
+      "hora": "19:00",
       "grupo": "OCTAVOS",
       "equipoLocalId": 14,
-      "equipoVisitanteId": null,
-      "cancha": "",
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "pendiente",
-      "descripcion": "OF5: 1º Grupo B vs Ganador 15º (repechaje)"
+      "equipoVisitanteId": 26,
+      "cancha": "SUR",
+      "golesLocal": 3,
+      "golesVisitante": 5,
+      "estado": "finalizado",
+      "descripcion": "OF5: 1º Grupo B vs Ganador 15º (repechaje)",
+      "equipoLocal": {
+        "id": 14,
+        "nombre": "IRRESPONSABLESFC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b5.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 26,
+        "nombre": "AUTONIC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c8.webp",
+        "activo": true
+      }
     },
     {
       "id": 127,
       "fechaId": 11,
-      "hora": "",
+      "hora": "15:00",
       "grupo": "OCTAVOS",
       "equipoLocalId": 4,
       "equipoVisitanteId": 9,
-      "cancha": "",
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "pendiente",
-      "descripcion": "OF6: 3º Grupo A vs 4º Grupo A"
+      "cancha": "SUR",
+      "golesLocal": 0,
+      "golesVisitante": 3,
+      "estado": "finalizado",
+      "descripcion": "OF6: 3º Grupo A vs 4º Grupo A",
+      "equipoLocal": {
+        "id": 4,
+        "nombre": "REAL VENEZUELA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a4.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 9,
+        "nombre": "CHELSEA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a9.webp",
+        "activo": true
+      }
     },
     {
       "id": 128,
       "fechaId": 11,
-      "hora": "",
+      "hora": "18:00",
       "grupo": "OCTAVOS",
       "equipoLocalId": 24,
-      "equipoVisitanteId": null,
-      "cancha": "",
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "pendiente",
-      "descripcion": "OF7: 1º Grupo C vs Ganador 14º (repechaje)"
+      "equipoVisitanteId": 28,
+      "cancha": "SUR",
+      "golesLocal": 6,
+      "golesVisitante": 5,
+      "estado": "finalizado",
+      "descripcion": "OF7: 1º Grupo C vs Ganador 14º (repechaje)",
+      "equipoLocal": {
+        "id": 24,
+        "nombre": "11 DE ORO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c6.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 28,
+        "nombre": "VELPACK A& F",
+        "grupo": "C",
+        "logo": "/uploads/logos/c10.webp",
+        "activo": true
+      }
     },
     {
       "id": 129,
       "fechaId": 11,
-      "hora": "",
+      "hora": "22:00",
       "grupo": "OCTAVOS",
       "equipoLocalId": 25,
       "equipoVisitanteId": 10,
-      "cancha": "",
-      "golesLocal": null,
-      "golesVisitante": null,
-      "estado": "pendiente",
-      "descripcion": "OF8: 2º Grupo C vs 4º Grupo B"
+      "cancha": "SUR",
+      "golesLocal": 4,
+      "golesVisitante": 3,
+      "estado": "finalizado",
+      "descripcion": "OF8: 2º Grupo C vs 4º Grupo B",
+      "equipoLocal": {
+        "id": 25,
+        "nombre": "AD. GUAGRACEO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 10,
+        "nombre": "SPORT TU ÑAÑA",
+        "grupo": "B",
+        "logo": "/uploads/logos/b1.webp",
+        "activo": true
+      }
     },
     {
       "id": 130,
       "fechaId": 12,
-      "hora": "",
-      "grupo": "CUARTOS",
-      "equipoLocalId": null,
-      "equipoVisitanteId": null,
-      "cancha": "",
+      "hora": "19:00",
+      "grupo": "OCTAVOS",
+      "equipoLocalId": 18,
+      "equipoVisitanteId": 25,
+      "cancha": "SUR",
       "golesLocal": null,
       "golesVisitante": null,
       "estado": "pendiente",
-      "descripcion": "CF1: Ganador OF1 vs Ganador OF8"
+      "descripcion": "CF1: Ganador OF1 vs Ganador OF2",
+      "equipoLocal": {
+        "id": 18,
+        "nombre": "GALACTICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b9.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 25,
+        "nombre": "AD. GUAGRACEO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c7.webp",
+        "activo": true
+      }
     },
     {
       "id": 131,
       "fechaId": 12,
-      "hora": "",
+      "hora": "22:00",
       "grupo": "CUARTOS",
-      "equipoLocalId": null,
-      "equipoVisitanteId": null,
-      "cancha": "",
+      "equipoLocalId": 17,
+      "equipoVisitanteId": 24,
+      "cancha": "SUR",
       "golesLocal": null,
       "golesVisitante": null,
       "estado": "pendiente",
-      "descripcion": "CF2: Ganador OF2 vs Ganador OF7"
+      "descripcion": "CF2: Ganador OF2 vs Ganador OF7",
+      "equipoLocal": {
+        "id": 17,
+        "nombre": "LEONES FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b8.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 24,
+        "nombre": "11 DE ORO",
+        "grupo": "C",
+        "logo": "/uploads/logos/c6.webp",
+        "activo": true
+      }
     },
     {
       "id": 132,
       "fechaId": 12,
-      "hora": "",
+      "hora": "21:00",
       "grupo": "CUARTOS",
-      "equipoLocalId": null,
-      "equipoVisitanteId": null,
-      "cancha": "",
+      "equipoLocalId": 7,
+      "equipoVisitanteId": 9,
+      "cancha": "SUR",
       "golesLocal": null,
       "golesVisitante": null,
       "estado": "pendiente",
-      "descripcion": "CF3: Ganador OF3 vs Ganador OF6"
+      "descripcion": "CF3: Ganador OF3 vs Ganador OF6",
+      "equipoLocal": {
+        "id": 7,
+        "nombre": "MILLENIUM JR",
+        "grupo": "A",
+        "logo": "/uploads/logos/a7.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 9,
+        "nombre": "CHELSEA",
+        "grupo": "A",
+        "logo": "/uploads/logos/a9.webp",
+        "activo": true
+      }
     },
     {
       "id": 133,
       "fechaId": 12,
-      "hora": "",
+      "hora": "20:00",
       "grupo": "CUARTOS",
-      "equipoLocalId": null,
-      "equipoVisitanteId": null,
-      "cancha": "",
+      "equipoLocalId": 13,
+      "equipoVisitanteId": 26,
+      "cancha": "SUR",
       "golesLocal": null,
       "golesVisitante": null,
       "estado": "pendiente",
-      "descripcion": "CF4: Ganador OF4 vs Ganador OF5"
+      "descripcion": "CF4: Ganador OF4 vs Ganador OF5",
+      "equipoLocal": {
+        "id": 13,
+        "nombre": "REALCOHOLICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b4.webp",
+        "activo": true
+      },
+      "equipoVisitante": {
+        "id": 26,
+        "nombre": "AUTONIC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c8.webp",
+        "activo": true
+      }
     },
     {
       "id": 134,
