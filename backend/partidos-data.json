@@ -3396,7 +3396,7 @@
     {
       "id": 131,
       "fechaId": 12,
-      "hora": "22:00",
+      "hora": "20:00",
       "grupo": "CUARTOS",
       "equipoLocalId": 7,
       "equipoVisitanteId": 13,
@@ -3423,7 +3423,7 @@
     {
       "id": 132,
       "fechaId": 12,
-      "hora": "21:00",
+      "hora": "19:00",
       "grupo": "CUARTOS",
       "equipoLocalId": 26,
       "equipoVisitanteId": 9,
@@ -3431,7 +3431,7 @@
       "golesLocal": null,
       "golesVisitante": null,
       "estado": "pendiente",
-      "descripcion": "CF3: Ganador OF3 vs Ganador OF6",
+      "descripcion": "CF3: Ganador OF5 vs Ganador OF6",
       "equipoLocal": {
         "id": 26,
         "nombre": "AUTONIC",
@@ -3450,7 +3450,7 @@
     {
       "id": 133,
       "fechaId": 12,
-      "hora": "20:00",
+      "hora": "22:00",
       "grupo": "CUARTOS",
       "equipoLocalId": 24,
       "equipoVisitanteId": 25,
@@ -3458,7 +3458,7 @@
       "golesLocal": null,
       "golesVisitante": null,
       "estado": "pendiente",
-      "descripcion": "CF4: Ganador OF4 vs Ganador OF5",
+      "descripcion": "CF4: Ganador OF7 vs Ganador OF8",
       "equipoLocal": {
         "id": 24,
         "nombre": "11 DE ORO",
