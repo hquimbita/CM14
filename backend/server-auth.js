@@ -823,13 +823,13 @@ const mapeoRepechajeOctavos = {
           // Mapeo: Octavos → Cuartos
           const mapeoOctavosCuartos = {
             122: { partidoCuartos: 130, esLocal: true },   // OF1 → CF1 local
-            129: { partidoCuartos: 130, esLocal: false },  // OF8 → CF1 visitante
-            123: { partidoCuartos: 131, esLocal: true },   // OF2 → CF2 local
-            128: { partidoCuartos: 131, esLocal: false },  // OF7 → CF2 visitante
-            124: { partidoCuartos: 132, esLocal: true },   // OF3 → CF3 local
+            123: { partidoCuartos: 130, esLocal: false },   // OF2 → CF1 visitante
+            124: { partidoCuartos: 131, esLocal: true },   // OF3 → CF2 local
+            125: { partidoCuartos: 131, esLocal: false },   // OF4 → CF2 visitante
+            126: { partidoCuartos: 132, esLocal: true }   // OF5 → CF3 local
             127: { partidoCuartos: 132, esLocal: false },  // OF6 → CF3 visitante
-            125: { partidoCuartos: 133, esLocal: true },   // OF4 → CF4 local
-            126: { partidoCuartos: 133, esLocal: false }   // OF5 → CF4 visitante
+            128: { partidoCuartos: 133, esLocal: true },  // OF7 → CF4 local
+            129: { partidoCuartos: 133, esLocal: false },  // OF8 → CF4 visitante
           };
           
           const mapeo = mapeoOctavosCuartos[partidoActualizado.id];
@@ -862,9 +862,9 @@ const mapeoRepechajeOctavos = {
           // Mapeo: Cuartos → Semifinales
           const mapeoCuartosSemis = {
             130: { partidoSemi: 134, esLocal: true },   // CF1 → SF1 local
-            133: { partidoSemi: 134, esLocal: false },  // CF4 → SF1 visitante
-            131: { partidoSemi: 135, esLocal: true },   // CF2 → SF2 local
-            132: { partidoSemi: 135, esLocal: false }   // CF3 → SF2 visitante
+            131: { partidoSemi: 134, esLocal: false },  // CF2 → SF1 visitante
+            132: { partidoSemi: 135, esLocal: true }    // CF3 → SF2 local
+            133: { partidoSemi: 135, esLocal: false },  // CF4 → SF2 visitante
           };
           
           const mapeo = mapeoCuartosSemis[partidoActualizado.id];

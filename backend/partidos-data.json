@@ -3369,10 +3369,10 @@
     {
       "id": 130,
       "fechaId": 12,
-      "hora": "19:00",
-      "grupo": "OCTAVOS",
+      "hora": "21:00",
+      "grupo": "CUARTOS",
       "equipoLocalId": 18,
-      "equipoVisitanteId": 25,
+      "equipoVisitanteId": 17,
       "cancha": "SUR",
       "golesLocal": null,
       "golesVisitante": null,
@@ -3386,10 +3386,10 @@
         "activo": true
       },
       "equipoVisitante": {
-        "id": 25,
-        "nombre": "AD. GUAGRACEO",
-        "grupo": "C",
-        "logo": "/uploads/logos/c7.webp",
+        "id": 17,
+        "nombre": "LEONES FC",
+        "grupo": "B",
+        "logo": "/uploads/logos/b8.webp",
         "activo": true
       }
     },
@@ -3398,25 +3398,25 @@
       "fechaId": 12,
       "hora": "22:00",
       "grupo": "CUARTOS",
-      "equipoLocalId": 17,
-      "equipoVisitanteId": 24,
+      "equipoLocalId": 7,
+      "equipoVisitanteId": 13,
       "cancha": "SUR",
       "golesLocal": null,
       "golesVisitante": null,
       "estado": "pendiente",
-      "descripcion": "CF2: Ganador OF2 vs Ganador OF7",
+      "descripcion": "CF2: Ganador OF3 vs Ganador OF4",
       "equipoLocal": {
-        "id": 17,
+        "id": 7,
         "nombre": "LEONES FC",
         "grupo": "B",
         "logo": "/uploads/logos/b8.webp",
         "activo": true
       },
       "equipoVisitante": {
-        "id": 24,
-        "nombre": "11 DE ORO",
-        "grupo": "C",
-        "logo": "/uploads/logos/c6.webp",
+        "id": 13,
+        "nombre": "REALCOHOLICOS",
+        "grupo": "B",
+        "logo": "/uploads/logos/b4.webp",
         "activo": true
       }
     },
@@ -3425,7 +3425,7 @@
       "fechaId": 12,
       "hora": "21:00",
       "grupo": "CUARTOS",
-      "equipoLocalId": 7,
+      "equipoLocalId": 26,
       "equipoVisitanteId": 9,
       "cancha": "SUR",
       "golesLocal": null,
@@ -3433,10 +3433,10 @@
       "estado": "pendiente",
       "descripcion": "CF3: Ganador OF3 vs Ganador OF6",
       "equipoLocal": {
-        "id": 7,
-        "nombre": "MILLENIUM JR",
-        "grupo": "A",
-        "logo": "/uploads/logos/a7.webp",
+        "id": 26,
+        "nombre": "AUTONIC",
+        "grupo": "C",
+        "logo": "/uploads/logos/c8.webp",
         "activo": true
       },
       "equipoVisitante": {
@@ -3452,25 +3452,25 @@
       "fechaId": 12,
       "hora": "20:00",
       "grupo": "CUARTOS",
-      "equipoLocalId": 13,
-      "equipoVisitanteId": 26,
+      "equipoLocalId": 24,
+      "equipoVisitanteId": 25,
       "cancha": "SUR",
       "golesLocal": null,
       "golesVisitante": null,
       "estado": "pendiente",
       "descripcion": "CF4: Ganador OF4 vs Ganador OF5",
       "equipoLocal": {
-        "id": 13,
-        "nombre": "REALCOHOLICOS",
-        "grupo": "B",
-        "logo": "/uploads/logos/b4.webp",
+        "id": 24,
+        "nombre": "11 DE ORO",
+        "grupo": "C",
+        "logo": "/uploads/logos/C6.webp",
         "activo": true
       },
       "equipoVisitante": {
-        "id": 26,
-        "nombre": "AUTONIC",
+        "id": 25,
+        "nombre": "AD. GUAGRACEO",
         "grupo": "C",
-        "logo": "/uploads/logos/c8.webp",
+        "logo": "/uploads/logos/c7.webp",
         "activo": true
       }
     },
